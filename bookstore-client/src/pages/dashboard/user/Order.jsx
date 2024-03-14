@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-
 import useAuth from "../../../hooks/useAuth";
 import { Link } from "react-router-dom";
 
@@ -27,7 +26,7 @@ const Order = () => {
   // date format
   const formatDate = (createdAt) => {
     const createdAtDate = new Date(createdAt);
-    return createdAtDate.toLocaleDateString(); // You can adjust options as needed
+    return createdAtDate.toLocaleDateString(); // 
   };
   return (
     <div className="max-w-screen-2xl container mx-auto xl:px-24 px-4">
