@@ -15,9 +15,8 @@ const Banner = () => {
             <div className="bg-white px-3 py-2 rounded-2xl flex items-center gap-3 shadow-sm w-64">
               <img src="/images/home/b-food1.png" alt="" className="rounded-2xl" />
               <div className="space-y-1">
-                <h5>Best Sellers</h5>
+                <h5 className="" style={{ color: "black" }}>Best Sellers</h5>
                 <div className="rating rating-sm">
-
                   <input
                     type="radio"
                     name="rating-6"
@@ -60,7 +59,7 @@ const Banner = () => {
             <div className="bg-white px-3 py-2 rounded-2xl md:flex items-center gap-3 shadow-sm w-64 hidden">
               <img src="/images/home/b-food1.png" alt="" className="rounded-2xl" />
               <div className="space-y-1">
-                <h5>Best Favorites</h5>
+                <h5 className="" style={{ color: "black" }}>Best  Favorites</h5>
                 <div className="rating rating-sm">
                   <input
                     type="radio"
