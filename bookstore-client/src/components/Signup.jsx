@@ -1,6 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FaFacebookF, FaGithub, FaGoogle, FaRegUser } from "react-icons/fa";
+import {
+  FaFacebookF,
+  FaGithub,
+  FaGoogle,
+  FaRegUser
+} from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import Modal from "./Modal";
 import { AuthContext } from "../contexts/AuthProvider";
@@ -23,46 +28,56 @@ const Signup = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting }
   } = useForm();
 
+  const [passwordMismatch, setPasswordMismatch] = useState(false);
+
   const onSubmit = (data) => {
+    if (data.password !== data.confirmPassword) {
+      setPasswordMismatch(true);
+      return;
+    }
+
+    if (data.password.length < 6) {
+      // Show error message for password length less than 6
+      alert("Password should be at least 6 characters long.");
+      return;
+    }
+
     const email = data.email;
     const password = data.password;
-    // console.log(email, password)
+
     createUser(email, password)
       .then((result) => {
-        // Signed up
         const user = result.user;
         updateUserProfile(data.name, data.photoURL)
           .then(() => {
             const userInfo = {
               name: data.name,
-              email: data.email,
+              email: data.email
             };
 
             axiosPublic.post("/users", userInfo)
               .then((response) => {
-                console.log(response)
                 alert("Signin successful!");
-                navigate(from, { replace: true });
+                navigate(from || "/");
+              })
+              .catch((error) => {
+                console.error("Error creating user:", error);
               });
           })
           .catch((error) => {
-            const errorMessage = error.message;
+            console.error("Error updating user profile:", error);
           });
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
+        console.error("Error creating user:", error);
       });
   };
 
-  // login with google
   const handleRegister = () => {
     signUpWithGmail().then(result => {
-      console.log(result.user);
       const userInfo = {
         email: result.user?.email,
         name: result.user?.displayName
@@ -72,8 +87,15 @@ const Signup = () => {
           console.log(res.data);
           navigate('/');
         })
+        .catch((error) => {
+          console.error("Error creating user:", error);
+        });
     })
+      .catch((error) => {
+        console.error("Error signing up with Gmail:", error);
+      });
   };
+
   return (
     <div className="max-w-md bg-white shadow w-full mx-auto flex items-center justify-center my-20">
       <div className="mb-5">
@@ -88,8 +110,9 @@ const Signup = () => {
               type="name"
               placeholder="Your name"
               className="input input-bordered"
-              {...register("name")}
+              {...register("name", { required: true })}
             />
+            {errors.name && <p className="text-red italic text-sm ">Please enter your name!</p>}
           </div>
 
           {/* email */}
@@ -99,10 +122,11 @@ const Signup = () => {
             </label>
             <input
               type="email"
-              placeholder="email"
+              placeholder="Your email"
               className="input input-bordered"
-              {...register("email")}
+              {...register("email", { required: true })}
             />
+            {errors.email && <p className="text-red italic text-sm">Please enter your email!</p>}
           </div>
 
           {/* password */}
@@ -112,19 +136,26 @@ const Signup = () => {
             </label>
             <input
               type="password"
-              placeholder="password"
+              placeholder="Your password"
               className="input input-bordered"
-              {...register("password")}
+              {...register("password", { required: true })}
             />
-            <label className="label">
-              <a href="#" className="label-text-alt link link-hover mt-2">
-                Forgot password?
-              </a>
-            </label>
+            {errors.password && <p className="text-red italic text-sm">Please enter your password!</p>}
           </div>
 
-          {/* error message */}
-          <p>{errors.message}</p>
+          {/* confirm password */}
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Confirm Password</span>
+            </label>
+            <input
+              type="password"
+              placeholder="Confirm your password"
+              className="input input-bordered"
+              {...register("confirmPassword", { required: true })}
+            />
+            {passwordMismatch && <p className="text-red italic text-sm">Passwords do not match!</p>}
+          </div>
 
           {/* submit btn */}
           <div className="form-control mt-6">
@@ -132,13 +163,14 @@ const Signup = () => {
               type="submit"
               className="btn bg-mainBG text-white"
               value="Sign up"
+              disabled={isSubmitting}
             />
           </div>
 
           <div className="text-center my-2">
             Have an account?
             <Link to="/login">
-              <button className="ml-2 underline">Login here</button>
+              <button className="ml-2 underline text-blue-700">Login here</button>
             </Link>
           </div>
         </form>
