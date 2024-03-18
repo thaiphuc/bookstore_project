@@ -35,7 +35,7 @@ const PromotionCountdown = () => {
 
     return (
         <div className="flex flex-col items-center justify-center">
-            <h2 className="text-center text-3xl font-bold mb-4">GET 30% DISCOUNT WHEN SUBSCRIBING MY CHANNEL</h2>
+            <h2 className="text-center text-3xl font-bold mb-4">GET 30% DISCOUNT WHEN SUBSCRIBING MY CHANNEL ON THIS TIME</h2>
             <div className=" grid grid-flow-col gap-5 mt-4 text-center auto-cols-max">
                 <div className="flex flex-col p-2 bg-neutral rounded-box text-neutral-content w-32">
                     <span className="countdown font-mono text-5xl">{timeLeft.days}</span>

@@ -103,21 +103,21 @@ const DashboardLayout = () => {
               {/* manage orders */}
               <li>
                 <Link to="/dashboard/bookings">
-                  <FaShoppingBag /> Manage Bookings
+                  <FaShoppingBag /> Manage orders
                 </Link>
               </li>
 
               {/* Add Menu Items */}
               <li>
                 <Link to="/dashboard/add-menu">
-                  <FaPlusCircle /> Add Menu
+                  <FaPlusCircle /> Add Book
                 </Link>
               </li>
 
               {/* Manage Menu Items */}
               <li>
                 <Link to="/dashboard/manage-items">
-                  <FaEdit /> Manage Items
+                  <FaEdit /> Manage Books
                 </Link>
               </li>
 

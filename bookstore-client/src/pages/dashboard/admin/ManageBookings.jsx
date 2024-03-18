@@ -65,7 +65,7 @@ const ManageBookings = () => {
   return (
     <div className="w-full md:w-[870px] mx-auto px-4 ">
       <h2 className="text-2xl font-semibold my-4">
-        Manage All <span className="text-mainBG">Bookings!</span>
+        Manage All <span className="text-mainBG">Orders!</span>
       </h2>
 
       {/* menu items table  */}

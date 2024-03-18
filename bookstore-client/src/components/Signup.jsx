@@ -47,7 +47,7 @@ const Signup = () => {
 
     const email = data.email;
     const password = data.password;
-
+    const confirmpass = data.confirmpass;
     createUser(email, password)
       .then((result) => {
         const user = result.user;
@@ -155,6 +155,8 @@ const Signup = () => {
               {...register("confirmPassword", { required: true })}
             />
             {passwordMismatch && <p className="text-red italic text-sm">Passwords do not match!</p>}
+            {errors.password && <p className="text-red italic text-sm">Please enter your confirm password!</p>}
+
           </div>
 
           {/* submit btn */}
