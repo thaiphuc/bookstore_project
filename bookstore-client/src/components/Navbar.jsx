@@ -41,9 +41,11 @@ const Navbar = () => {
   useEffect(() => {
     // Calculate total items when cart items change
     let total = 0;
-    cart.forEach(item => {
-      total += item.quantity;
-    });
+    if (Array.isArray(cart)) {
+      cart.forEach(item => {
+        total += item.quantity;
+      });
+    }
     setTotalItems(total);
   }, [cart]);
 
