@@ -11,13 +11,22 @@ const CartPage = () => {
   const { isDarkMode } = useTheme();
   const { user } = useContext(AuthContext);
   const [cart, refetch] = useCart();
-  const [cartItems, setCartItems] = useState([]);
-  // console.log(cartItems)
+  const [totalItems, setTotalItems] = useState(0); // State to hold total quantity of items
+
+  useEffect(() => {
+    // Calculate total items when cart items change
+    let total = 0;
+    cart.forEach(item => {
+      total += item.quantity;
+    });
+    setTotalItems(total);
+  }, [cart]);
 
   // Calculate the total price for each item in the cart
   const calculateTotalPrice = (item) => {
     return item.price * item.quantity;
   };
+
   // Handle quantity increase
   const handleIncrease = async (item) => {
     try {
@@ -30,17 +39,7 @@ const CartPage = () => {
       });
 
       if (response.ok) {
-        const updatedCart = cartItems.map((cartItem) => {
-          if (cartItem.id === item.id) {
-            return {
-              ...cartItem,
-              quantity: cartItem.quantity + 1,
-            };
-          }
-          return cartItem;
-        });
         await refetch();
-        setCartItems(updatedCart);
       } else {
         console.error("Failed to update quantity");
       }
@@ -48,6 +47,7 @@ const CartPage = () => {
       console.error("Error updating quantity:", error);
     }
   };
+
   // Handle quantity decrease
   const handleDecrease = async (item) => {
     if (item.quantity > 1) {
@@ -64,17 +64,7 @@ const CartPage = () => {
         );
 
         if (response.ok) {
-          const updatedCart = cartItems.map((cartItem) => {
-            if (cartItem.id === item.id) {
-              return {
-                ...cartItem,
-                quantity: cartItem.quantity - 1,
-              };
-            }
-            return cartItem;
-          });
           await refetch();
-          setCartItems(updatedCart);
         } else {
           console.error("Failed to update quantity");
         }
@@ -85,13 +75,13 @@ const CartPage = () => {
   };
 
   // Calculate the cart subtotal
-  const cartSubtotal = cart.reduce((total, item) => {
-    return total + calculateTotalPrice(item);
-  }, 0);
+  let cartSubtotal = 0;
+  cart.forEach(item => {
+    cartSubtotal += calculateTotalPrice(item);
+  });
 
   // Calculate the order total
   const orderTotal = cartSubtotal;
-  // console.log(orderTotal)
 
   // delete an item
   const handleDelete = (item) => {
@@ -175,7 +165,7 @@ const CartPage = () => {
                         <input
                           type="number"
                           value={item.quantity}
-                          onChange={() => console.log(item.quantity)}
+                          readOnly // Make the input read-only
                           className={`w-10 mx-2 text-center overflow-hidden appearance-none ${isDarkMode ? "dark" : ""}`}
                         />
                         <button
@@ -213,7 +203,7 @@ const CartPage = () => {
             </div>
             <div className="md:w-1/2 space-y-3">
               <h3 className="text-lg font-semibold">Shopping Details</h3>
-              <p>Total Items: {cart.length}</p>
+              <p>Total Items: {totalItems}</p>
               <p>
                 Total Price:{" "}
                 <span id="total-price">${orderTotal.toFixed(2)}</span>
