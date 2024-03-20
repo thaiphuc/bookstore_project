@@ -12,8 +12,10 @@ const UserProfile = () => {
   const onSubmit = (data) => {
     const name = data.name;
     const photoURL = data.photoURL;
+    const address = data.address;
+    const telephone = data.telephone;
 
-    updateUserProfile(name, photoURL).then(() => {
+    updateUserProfile(name, photoURL, address, telephone).then(() => {
       // Profile updated!
       alert("Profile updated successfully")
     }).catch((error) => {
@@ -26,10 +28,23 @@ const UserProfile = () => {
       <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
         <form className="card-body" onSubmit={handleSubmit(onSubmit)}>
           <div className="form-control">
+            <h2 className='text-lg font-bold text-center'>Your Profile</h2>
             <label className="label">
               <span className="label-text">Name</span>
             </label>
             <input type="text" {...register("name")} placeholder="Your name" className="input input-bordered" required />
+          </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Address</span>
+            </label>
+            <input type="text" {...register("address")} placeholder="Your address" className="input input-bordered" required />
+          </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Telephone</span>
+            </label>
+            <input type="tel" {...register("telephone")} placeholder="Your telephone number" className="input input-bordered" required />
           </div>
           <div className="form-control">
             <label className="label">

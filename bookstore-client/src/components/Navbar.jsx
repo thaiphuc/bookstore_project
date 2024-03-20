@@ -96,7 +96,7 @@ const Navbar = () => {
           <ul className={`p-2 ${isDarkMode ? 'dark' : ''}`}>
             <li>
               <Link
-                to="/contact-page" // Đường dẫn của trang "Contact"
+                to="/contact-page" 
                 className={`text-${isDarkMode ? 'text-white' : 'black'}`}
               >
                 Contact
@@ -104,7 +104,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                to="/about-page" //
+                to="/about-page" 
                 className={`text-${isDarkMode ? 'text-white' : 'black'}`}
               >
                 About us

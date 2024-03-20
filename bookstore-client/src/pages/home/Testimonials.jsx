@@ -12,11 +12,11 @@ const Testimonials = () => {
         <div className="md:w-1/2">
           <div className="text-left md:w-4/5">
             <p className="subtitle">Testimonials</p>
-            <h2 className="title">What Our Customers Say About Us</h2>
+            <h2 className="title">What Our Customers Say About  <span className="text-mainBG">Us</span>
+            </h2>
             <blockquote className="my-5 text-secondary leading-[30px]">
-              “I had the pleasure of dining at bookstore last night, and I'm still
-              raving about the experience! The attention to detail in
-              presentation and service was impeccable”
+              “I recently visited the online bookstore and I must say, I'm absolutely thrilled with the experience!
+              The meticulous attention to detail in website design and user interface was truly remarkable.”
             </blockquote>
 
             {/* avatar */}
@@ -42,7 +42,7 @@ const Testimonials = () => {
 
               <div className="space-y-1">
                 <h5 className="text-lg font-semibold">Customer Feedback</h5>
-                <div className="flex items-center gap-2"><FaStar className="text-yellow-400" /> <span className="font-medium">4.9</span> <span className="text-[#807E7E]">(18.6k Reviews)</span></div>
+                <div className="flex items-center gap-2"><FaStar className="text-yellow-400" /> <span className="font-medium">4.9</span> <span className="text-[#807E7E]">(14.9k Reviews)</span></div>
               </div>
             </div>
           </div>

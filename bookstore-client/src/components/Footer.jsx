@@ -10,7 +10,7 @@ const Footer = () => {
         <aside>
           <img src="/logo.png" alt="" />
           <p className="my-3 md:w-60 text-center font-bold">
-            Unlock Worlds, One Page at a Time: Explore the Boundless Universe of Books! 
+            Unlock Worlds, One Page at a Time: Explore the Boundless Universe of Books!
           </p>
 
         </aside>
@@ -30,9 +30,9 @@ const Footer = () => {
         </nav>
         <nav>
           <header className="footer-title">Contact Us</header>
-          <a className="link link-hover">pnqbookstore@gmail.com</a>
-          <a className="link link-hover">+84 393 434 221</a>
-          <a className="link link-hover">Social media</a>
+          <a className="link link-hover">Email: pnqbookstore@gmail.com</a>
+          <a className="link link-hover">Phone: +84 393 434 221</a>
+          <a className="link link-hover">Address: 1 VVN Thu Duc City</a>
         </nav>
       </footer>
       <hr />
