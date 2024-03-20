@@ -104,7 +104,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                to="/contact-page" //
+                to="/about-page" //
                 className={`text-${isDarkMode ? 'text-white' : 'black'}`}
               >
                 About us

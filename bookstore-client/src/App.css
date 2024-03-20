@@ -138,7 +138,6 @@ input[type="number"] {
 .avatar-online::before{
   content: "";
     position: absolute;
-    z-index: 11;
     display: block;
     border-radius: 9999px;
     --tw-bg-opacity: 1;
