@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import {  FaPaypal } from "react-icons/fa";
+import { FaPaypal } from "react-icons/fa";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
 import { useTheme } from "../../hooks/ThemeContext";
 
-const CheckoutForm = ({price, cart}) => {
+const CheckoutForm = ({ price, cart }) => {
   const { isDarkMode } = useTheme();
   const stripe = useStripe();
   const elements = useElements();
@@ -14,7 +14,7 @@ const CheckoutForm = ({price, cart}) => {
   const [clientSecret, setClientSecret] = useState("");
 
   const axiosSecure = useAxiosSecure();
-  const {user} = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   console.log(user.email)
@@ -24,7 +24,7 @@ const CheckoutForm = ({price, cart}) => {
       console.error('Invalid price value. Must be a number greater than or equal to 1.');
       return;
     }
-  
+
     axiosSecure.post('/create-payment-intent', { price })
       .then(res => {
         console.log(res.data.clientSecret);
@@ -50,7 +50,7 @@ const CheckoutForm = ({price, cart}) => {
     }
 
     // console.log('card: ', card)
-    const {error, paymentMethod} = await stripe.createPaymentMethod({
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
       card,
     });
@@ -63,7 +63,7 @@ const CheckoutForm = ({price, cart}) => {
       // console.log('[PaymentMethod]', paymentMethod);
     }
 
-    const {paymentIntent, error:confirmError} = await stripe.confirmCardPayment(
+    const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
       clientSecret,
       {
         payment_method: {
@@ -76,29 +76,31 @@ const CheckoutForm = ({price, cart}) => {
       },
     );
 
-    if(confirmError){
+    if (confirmError) {
       console.log(confirmError)
     }
 
     console.log('paymentIntent', paymentIntent)
 
-    if(paymentIntent.status ==="succeeded") {
-      const transitionId =paymentIntent.id;
+    if (paymentIntent.status === "succeeded") {
+      const transitionId = paymentIntent.id;
       setcardError(`Your transitionId is: ${transitionId}`)
 
       // save payment info to server
-      const paymentInfo ={email: user.email, transitionId: paymentIntent.id, price, quantity: cart.length,
-        status: "order pending", itemsName: cart.map(item => item.name), cartItems: cart.map(item => item._id), menuItems: cart.map(item => item.menuItemId)}
+      const paymentInfo = {
+        email: user.email, transitionId: paymentIntent.id, price, quantity: cart.length,
+        status: "order pending", itemsName: cart.map(item => item.name), cartItems: cart.map(item => item._id), menuItems: cart.map(item => item.menuItemId)
+      }
 
       // send payment info
       axiosSecure.post('/payments', paymentInfo)
-      .then( res => {
-        console.log(res.data)
-        if(res.data){
-          alert('Payment info sent successfully!')
-          navigate('/order')
-        }
-      })
+        .then(res => {
+          console.log(res.data)
+          if (res.data) {
+            alert('Payment info sent successfully!')
+            navigate('/order')
+          }
+        })
     }
 
 
@@ -109,47 +111,52 @@ const CheckoutForm = ({price, cart}) => {
         <h4 className="text-lg font-semibold">Order Summary</h4>
         <p>Total Price: ${price}</p>
         <p>Number of Items: {cart.length}</p>
+        <p>Name: {user?.displayName || 'Anonymous'}</p>
+        <p>Email: {user?.email}</p>
+        <p>Adrress: TPHCM </p>
+        <p>Phone number: +84-222-121-763 </p>
       </div>
+
       <div className={`md:w-1/3 w-full border space-y-5  card shrink-0 max-w-sm shadow-2xl bg-base-100 px-4 py-8 ${isDarkMode ? 'dark' : ''}`}>
         <h4 className="text-lg font-semibold">Process your Payment!</h4>
         <h5 className="font-medium">Credit/Debit Card</h5>
         <form onSubmit={handleSubmit}>
-        <CardElement
-          options={{
-            style: {
-              base: {
-                fontSize: "16px",
-                color: "#424770",
-                "::placeholder": {
-                  color: "#aab7c4",
+          <CardElement
+            options={{
+              style: {
+                base: {
+                  fontSize: "16px",
+                  color: "#424770",
+                  "::placeholder": {
+                    color: "#aab7c4",
+                  },
+                },
+                invalid: {
+                  color: "#9e2146",
                 },
               },
-              invalid: {
-                color: "#9e2146",
-              },
-            },
-          }}
-        />
-        <button
-          type="submit"
-          disabled={!stripe || !clientSecret}
-          className="btn btn-primary btn-sm mt-5 w-full"
-        >
-          Pay
-        </button>
+            }}
+          />
+          <button
+            type="submit"
+            disabled={!stripe || !clientSecret}
+            className="btn btn-primary btn-sm mt-5 w-full"
+          >
+            Pay
+          </button>
         </form>
-      {cardError ? <p className="text-red text-xs italic">{cardError}</p> : ''}
-     
-      <div className="mt-5 text-center">
-      <hr />
-      <button
-          type="submit"
-    
-          className="btn  btn-sm mt-5 bg-orange-500 text-white"
-        >
-         <FaPaypal /> Pay with Paypal
-        </button>
-      </div>
+        {cardError ? <p className="text-red text-xs italic">{cardError}</p> : ''}
+
+        <div className="mt-5 text-center">
+          <hr />
+          <button
+            type="submit"
+
+            className="btn  btn-sm mt-5 bg-orange-500 text-white"
+          >
+            <FaPaypal /> Pay with Paypal
+          </button>
+        </div>
       </div>
     </div>
   );

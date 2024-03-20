@@ -1,9 +1,79 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTheme } from "../../hooks/ThemeContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookmark, faUser, faUserGroup, faTruckFast, faBook } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faTruckFast, faUser, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import book from "../../../public/book1.jpg";
-import { FaReadme } from 'react-icons/fa';
+import avatar from "../../../public/th.jpg"
+const CommentSection = () => {
+    // data giả 
+    const comments = [
+        { id: 1, avatar: 'avatar1.jpg', username: 'thai phuc', time: '2 hours ago', comment: 'This book is amazing!' },
+        { id: 2, avatar: 'avatar2.jpg', username: 'phu qui', time: '1 day ago', comment: 'I highly recommend it.' },
+        { id: 3, avatar: 'avatar2.jpg', username: 'duy linh', time: '1 minute ago', comment: 'I highly recommend it.' },
+        { id: 4, avatar: 'avatar2.jpg', username: 'thao quyen', time: '1 week ago', comment: 'I highly recommend it.' },
+        // add cmt here
+    ];
+
+    const { isDarkMode } = useTheme();
+
+    const commentCount = comments.length; // Đếm số lượng bình luận
+
+    return (
+        <div className="comment-section">
+            <h3 className={`mb-2 text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                Customer Reviews ({commentCount}) {/* Hiển thị số lượng bình luận */}
+            </h3>
+            <div className="comments">
+                {comments.map(comment => (
+                    <div key={comment.id} className="comment">
+                        <div className="avatar-details-container flex">
+                            <div className="avatar-container w-24 rounded-full ring ring-mainBG ring-offset-base-100 ring-offset-2 flex items-center justify-center">
+                                <img src={avatar} alt="Avatar" />
+                            </div>
+                            <div className="details ml-2">
+                                <div className="user-info flex items-center">
+                                    <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>{comment.username}</span>
+                                    <span className="ml-1 text-sm italic text-gray-500">{comment.time}</span>
+                                </div>
+                                <p className={`comment-text ${isDarkMode ? 'text-white' : 'text-black'}`}>{comment.comment}</p>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+const CommentInput = () => {
+    const [comment, setComment] = useState('');
+    const { isDarkMode } = useTheme();
+
+    const handleCommentChange = (e) => {
+        setComment(e.target.value);
+    };
+
+    const handleCommentSubmit = () => {
+        // Xử lý việc gửi bình luận (chưa được triển khai ở đây)
+        console.log('Comment submitted:', comment);
+        setComment(''); // Xóa nội dung của ô input sau khi gửi
+    };
+
+    return (
+        <div className="comment-input ">
+            <input
+                type="text"
+                placeholder="Write a comment..."
+                value={comment}
+                onChange={handleCommentChange}
+                className={`input-field ${isDarkMode ? 'dark' : ''}`}
+            />
+            <button onClick={handleCommentSubmit} className="submit-btn bg-mainBG hover:bg-gray-300 text-white font-bold py-2 px-4 rounded">
+                Send
+            </button>
+        </div>
+    );
+};
 
 const ProductDetails = () => {
     const { isDarkMode } = useTheme();
@@ -73,25 +143,20 @@ const ProductDetails = () => {
                             Add to Wishlist
                         </button>
                     </div>
-
-
                 </div>
             </div>
+
             {/* Phần đánh giá khách hàng */}
-            <div className="mt-8">
-                <h3 className={`mb-2 text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>Customer Reviews</h3>
-                <div className="flex items-center mb-2">
-                    <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>Rate this book:</span>
-                    {[...Array(5)].map((_, index) => (
-                        <button key={index} className="ml-2 text-mainBG text-2xl focus:outline-none">
-                            ★
-                        </button>
-                    ))}
+            <div className="mt-8 flex flex-col md:flex-row">
+                <div className="md:w-1/2">
+                    <CommentSection />
+                </div>
+                <div className="md:w-1/2">
+                    <CommentInput />
                 </div>
             </div>
             {/* Kết thúc phần đánh giá */}
         </div>
-
     );
 };
 

@@ -197,6 +197,8 @@ const CartPage = () => {
               <h3 className="text-lg font-semibold">Customer Details</h3>
               <p>Name: {user?.displayName || "None"}</p>
               <p>Email: {user?.email}</p>
+              <p>Address:</p>
+              <p>Phone number:</p>
               <p>
                 User_id: <span className="text-sm">{user?.uid}</span>
               </p>
