@@ -95,14 +95,22 @@ const Navbar = () => {
           <summary className={`text-${isDarkMode ? 'dark' : ''}`}>Others</summary>
           <ul className={`p-2 ${isDarkMode ? 'dark' : ''}`}>
             <li>
-              <a className={`text-${isDarkMode ? 'text-white' : 'black'}`}>Contact</a>
+              <Link
+                to="/contact-page" // Đường dẫn của trang "Contact"
+                className={`text-${isDarkMode ? 'text-white' : 'black'}`}
+              >
+                Contact
+              </Link>
             </li>
             <li>
-              <a className={`text-${isDarkMode ? 'white' : 'black'}`}>Policy</a>
+              <Link
+                to="/contact-page" //
+                className={`text-${isDarkMode ? 'text-white' : 'black'}`}
+              >
+                About us
+              </Link>
             </li>
-            <li>
-              <a className={`text-${isDarkMode ? 'white' : 'black'}`}>Our Services</a>
-            </li>
+      
           </ul>
         </details>
       </li>
@@ -197,12 +205,19 @@ const Navbar = () => {
           {/* login button */}
 
           {
-            user ? <>
-              <Profile user={user} />
-            </> : <button onClick={() => document.getElementById('my_modal_5').showModal()} className="btn flex items-center gap-2 rounded-full px-6 bg-mainBG text-white">
-              <FaRegUser /> Login
-            </button>
-          }
+            user ? (
+              <div className="profile-container">
+                <Profile user={user} />
+              </div>
+            ) : (
+              <button
+                onClick={() => document.getElementById("my_modal_5").showModal()}
+                className="btn flex items-center gap-2 rounded-full px-6 bg-mainBG text-white"
+              >
+                <FaRegUser /> Login
+              </button>
+            )
+}
           <Modal />
         </div>
       </div>

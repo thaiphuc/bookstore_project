@@ -29,9 +29,9 @@ const Profile = ({ user }) => {
             htmlFor="my-drawer-4"
             className="drawer-button btn btn-ghost btn-circle avatar"
           >
-            <div className="w-10 rounded-full">
-              {user.photoURL? <img alt="" src={user.photoURL} /> : <img alt="" src={avatarImg} />}
-              
+            <div className="avatar-online w-10 rounded-full">
+              {user.photoURL ? <img alt="" src={user.photoURL} /> : <img alt="" src={avatarImg} />}
+
             </div>
           </label>
         </div>

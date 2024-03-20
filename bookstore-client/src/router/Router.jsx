@@ -18,6 +18,8 @@ import Payment from "../pages/menuPage/Payment";
 import ManageBookings from "../pages/dashboard/admin/ManageBookings";
 import FavoritePage from "../pages/menuPage/FavoritePage";
 import ProductDetails from "../pages/menuPage/ProductDetails";
+import ContactPage from "../pages/menuPage/ContactPage";
+import AboutUsPage from "../pages/menuPage/AboutUsPage";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +57,14 @@ const router = createBrowserRouter([
       {
         path: "/product-page",
         element: <ProductDetails />,
+      },
+      {
+        path: "/contact-page",
+        element: <ContactPage />,
+      },
+      {
+        path: "/about-page",
+        element: <AboutUsPage />,
       },
     ]
   },

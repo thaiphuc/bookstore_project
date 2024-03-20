@@ -19,7 +19,7 @@ const Testimonials = () => {
               presentation and service was impeccable”
             </blockquote>
 
-            {/* avater */}
+            {/* avatar */}
 
             <div className="flex items-center gap-4 flex-wrap">
               <div className="avatar-group -space-x-6 rtl:space-x-reverse">

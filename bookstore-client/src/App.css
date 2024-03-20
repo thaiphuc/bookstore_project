@@ -121,14 +121,42 @@ input[type="number"] {
   height: 50px;
   overflow: hidden;
   margin-right: 10px;
-  /* Khoảng cách giữa avatar và chi tiết bình luận */
+}
+.avatar-container-about {
+  width: 100px;
+  /* Định kích thước avatar */
+  height: 100px;
+  overflow: hidden;
+  
+}
+.avatar-container img {
+  max-width: 100%;
+  /* Đảm bảo ảnh không vượt quá kích thước của container */
+  max-height: 100%;
+  /* Đảm bảo ảnh không vượt quá kích thước của container */
+}
+.avatar-online::before{
+  content: "";
+    position: absolute;
+    z-index: 11;
+    display: block;
+    border-radius: 9999px;
+    --tw-bg-opacity: 1;
+    background-color: var(--fallback-su, oklch(var(--su) / var(--tw-bg-opacity)));
+    outline-style: solid;
+    outline-width: 2px;
+    outline-color: var(--fallback-b1, oklch(var(--b1) / 1));
+    width: 25%;
+    height: 25%;
+    top:9%;
+    right: 4%;
+    
 }
 
 .avatar {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  /* Chuyển hình ảnh thành hình tròn */
 }
 
 .user-info {
@@ -136,9 +164,19 @@ input[type="number"] {
     align-items: center;
 }
 
-.comment-text {
-    /* Thêm bất kỳ kiểu CSS nào bạn muốn */
+.comment-input{
+  margin-top: 60px;
+  position: relative;
+  padding: 5px;
 }
 .avatar-details-container{
 padding: 20px;
+}
+.submit-btn{
+  position: absolute;
+  right: 0;
+}
+.drawer-button{
+  width: 48px;
+  height: 48px;
 }

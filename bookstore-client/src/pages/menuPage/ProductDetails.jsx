@@ -20,7 +20,7 @@ const CommentSection = () => {
 
     return (
         <div className="comment-section">
-            <h3 className={`mb-2 text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>
+            <h3 className={`mb-2 text-2xl font-bold p-2 ${isDarkMode ? 'text-white' : 'text-black'}`}>
                 Customer Reviews ({commentCount}) {/* Hiển thị số lượng bình luận */}
             </h3>
             <div className="comments">
@@ -47,6 +47,7 @@ const CommentSection = () => {
 
 const CommentInput = () => {
     const [comment, setComment] = useState('');
+    const [inputFocused, setInputFocused] = useState(false);
     const { isDarkMode } = useTheme();
 
     const handleCommentChange = (e) => {
@@ -59,14 +60,25 @@ const CommentInput = () => {
         setComment(''); // Xóa nội dung của ô input sau khi gửi
     };
 
+    const handleInputFocus = () => {
+        setInputFocused(true);
+    };
+
+    const handleInputBlur = () => {
+        setInputFocused(false);
+    };
+
     return (
-        <div className="comment-input ">
-            <input
+        <div className="comment-input" >
+            <textarea
                 type="text"
-                placeholder="Write a comment..."
+                placeholder={inputFocused ? '' : 'Write a comment...'}
                 value={comment}
                 onChange={handleCommentChange}
+                onFocus={handleInputFocus}
+                onBlur={handleInputBlur}
                 className={`input-field ${isDarkMode ? 'dark' : ''}`}
+                style={{ width: '100%', height: '200px', border: '2px solid', marginRight: '10px', padding: '10px' }}
             />
             <button onClick={handleCommentSubmit} className="submit-btn bg-mainBG hover:bg-gray-300 text-white font-bold py-2 px-4 rounded">
                 Send
@@ -74,6 +86,7 @@ const CommentInput = () => {
         </div>
     );
 };
+
 
 const ProductDetails = () => {
     const { isDarkMode } = useTheme();
@@ -98,7 +111,7 @@ const ProductDetails = () => {
                     <img src={book} alt="Product" className="w-full" />
                 </div>
 
-                <div className="md:w-1/2 ">
+                <div className="md:w-1/2 p-3 ">
                     <div className="py-6">
                         <h3 className={`mb-2 text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>ĐẮC NHÂN TÂM - DALE CARNEGIE</h3>
                         <p className={`mb-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}>
@@ -107,9 +120,10 @@ const ProductDetails = () => {
                         <p className={`mb-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}>
                             <span className="font-bold">Price:</span> $19.99
                         </p>
-                        <p className={`text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}>
-                            <span className="font-bold">Description:</span> Đắc nhân tâm – How to win friends and Influence People của Dale Carnegie là quyển sách nổi tiếng nhất, bán chạy nhất và có tầm ảnh hưởng nhất của mọi thời đại. Tác phẩm đã được chuyển ngữ sang hầu hết các thứ tiếng trên thế giới và có mặt ở hàng trăm quốc gia. Đây là quyển sách duy nhất về thể loại self-help liên tục đứng đầu danh mục sách bán chạy nhất (best-selling Books) do báo The New York Times bình chọn suốt 10 năm liền. Riêng bản tiếng Anh của sách đã bán được hơn 15 triệu bản trên thế giới. Tác phẩm có sức lan toả vô cùng rộng lớn – dù bạn đi đến bất cứ nơi đâu, bất kỳ quốc gia nào cũng đều có thể nhìn thấy. Tác phẩm được đánh giá là quyển sách đầu tiên và hay nhất, có ảnh hưởng làm thay đổi cuộc đời của hàng triệu người trên thế giới.
+                        <p className={`text-lg ${isDarkMode ? 'text-white' : 'text-black'}`} style={{ textAlign: 'justify' }}>
+                            <span className="font-bold">Description:</span> Đắc nhân tâm – How to win friends and Influence People của Dale Carnegie là quyển sách nổi tiếng nhất, bán chạy nhất và có tầm ảnh hưởng nhất của mọi thời đại. Tác phẩm đã được chuyển ngữ sang hầu hết các thứ tiếng trên thế giới và có mặt ở hàng trăm quốc gia. Đây là quyển sách duy nhất về thể loại self-help liên tục đứng đầu danh mục sách bán chạy nhất (best-selling Books) do báo The New York Times bình chọn suốt 10 năm liền. Riêng bản tiếng Anh của sách đã bán được hơn 15 triệu bản trên thế giới. Tác phẩm có sức lan toả vô cùng rộng lớn – dù bạn đi đến bất cứ nơi đâu, bất kỳ quốc gia nào cũng đều có thể nhìn thấy...
                         </p>
+
                     </div>
 
                     <div className="flex flex-col mb-4">
