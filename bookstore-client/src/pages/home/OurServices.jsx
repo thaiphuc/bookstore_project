@@ -1,9 +1,7 @@
 import React from "react";
 
 const serviceLists = [
-  {
-    id: 1, title: "Customer Care", des: "We have support staff available to assist you 24/7 with any questions.", img: "/images/home/services/icon1.png"
-  }
+  { id: 1, title: "Customer Care", des: "We have support staff available to assist you 24/7 with any questions.", img: "/images/home/services/icon1.png"},
   { id: 2, title: "Fast delivery", des: "We deliver your order promptly to your door faster than you think", img: "/images/home/services/icon2.png" },
   { id: 3, title: "Online Ordering", des: "Explore category & order with ease using our Online Ordering ", img: "/images/home/services/icon3.png" },
   { id: 4, title: "Promotions", des: "Give the promotions for the book lovers to get their books which they want", img: "/images/home/services/icon4.png" },
