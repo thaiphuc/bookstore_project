@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { FaHeart } from "react-icons/fa"
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
-import CardsFavorite from "./CardsFavorite";
+import Cards from "./Cards";
 
 const SampleNextArrow = (props) => {
     const { className, style, onClick } = props;
@@ -33,7 +33,7 @@ const SamplePrevArrow = (props) => {
     );
 };
 
-const FavoriteBook = () => {
+const RelatedBook = () => {
     const [recipes, setRecipes] = useState([]);
     const slider = React.useRef(null);
 
@@ -84,9 +84,9 @@ const FavoriteBook = () => {
         prevArrow: <SamplePrevArrow />,
     };
     return (
-        <div className="max-w-screen-xl container mx-auto xl:px-12 px-4 mb-20 relative">
+        <div className="max-w-screen-2xl container mx-auto px-4 mb-20 relative">
             <div className='text-left'>
-                <p className='subtitle'>Your Favorite Books</p>
+                <p className='subtitle'>Related Books</p>
             </div>
             <div className="md:absolute right-3 top-8 mb-10 md:mr-24">
                 <button onClick={() => slider?.current?.slickPrev()}
@@ -104,11 +104,11 @@ const FavoriteBook = () => {
 
             <Slider ref={slider} {...settings} className="overflow-hidden mt-10 space-x-5">
                 {recipes.map((item, i) => (
-                    <CardsFavorite item={item} key={i} />
+                    <Cards item={item} key={i} />
                 ))}
             </Slider>
         </div>
     );
 };
 
-export default FavoriteBook;
+export default RelatedBook;

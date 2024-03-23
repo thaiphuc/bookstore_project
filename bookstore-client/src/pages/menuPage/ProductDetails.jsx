@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faTruckFast, faUser, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import book from "../../../public/book1.jpg";
 import avatar from "../../../public/th.jpg"
+import RelatedBook from '../../components/RelatedBook';
 const CommentSection = () => {
     // data giả 
     const comments = [
@@ -159,7 +160,7 @@ const ProductDetails = () => {
                     </div>
                 </div>
             </div>
-
+            <RelatedBook />
             {/* Phần đánh giá khách hàng */}
             <div className="mt-8 flex flex-col md:flex-row">
                 <div className="md:w-1/2">
