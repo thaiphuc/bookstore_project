@@ -205,19 +205,13 @@ const Navbar = () => {
           {/* login button */}
 
           {
-            user ? (
-              <div className="profile-container">
-                <Profile user={user} />
-              </div>
-            ) : (
-              <button
-                onClick={() => document.getElementById("my_modal_5").showModal()}
-                className="btn flex items-center gap-2 rounded-full px-6 bg-mainBG text-white"
-              >
-                <FaRegUser /> Login
-              </button>
-            )
-}
+            user ? <>
+              <Profile user={user} />
+            </> : <button onClick={() => document.getElementById('my_modal_5').showModal()} className="btn flex items-center gap-2 rounded-full px-6 bg-mainBG text-white">
+              <FaRegUser /> Login
+            </button>
+          }
+
           <Modal />
         </div>
       </div>
