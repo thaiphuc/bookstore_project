@@ -2,11 +2,11 @@ import React from 'react'
 import { useTheme } from '../../hooks/ThemeContext';
 
 const categoryItems = [
-    { id: 1, title: "Fiction", despriction: "(20 Books)", image: "/images/home/category/img1.png" },
-    { id: 2, title: "Non-fiction", despriction: "(20 Books)", image: "/images/home/category/img2.png" },
-    { id: 3, title: "Language", despriction: "(20 Books)", image: "/images/home/category/img3.png" },
-    { id: 4, title: "Business", despriction: "(20 Books)", image: "/images/home/category/img4.png" },
-    { id: 5, title: "Math", despriction: "(20 Books)", image: "/images/home/category/img5.png" },
+    { id: 1, title: "Fiction", despriction: "(140 Books)", image: "/images/home/category/img1.png" },
+    { id: 2, title: "Non-fiction", despriction: "(201 Books)", image: "/images/home/category/img2.png" },
+    { id: 3, title: "Languages", despriction: "(90 Books)", image: "/images/home/category/img3.png" },
+    { id: 4, title: "Textbook", despriction: "(120 Books)", image: "/images/home/category/img4.png" },
+    { id: 5, title: "Economic", despriction: "(52 Books)", image: "/images/home/category/img5.png" },
     { id: 6, title: "Browse All", despriction: "(220 Books)", image: "/images/home/category/img6.png" }
 
 ]
