@@ -217,7 +217,7 @@ const CartPage = () => {
           </div>
         </div> : <div className="text-center mt-20">
           <p>Cart is empty. Please add products.</p>
-          <Link to="/menu"><button className="btn bg-mainBG text-white mt-3">Back to Menu</button></Link>
+          <Link to="/book"><button className="btn bg-mainBG text-white mt-3">Back to Book</button></Link>
         </div>
       }
 

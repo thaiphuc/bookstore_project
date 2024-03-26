@@ -1,25 +1,25 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../layout/Main";
 import Home from "../pages/home/Home";
-import Menu from "../pages/menuPage/Menu";
+import Book from "../pages/bookPage/Book";
 import Signup from "../components/Signup";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
-import CartPage from "../pages/menuPage/CartPage";
+import CartPage from "../pages/bookPage/CartPage";
 import Login from "../components/Login";
 import Order from "../pages/dashboard/user/Order";
 import UserProfile from "../pages/dashboard/user/UserProfile";
 import DashboardLayout from "../layout/DashboardLayout";
 import Dashboard from "../pages/dashboard/admin/Dashboard";
 import Users from "../pages/dashboard/admin/Users";
-import AddMenu from "../pages/dashboard/admin/AddMenu";
+import AddBook from "../pages/dashboard/admin/AddBook";
 import ManageItems from "../pages/dashboard/admin/ManageItems";
-import UpdateMenu from "../pages/dashboard/admin/UpdateMenu";
-import Payment from "../pages/menuPage/Payment";
+import UpdateBook from "../pages/dashboard/admin/UpdateBook";
+import Payment from "../pages/bookPage/Payment";
 import ManageBookings from "../pages/dashboard/admin/ManageBookings";
-import FavoritePage from "../pages/menuPage/FavoritePage";
-import ProductDetails from "../pages/menuPage/ProductDetails";
-import ContactPage from "../pages/menuPage/ContactPage";
-import AboutUsPage from "../pages/menuPage/AboutUsPage";
+import FavoritePage from "../pages/bookPage/FavoritePage";
+import ProductDetails from "../pages/bookPage/ProductDetails";
+import ContactPage from "../pages/bookPage/ContactPage";
+import AboutUsPage from "../pages/bookPage/AboutUsPage";
 
 const router = createBrowserRouter([
   {
@@ -31,8 +31,8 @@ const router = createBrowserRouter([
         element: <Home />
       },
       {
-        path: "/menu",
-        element: <Menu />
+        path: "/book",
+        element: <Book />
       },
       {
         path: "/order",
@@ -89,17 +89,17 @@ const router = createBrowserRouter([
         element: <Users />
       },
       {
-        path: 'add-menu',
-        element: <AddMenu />
+        path: 'add-book',
+        element: <AddBook />
       },
       {
         path: 'manage-items',
         element: <ManageItems />
       },
       {
-        path: 'update-menu/:id',
-        element: <UpdateMenu />,
-        loader: ({ params }) => fetch(`http://localhost:5000/menu/${params.id}`)
+        path: 'update-book/:id',
+        element: <UpdateBook />,
+        loader: ({ params }) => fetch(`http://localhost:5000/book/${params.id}`)
       },
       {
         path: 'bookings',

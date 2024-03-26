@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const cartSchema = new Schema({
-    menuItemId: String,
-    name: {
+    bookItemId: String,
+    title: {
         type: String,
         trim: true,
         required: true,

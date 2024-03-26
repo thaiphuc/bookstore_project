@@ -22,7 +22,7 @@ const Footer = () => {
           <a className="link link-hover">FAQ</a>
         </nav>
         <nav>
-          <header className="footer-title">Main Menu</header>
+          <header className="footer-title">Main Book</header>
           <a className="link link-hover">Home</a>
           <a className="link link-hover">Offers</a>
           <a className="link link-hover">Categories</a>

@@ -3,9 +3,9 @@ import Cards from "../../components/Cards";
 import { FaFilter } from "react-icons/fa";
 import { useTheme } from "../../hooks/ThemeContext";
 
-const Menu = () => {
+const Book = () => {
   const { isDarkMode } = useTheme();
-  const [menu, setMenu] = useState([]);
+  const [book, setBook] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortOption, setSortOption] = useState("default");
@@ -16,9 +16,9 @@ const Menu = () => {
     // Fetch data from the backend
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/menu");
+        const response = await fetch("http://localhost:5000/book");
         const data = await response.json();
-        setMenu(data);
+        setBook(data);
         setFilteredItems(data); // Initially, display all items
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -28,13 +28,13 @@ const Menu = () => {
     fetchData();
   }, []);
 
-  // console.log(menu)
+  // console.log(book)
 
   const filterItems = (category) => {
     const filtered =
       category === "all"
-        ? menu
-        : menu.filter((item) => item.category === category);
+        ? book
+        : book.filter((item) => item.category === category);
 
     setFilteredItems(filtered);
     setSelectedCategory(category);
@@ -42,7 +42,7 @@ const Menu = () => {
   };
 
   const showAll = () => {
-    setFilteredItems(menu);
+    setFilteredItems(book);
     setSelectedCategory("all");
     setCurrentPage(1);
   };
@@ -86,7 +86,7 @@ const Menu = () => {
 
   return (
     <div>
-      {/* menu banner */}
+      {/* book banner */}
       <div className={`max-w-screen-2xl container mx-auto xl:px-24 px-4 bg-gradient-to-r from-0% from-[#FAFAFA] to-[#FCFCFC] to-100% ${isDarkMode ? "dark" : ""}`}>
         <div className="py-48 flex flex-col items-center justify-center">
           {/* content */}
@@ -106,7 +106,7 @@ const Menu = () => {
         </div>
       </div>
 
-      {/* menu shop  */}
+      {/* book shop  */}
       <div className="section-container">
         <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8">
 
@@ -195,4 +195,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default Book;

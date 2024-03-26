@@ -89,7 +89,7 @@ const CheckoutForm = ({ price, cart }) => {
       // save payment info to server
       const paymentInfo = {
         email: user.email, transitionId: paymentIntent.id, price, quantity: cart.length,
-        status: "order pending", itemsName: cart.map(item => item.name), cartItems: cart.map(item => item._id), menuItems: cart.map(item => item.menuItemId)
+        status: "order pending", itemsName: cart.map(item => item.name), cartItems: cart.map(item => item._id), bookItems: cart.map(item => item.bookItemId)
       }
 
       // send payment info

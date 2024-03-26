@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useMenu from "../../../hooks/useMenu";
+import useBook from "../../../hooks/useBook";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
 import { FaArrowCircleRight, FaArrowLeft, FaArrowRight, FaEdit, FaTrashAlt, FaUsers } from "react-icons/fa";
@@ -26,7 +26,7 @@ const ManageBookings = () => {
       return res.json();
     },
   });
-  //   console.log(menu)
+  //   console.log(book)
   const axiosSecure = useAxiosSecure();
 
   //   pagination
@@ -68,7 +68,7 @@ const ManageBookings = () => {
         Manage All <span className="text-mainBG">Orders!</span>
       </h2>
 
-      {/* menu items table  */}
+      {/* book items table  */}
       <div>
         <div className="overflow-x-auto lg:overflow-x-visible">
           <table className="table w-full">

@@ -45,11 +45,11 @@ router.get('/',verifyToken, async (req, res) => {
 });
 
 // get all payment infomation
-// get all menu items
+// get all book items
 router.get('/all', async (req, res) => {
     try {
-      const menus = await Payment.find({}).sort({ createdAt: -1 });
-      res.status(200).json(menus);
+      const books = await Payment.find({}).sort({ createdAt: -1 });
+      res.status(200).json(books);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }

@@ -33,7 +33,7 @@ const SamplePrevArrow = (props) => {
   );
 };
 
-const SpecialDishes = () => {
+const PopularBooks = () => {
   const [recipes, setRecipes] = useState([]);
   const slider = React.useRef(null);
 
@@ -112,4 +112,4 @@ const SpecialDishes = () => {
   );
 };
 
-export default SpecialDishes;
+export default PopularBooks;

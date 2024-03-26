@@ -2,19 +2,19 @@ import React from 'react'
 import useAxiosPublic from './useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
 
-const useMenu = () => {
+const useBook = () => {
     const axiosPublic = useAxiosPublic();
 
-    const {data: menu = [], isPending: loading, refetch} = useQuery({
-        queryKey: ['menu'], 
+    const {data: book = [], isPending: loading, refetch} = useQuery({
+        queryKey: ['book'], 
         queryFn: async() =>{
-            const res = await axiosPublic.get('/menu');
+            const res = await axiosPublic.get('/book');
             console.log(res)
             return res.data;
         }
     })
   
-    return [menu, loading, refetch]
+    return [book, loading, refetch]
 }
 
-export default useMenu
+export default useBook;

@@ -1,7 +1,7 @@
 import React from 'react'
 import Banner from '../../components/Banner'
 import Catagories from './Catagories'
-import SpecialDishes from './SpecialDishes'
+import PopularBooks from './PopularBooks'
 import Testimonials from './Testimonials'
 import OurServices from './OurServices'
 import PromotionCountdown from '../../components/Promotion'
@@ -11,7 +11,7 @@ const Home = () => {
     <div>
       <Banner />
       <Catagories />
-      <SpecialDishes />
+      <PopularBooks />
       <Testimonials />
       <OurServices />
       <PromotionCountdown />

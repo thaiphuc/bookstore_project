@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 // Import your middleware
 const User = require('../models/User');
-const Menu = require('../models/Menu');
+const Book = require('../models/Book');
 const Payment = require('../models/Payments'); // Corrected import statement
 
 // middleware
@@ -13,22 +13,22 @@ router.get('/', async (req, res) => {
   try {
     const result = await Payment.aggregate([
         {
-          $unwind: '$menuItems'
+          $unwind: '$bookItems'
         },
         {
           $lookup: {
-            from: 'menus', // Assuming the menu collection name is 'menus'
-            localField: 'menuItems',
+            from: 'books', // Assuming the book collection name is 'books'
+            localField: 'bookItems',
             foreignField: '_id',
-            as: 'menuItemDetails'
+            as: 'bookItemDetails'
           }
         },
         {
-          $unwind: '$menuItemDetails'
+          $unwind: '$bookItemDetails'
         },
         {
           $group: {
-            _id: '$menuItemDetails.category',
+            _id: '$bookItemDetails.category',
             quantity: { $sum: '$quantity' },
             revenue: { $sum: '$price' }
           }
