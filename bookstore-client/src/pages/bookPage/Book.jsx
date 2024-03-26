@@ -88,16 +88,15 @@ const Book = () => {
     <div>
       {/* book banner */}
       <div className={`max-w-screen-2xl container mx-auto xl:px-24 px-4 bg-gradient-to-r from-0% from-[#FAFAFA] to-[#FCFCFC] to-100% ${isDarkMode ? "dark" : ""}`}>
-        <div className="py-48 flex flex-col items-center justify-center">
+        <div className="py-24 flex flex-col items-center justify-center">
           {/* content */}
           <div className=" text-center px-4 space-y-7">
             <h2 className="md:text-5xl text-4xl font-bold md:leading-snug leading-snug">
-              For the Love of Delicious <span className="text-mainBG">Food</span>
+              For the Lovers of <span className="text-mainBG">Book</span>
             </h2>
             <p className="text-[#4A4A4A]  text-xl md:w-4/5 mx-auto">
-              Come with family & feel the joy of mouthwatering food such as
-              Greek Salad, Lasagne, Butternut Pumpkin, Tokusen Wagyu, Olivas
-              Rellenas and more for a moderate cost
+              Discover the enchanting world of literature at our bookstore, where you can embark on captivating journeys through the pages of fiction and non-fiction alike. Immerse yourself in tales of adventure, knowledge, and inspiration, from timeless classics to contemporary masterpieces.
+              With an array of genres including mystery, romance, business, and more, there is something for every reader to explore. Dive into the pages and let your imagination soar as you uncover the treasures that await within the covers of our beloved books.
             </p>
             <button className="bg-mainBG font-semibold btn text-white px-8 py-3 rounded-full">
               Order Now
@@ -134,7 +133,7 @@ const Book = () => {
               onClick={() => filterItems("soup")}
               className={selectedCategory === "soup" ? "active" : ""}
             >
-              Economic
+              Language
             </button>
             <button
               onClick={() => filterItems("dessert")}
@@ -146,7 +145,7 @@ const Book = () => {
               onClick={() => filterItems("drinks")}
               className={selectedCategory === "drinks" ? "active" : ""}
             >
-              Political
+              Math
             </button>
           </div>
 

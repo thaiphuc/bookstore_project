@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../contexts/AuthProvider";
 import avatarImg from "/images/avatar.jpg"
 import { useNavigate } from "react-router-dom";
+import { faUser, faClipboardList, faSignOutAlt, faUserTie } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Profile = ({ user }) => {
   const { logOut } = useContext(AuthContext);
@@ -44,19 +46,28 @@ const Profile = ({ user }) => {
           <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
             {/* Sidebar content here */}
             <li>
-              <a href="/update-profile">Profile</a>
+              <a href="/update-profile">
+                <FontAwesomeIcon icon={faUser} className="mr-2" />
+                Profile
+              </a>
             </li>
             <li>
-              <a href="/order">Order</a>
+              <a href="/order">
+                <FontAwesomeIcon icon={faClipboardList} className="mr-2" />
+                Order
+              </a>
             </li>
             <li>
-              <a>Settings</a>
+              <a href="/dashboard">
+                <FontAwesomeIcon icon={faUserTie} className="mr-2" />
+                Dashboard
+              </a>
             </li>
             <li>
-              <a href="/dashboard">Dashboard</a>
-            </li>
-            <li>
-              <a onClick={handleLogout}>Logout</a>
+              <a onClick={handleLogout}>
+                <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
+                Logout
+              </a>
             </li>
           </ul>
         </div>
