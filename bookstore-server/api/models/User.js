@@ -14,6 +14,7 @@ const userSchema = new Schema({
         enum: ['user', 'admin'],
         default: 'user',
     },
+    wishList: [String]
 })
 
 const User = mongoose.model('User', userSchema);

@@ -122,7 +122,7 @@ const Dashboard = () => {
             <FaBook className="text-3xl"></FaBook>
           </div>
           <div className="stat-title">Books</div>
-          <div className="stat-value">{stats.menuItems}</div>
+          <div className="stat-value">{stats.bookItems}</div>
           <div className="stat-desc">↗︎ 400 (22%)</div>
         </div>
 

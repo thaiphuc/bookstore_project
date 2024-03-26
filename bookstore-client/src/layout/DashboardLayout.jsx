@@ -16,7 +16,7 @@ import useAdmin from "../hooks/useAdmin";
 import Login from "../components/Login";
 import useAuth from "../hooks/useAuth";
 
-const sharedMenu = (
+const sharedBook = (
   <>
     <li className="mt-3">
       <Link to="/">
@@ -25,19 +25,19 @@ const sharedMenu = (
       </Link>
     </li>
     <li>
-      <Link to="/menu">
+      <Link to="/book">
         <FaCartShopping />
-        Menu
+        Book
       </Link>
     </li>
     <li>
-      <Link to="/menu">
+      <Link to="/book">
         <FaLocationArrow />
         Orders Tracking
       </Link>
     </li>
     <li>
-      <Link to="/menu">
+      <Link to="/book">
         <FaQuestionCircle />
         Customer Support
       </Link>
@@ -107,14 +107,14 @@ const DashboardLayout = () => {
                 </Link>
               </li>
 
-              {/* Add Menu Items */}
+              {/* Add Book Items */}
               <li>
-                <Link to="/dashboard/add-menu">
+                <Link to="/dashboard/add-book">
                   <FaPlusCircle /> Add Book
                 </Link>
               </li>
 
-              {/* Manage Menu Items */}
+              {/* Manage Book Items */}
               <li>
                 <Link to="/dashboard/manage-items">
                   <FaEdit /> Manage Books
@@ -129,9 +129,9 @@ const DashboardLayout = () => {
                 </Link>
               </li>
 
-              {/* shared menu */}
+              {/* shared book */}
               <hr />
-              {sharedMenu}
+              {sharedBook}
             </ul>
           </div>
         </div> : (loading ? <Login /> : <div className="h-screen flex items-center justify-center">

@@ -14,11 +14,11 @@ const Navbar = () => {
   const { user, loading } = useContext(AuthContext);
   const [cart, refetch] = useCart();
   const { isDarkMode } = useTheme();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isBookOpen, setIsBookOpen] = useState(false);
   const [totalItems, setTotalItems] = useState(0); // State to hold total quantity of items
 
-  const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev);
+  const toggleBook = () => {
+    setIsBookOpen((prev) => !prev);
   };
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const Navbar = () => {
           <summary className={`text-${isDarkMode ? 'dark' : ''}`}>Categories</summary>
           <ul className={`p-2 ${isDarkMode ? 'dark' : ''}`}>
             <li>
-              <a href="/menu" className={`text-${isDarkMode ? 'dark' : ''}`}>
+              <a href="/book" className={`text-${isDarkMode ? 'dark' : ''}`}>
                 All
               </a>
             </li>
@@ -129,7 +129,7 @@ const Navbar = () => {
       >
         <div className="navbar-start">
           <div className="dropdown justify-between">
-            <label onClick={toggleMenu} tabIndex={0} className="btn btn-ghost lg:hidden" >
+            <label onClick={toggleBook} tabIndex={0} className="btn btn-ghost lg:hidden" >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -148,7 +148,7 @@ const Navbar = () => {
             <ul
               tabIndex={0}
               className={`menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-64 space-y-3 ${isDarkMode ? 'dark' : ''}`}
-              style={{ display: isMenuOpen ? "block" : "none" }}
+              style={{ display: isBookOpen ? "block" : "none" }}
             >
               {navItems}
             </ul>

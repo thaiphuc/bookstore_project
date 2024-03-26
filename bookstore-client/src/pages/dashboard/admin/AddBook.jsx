@@ -1,19 +1,13 @@
-import React from "react";
 import { useForm } from "react-hook-form";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { FaUpload } from "react-icons/fa";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
-import { FaUtensils } from "react-icons/fa";
 
-const UpdateMenu = () => {
-  const item = useLoaderData();
-  console.log(item);
-
+const AddBook = () => {
   const { register, handleSubmit, reset } = useForm();
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
-  const navigate = useNavigate();
 
   // image hosting keys
   const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
@@ -33,47 +27,46 @@ const UpdateMenu = () => {
     // console.log(hostingImg.data);
 
     if (hostingImg.data.success) {
-      // now send the menu item data to the server with the image url
-      const menuItem = {
-        name: data?.name,
+      // now send the book item data to the server with the image url
+      const bookItem = {
+        name: data.name,
         category: data.category,
         price: parseFloat(data.price),
         recipe: data.recipe,
-        image: hostingImg.data.data.display_url,
-      };
-      //
-      const menuRes = await axiosSecure.patch(`menu/${item._id}`, menuItem);
-      console.log(menuRes);
-      if (menuRes.status === 200) {
+        image: hostingImg.data.data.display_url
+      }
+      // 
+      const bookRes = await axiosSecure.post('/book', bookItem);
+      console.log(bookRes)
+      if (bookRes.status === 200) {
         // show success popup
         reset();
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: `Item is updated successfully!`,
+          title: `${data.name} is added to the book.`,
           showConfirmButton: false,
-          timer: 1500,
+          timer: 1500
         });
-        navigate("/dashboard/manage-items");
       }
     }
+
   };
 
   return (
     <div className="w-full md:w-[870px] mx-auto px-4">
       <h2 className="text-2xl font-semibold my-4">
-        Update <span className="text-mainBG">Book</span>
+        Upload A New <span className="text-mainBG">Book</span>
       </h2>
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-control w-full my-6">
             <label className="label">
-              <span className="label-text">Book Name*</span>
+              <span className="label-text">Book Title*</span>
             </label>
             <input
               type="text"
               placeholder="Recipe Name"
-              defaultValue={item.name}
               {...register("name", { required: true })}
               required
               className="input input-bordered w-full"
@@ -86,7 +79,7 @@ const UpdateMenu = () => {
                 <span className="label-text">Category*</span>
               </label>
               <select
-                defaultValue={item.category}
+                defaultValue="default"
                 {...register("category", { required: true })}
                 className="select select-bordered w-full"
               >
@@ -110,7 +103,6 @@ const UpdateMenu = () => {
               <input
                 type="number"
                 placeholder="Price"
-                defaultValue={item.price}
                 {...register("price", { required: true })}
                 className="input input-bordered w-full"
               />
@@ -119,13 +111,12 @@ const UpdateMenu = () => {
           {/* recipe details */}
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Recipe Details</span>
+              <span className="label-text">Book Details</span>
             </label>
             <textarea
               {...register("recipe")}
               className="textarea textarea-bordered h-24"
-              placeholder="recipe details"
-              defaultValue={item.recipe}
+              placeholder="Bio"
             ></textarea>
           </div>
 
@@ -138,7 +129,7 @@ const UpdateMenu = () => {
           </div>
 
           <button className="btn bg-mainBG text-white px-6">
-            Update Item <FaUtensils></FaUtensils>
+            Add Book <FaUpload></FaUpload>
           </button>
         </form>
       </div>
@@ -146,4 +137,4 @@ const UpdateMenu = () => {
   );
 };
 
-export default UpdateMenu;
+export default AddBook;

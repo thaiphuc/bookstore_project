@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import useMenu from "../../../hooks/useMenu";
+import useBook from "../../../hooks/useBook";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
 import { FaArrowCircleRight, FaArrowLeft, FaArrowRight, FaEdit, FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 
 const ManageItems = () => {
-  const [menu, , refetch] = useMenu();
-  //   console.log(menu)
+  const [book, , refetch] = useBook();
+  //   console.log(book)
   const axiosSecure = useAxiosSecure();
 
   //   pagination
@@ -15,7 +15,7 @@ const ManageItems = () => {
   const items_Per_Page = 10;
   const indexOfLastItem = currentPage * items_Per_Page;
   const indexOfFirstItem = indexOfLastItem - items_Per_Page;
-  const currentItems = menu.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = book.slice(indexOfFirstItem, indexOfLastItem);
 
   // delete item
   const handleDeleteItem = (item) => {
@@ -30,7 +30,7 @@ const ManageItems = () => {
       confirmButtonText: "Yes, delete it!"
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const res = await axiosSecure.delete(`/menu/${item._id}`);
+        const res = await axiosSecure.delete(`/book/${item._id}`);
         // console.log(res.data);
         refetch();
         Swal.fire({
@@ -51,7 +51,7 @@ const ManageItems = () => {
         Manage All <span className="text-mainBG">Books!</span>
       </h2>
 
-      {/* menu items table  */}
+      {/* book items table  */}
       <div>
         <div className="overflow-x-auto">
           <table className="table w-full">
@@ -85,7 +85,7 @@ const ManageItems = () => {
                   <td>{item.name}</td>
                   <td>${item.price}</td>
                   <td>
-                    <Link to={`/dashboard/update-menu/${item._id}`}>
+                    <Link to={`/dashboard/update-book/${item._id}`}>
                       <button className="btn btn-ghost btn-xs bg-orange-500">
                         <FaEdit
                           className="text-white 
@@ -120,7 +120,7 @@ const ManageItems = () => {
         </button>
         <button
           onClick={() => setCurrentPage(currentPage + 1)}
-          disabled={indexOfLastItem >= menu.length}
+          disabled={indexOfLastItem >= book.length}
           className="btn btn-sm bg-mainBG text-white"
         >
           Next  <FaArrowRight />

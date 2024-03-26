@@ -25,22 +25,22 @@ const getCartByEmail = async (req, res) => {
 
 // post all carts
 const addToCarts = async (req, res) => {
-  const { name, recipe, image, price, email, quantity, menuItemId } = req.body;
+  const { name, recipe, image, price, email, quantity, bookItemId } = req.body;
 
   try {
     
-    // Check if menuItemId already exists in the database
-    const existingCartItem = await Carts.findOne({email, menuItemId });
+    // Check if bookItemId already exists in the database
+    const existingCartItem = await Carts.findOne({email, bookItemId });
     // console.log(existingCartItem)
 
     if (existingCartItem) {
-      // If menuItemId exists, send a message and do not create a new cart item
+      // If bookItemId exists, send a message and do not create a new cart item
       return res
         .status(403)
         .json({ message: "Product already exists in the cart." });
     }
 
-    // If menuItemId doesn't exist, create a new cart item
+    // If bookItemId doesn't exist, create a new cart item
     const cartItem = await Carts.create({
       name,
       recipe,
@@ -48,7 +48,7 @@ const addToCarts = async (req, res) => {
       price,
       email,
       quantity,
-      menuItemId,
+      bookItemId,
     });
 
     res.status(201).json(cartItem);
@@ -76,11 +76,11 @@ const deleteCart = async (req, res) => {
 // update cart quantity
 const updateCart = async (req, res) => {
   const cartId = req.params.id;
-  const { name, recipe, image, price, email, quantity, menuItemId } = req.body;
+  const { name, recipe, image, price, email, quantity, bookItemId } = req.body;
   try {
     const updatedCart = await Carts.findByIdAndUpdate(
       cartId,
-      { name, recipe, image, price, email, quantity, menuItemId },
+      { name, recipe, image, price, email, quantity, bookItemId },
       { new: true, runValidators: true }
     );
 
