@@ -96,7 +96,7 @@ const Navbar = () => {
           <ul className={`p-2 ${isDarkMode ? 'dark' : ''}`}>
             <li>
               <Link
-                to="/contact-page" 
+                to="/contact-page"
                 className={`text-${isDarkMode ? 'text-white' : 'black'}`}
               >
                 Contact
@@ -104,13 +104,13 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                to="/about-page" 
+                to="/about-page"
                 className={`text-${isDarkMode ? 'text-white' : 'black'}`}
               >
                 About us
               </Link>
             </li>
-      
+
           </ul>
         </details>
       </li>
@@ -158,13 +158,13 @@ const Navbar = () => {
           </a>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">{navItems}</ul>
+          <ul className="menu menu-horizontal px-4">{navItems}</ul>
         </div>
         <div className="navbar-end ">
           {/* search-input */}
 
           <div className="form-control">
-            <input type="text" placeholder="Search" className="input input-bordered w-16 md:w-auto ml-2 mr-4" />
+            <input type="text" placeholder="Search" className="input input-bordered w-16 md:w-auto ml-2 mr-2" />
           </div>
           {/* <button className="btn btn-ghost btn-circle">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
