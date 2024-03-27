@@ -66,9 +66,11 @@ const UpdateBook = () => {
       </h2>
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
+          {/* form1 */}
           <div className="form-control w-full my-6">
             <label className="label">
-              <span className="label-text">Book Name*</span>
+              <span className="label-text">Book Name
+                <span className="text-red">*</span></span>
             </label>
             <input
               type="text"
@@ -79,11 +81,14 @@ const UpdateBook = () => {
               className="input input-bordered w-full"
             />
           </div>
+          {/* form2 */}
           <div className="flex gap-6">
             {/* category */}
             <div className="form-control w-full my-6">
               <label className="label">
-                <span className="label-text">Category*</span>
+                <span className="label-text">Category
+                  <span className="text-red">*</span>
+                </span>
               </label>
               <select
                 defaultValue={item.category}
@@ -105,11 +110,82 @@ const UpdateBook = () => {
             {/* price */}
             <div className="form-control w-full my-6">
               <label className="label">
-                <span className="label-text">Price*</span>
+                <span className="label-text">Price
+                  <span className="text-red">*</span>
+                </span>
               </label>
               <input
                 type="number"
                 placeholder="Price"
+                defaultValue={item.price}
+                {...register("price", { required: true })}
+                className="input input-bordered w-full"
+              />
+            </div>
+
+          </div>
+          {/* form3 */}
+          <div className="flex gap-6">
+            {/* publisher */}
+            <div className="form-control w-full my-6">
+              <label className="label">
+                <span className="label-text">Publisher
+                  <span className="text-red">*</span>
+                </span>
+              </label>
+              <input
+                type="text"
+                placeholder="Publisher name"
+                defaultValue={item.price}
+                {...register("price", { required: true })}
+                className="input input-bordered w-full"
+              />
+            </div>
+
+            {/* author */}
+            <div className="form-control w-full my-6">
+              <label className="label">
+                <span className="label-text">Author
+                  <span className="text-red">*</span>
+                </span>
+              </label>
+              <input
+                type="text"
+                placeholder="Author name"
+                defaultValue={item.price}
+                {...register("price", { required: true })}
+                className="input input-bordered w-full"
+              />
+            </div>
+          </div>
+          {/* form4 */}
+          <div className="flex gap-6">
+            {/* Publish year */}
+            <div className="form-control w-full my-6">
+              <label className="label">
+                <span className="label-text">Publish year
+                  <span className="text-red">*</span>
+                </span>
+              </label>
+              <input
+                type="number"
+                placeholder="Publish year"
+                defaultValue={item.price}
+                {...register("price", { required: true })}
+                className="input input-bordered w-full"
+              />
+            </div>
+
+            {/* Quantity */}
+            <div className="form-control w-full my-6">
+              <label className="label">
+                <span className="label-text">Quantity
+                  <span className="text-red">*</span>
+                </span>
+              </label>
+              <input
+                type="number"
+                placeholder="Quantity"
                 defaultValue={item.price}
                 {...register("price", { required: true })}
                 className="input input-bordered w-full"
