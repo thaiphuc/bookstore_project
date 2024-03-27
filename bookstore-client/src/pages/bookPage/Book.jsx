@@ -133,7 +133,7 @@ const Book = () => {
               onClick={() => filterItems("soup")}
               className={selectedCategory === "soup" ? "active" : ""}
             >
-              literature
+              Literature
             </button>
             <button
               onClick={() => filterItems("dessert")}
