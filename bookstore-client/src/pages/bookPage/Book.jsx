@@ -121,31 +121,43 @@ const Book = () => {
               onClick={() => filterItems("salad")}
               className={selectedCategory === "salad" ? "active" : ""}
             >
-              Fiction
+              Non-fiction
             </button>
             <button
               onClick={() => filterItems("pizza")}
               className={selectedCategory === "pizza" ? "active" : ""}
             >
-              Non-fiction
+              Economic
             </button>
             <button
               onClick={() => filterItems("soup")}
               className={selectedCategory === "soup" ? "active" : ""}
             >
-              Language
+              literature
             </button>
             <button
               onClick={() => filterItems("dessert")}
               className={selectedCategory === "dessert" ? "active" : ""}
             >
-              Business
+              Political
             </button>
             <button
               onClick={() => filterItems("drinks")}
               className={selectedCategory === "drinks" ? "active" : ""}
             >
-              Math
+              Language
+            </button>
+            <button
+              onClick={() => filterItems("drinks")}
+              className={selectedCategory === "drinks" ? "active" : ""}
+            >
+              TextBook
+            </button>
+            <button
+              onClick={() => filterItems("drinks")}
+              className={selectedCategory === "drinks" ? "active" : ""}
+            >
+              Popular
             </button>
           </div>
 

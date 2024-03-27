@@ -93,12 +93,12 @@ const UpdateBook = () => {
                 <option disabled value="default">
                   Select a category
                 </option>
-                <option value="salad">Salad</option>
-                <option value="pizza">Pizza</option>
-                <option value="soup">Soup</option>
-                <option value="dessert">Dessert</option>
-                <option value="drinks">Drinks</option>
-                <option value="popular">popular</option>
+                <option value="salad">Non-fiction</option>
+                <option value="pizza">Economic</option>
+                <option value="soup">Literature</option>
+                <option value="dessert">Political</option>
+                <option value="drinks">Language</option>
+                <option value="popular">TextBook</option>
               </select>
             </div>
 

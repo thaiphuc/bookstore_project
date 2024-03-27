@@ -51,7 +51,7 @@ const DashboardLayout = () => {
       </li>
       <li>
         <a onClick={handleLogout}>
-          <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
+          <FontAwesomeIcon icon={faSignOutAlt} />
           Logout
         </a>
       </li>

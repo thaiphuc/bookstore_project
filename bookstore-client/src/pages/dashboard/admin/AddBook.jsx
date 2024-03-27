@@ -60,7 +60,8 @@ const AddBook = () => {
       </h2>
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="form-control w-full my-6">
+          {/* form1 */}
+          <div className="form-control w-full my-2">
             <label className="label">
               <span className="label-text">Book Title
                 <span className="text-red">*</span>
@@ -74,7 +75,8 @@ const AddBook = () => {
               className="input input-bordered w-full"
             />
           </div>
-          <div className="flex gap-6">
+          {/* form2 */}
+          <div className=" flex gap-6">
             {/* category */}
             <div className="form-control w-full my-6">
               <label className="label">
@@ -115,6 +117,71 @@ const AddBook = () => {
               />
             </div>
           </div>
+          {/* form3 */}
+          <div className="flex gap-6">
+            {/* publisher */}
+            <div className="form-control w-full my-6">
+              <label className="label">
+                <span className="label-text">Publisher
+                  <span className="text-red">*</span>
+                </span>
+              </label>
+              <input
+                type="text"
+                placeholder="Publisher name"
+                {...register("price", { required: true })}
+                className="input input-bordered w-full"
+              />
+            </div>
+
+            {/* author */}
+            <div className="form-control w-full my-6">
+              <label className="label">
+                <span className="label-text">Author
+                  <span className="text-red">*</span>
+                </span>
+              </label>
+              <input
+                type="text"
+                placeholder="Author name"
+                {...register("price", { required: true })}
+                className="input input-bordered w-full"
+              />
+            </div>
+          </div>
+          {/* form4 */}
+          <div className="flex gap-6">
+            {/* publish year */}
+            <div className="form-control w-full my-6">
+              <label className="label">
+                <span className="label-text">Publish year
+                  <span className="text-red">*</span>
+                </span>
+              </label>
+              <input
+                type="number"
+                placeholder="Publish year"
+                {...register("price", { required: true })}
+                className="input input-bordered w-full"
+              />
+            </div>
+
+            {/* quantity */}
+            <div className="form-control w-full my-6">
+              <label className="label">
+                <span className="label-text">Quantity
+                  <span className="text-red">*</span>
+                </span>
+              </label>
+              <input
+                type="number"
+                placeholder="Total books"
+                {...register("price", { required: true })}
+                className="input input-bordered w-full"
+              />
+            </div>
+          </div>
+          {/* form5 */}
           {/* description details */}
           <div className="form-control">
             <label className="label">
