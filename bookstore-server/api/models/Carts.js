@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const cartSchema = new Schema({
@@ -9,6 +9,7 @@ const cartSchema = new Schema({
         required: true,
         minlength: 3,
     },
+    recipe: String,
     image: String, 
     price: Number,
     quantity: Number,
@@ -19,6 +20,6 @@ const cartSchema = new Schema({
     }
 });
 
-const Carts = mongoose.model('Cart', cartSchema);
+const Carts = mongoose.model("Cart", cartSchema);
 
 module.exports = Carts;

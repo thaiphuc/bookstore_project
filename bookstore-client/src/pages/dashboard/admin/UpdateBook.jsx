@@ -38,7 +38,7 @@ const UpdateBook = () => {
         name: data?.name,
         category: data.category,
         price: parseFloat(data.price),
-        recipe: data.recipe,
+        description: data.description,
         image: hostingImg.data.data.display_url,
       };
       //
@@ -66,24 +66,29 @@ const UpdateBook = () => {
       </h2>
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
+          {/* form1 */}
           <div className="form-control w-full my-6">
             <label className="label">
-              <span className="label-text">Book Name*</span>
+              <span className="label-text">Book Name
+                <span className="text-red">*</span></span>
             </label>
             <input
               type="text"
-              placeholder="Recipe Name"
+              placeholder="Description Name"
               defaultValue={item.name}
               {...register("name", { required: true })}
               required
               className="input input-bordered w-full"
             />
           </div>
+          {/* form2 */}
           <div className="flex gap-6">
             {/* category */}
             <div className="form-control w-full my-6">
               <label className="label">
-                <span className="label-text">Category*</span>
+                <span className="label-text">Category
+                  <span className="text-red">*</span>
+                </span>
               </label>
               <select
                 defaultValue={item.category}
@@ -93,19 +98,21 @@ const UpdateBook = () => {
                 <option disabled value="default">
                   Select a category
                 </option>
-                <option value="salad">Salad</option>
-                <option value="pizza">Pizza</option>
-                <option value="soup">Soup</option>
-                <option value="dessert">Dessert</option>
-                <option value="drinks">Drinks</option>
-                <option value="popular">popular</option>
+                <option value="salad">Non-fiction</option>
+                <option value="pizza">Economic</option>
+                <option value="soup">Literature</option>
+                <option value="dessert">Political</option>
+                <option value="drinks">Language</option>
+                <option value="popular">TextBook</option>
               </select>
             </div>
 
             {/* price */}
             <div className="form-control w-full my-6">
               <label className="label">
-                <span className="label-text">Price*</span>
+                <span className="label-text">Price
+                  <span className="text-red">*</span>
+                </span>
               </label>
               <input
                 type="number"
@@ -115,17 +122,86 @@ const UpdateBook = () => {
                 className="input input-bordered w-full"
               />
             </div>
+
           </div>
-          {/* recipe details */}
+          {/* form3 */}
+          <div className="flex gap-6">
+            {/* publisher */}
+            <div className="form-control w-full my-6">
+              <label className="label">
+                <span className="label-text">Publisher
+                  <span className="text-red">*</span>
+                </span>
+              </label>
+              <input
+                type="text"
+                placeholder="Publisher name"
+                defaultValue={item.price}
+                {...register("price", { required: true })}
+                className="input input-bordered w-full"
+              />
+            </div>
+
+            {/* author */}
+            <div className="form-control w-full my-6">
+              <label className="label">
+                <span className="label-text">Author
+                  <span className="text-red">*</span>
+                </span>
+              </label>
+              <input
+                type="text"
+                placeholder="Author name"
+                defaultValue={item.price}
+                {...register("price", { required: true })}
+                className="input input-bordered w-full"
+              />
+            </div>
+          </div>
+          {/* form4 */}
+          <div className="flex gap-6">
+            {/* Publish year */}
+            <div className="form-control w-full my-6">
+              <label className="label">
+                <span className="label-text">Publish year
+                  <span className="text-red">*</span>
+                </span>
+              </label>
+              <input
+                type="number"
+                placeholder="Publish year"
+                defaultValue={item.price}
+                {...register("price", { required: true })}
+                className="input input-bordered w-full"
+              />
+            </div>
+
+            {/* Quantity */}
+            <div className="form-control w-full my-6">
+              <label className="label">
+                <span className="label-text">Quantity
+                  <span className="text-red">*</span>
+                </span>
+              </label>
+              <input
+                type="number"
+                placeholder="Quantity"
+                defaultValue={item.price}
+                {...register("price", { required: true })}
+                className="input input-bordered w-full"
+              />
+            </div>
+          </div>
+          {/* description details */}
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Recipe Details</span>
+              <span className="label-text">Description Details</span>
             </label>
             <textarea
-              {...register("recipe")}
+              {...register("description")}
               className="textarea textarea-bordered h-24"
-              placeholder="recipe details"
-              defaultValue={item.recipe}
+              placeholder="description details"
+              defaultValue={item.description}
             ></textarea>
           </div>
 

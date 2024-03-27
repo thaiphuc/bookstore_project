@@ -7,7 +7,7 @@ import useCart from "../hooks/useCart";
 import axios from 'axios';
 
 const CardsFavorite = ({ item }) => {
-    const { name, image, price, recipe, _id } = item;
+    const { name, image, price, description, _id } = item;
 
     const { user } = useContext(AuthContext);
     const [cart, refetch] = useCart();

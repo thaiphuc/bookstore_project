@@ -32,7 +32,7 @@ const AddBook = () => {
         name: data.name,
         category: data.category,
         price: parseFloat(data.price),
-        recipe: data.recipe,
+        description: data.description,
         image: hostingImg.data.data.display_url
       }
       // 
@@ -60,23 +60,29 @@ const AddBook = () => {
       </h2>
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="form-control w-full my-6">
+          {/* form1 */}
+          <div className="form-control w-full my-2">
             <label className="label">
-              <span className="label-text">Book Title*</span>
+              <span className="label-text">Book Title
+                <span className="text-red">*</span>
+              </span>
             </label>
             <input
               type="text"
-              placeholder="Recipe Name"
+              placeholder="Book Name"
               {...register("name", { required: true })}
               required
               className="input input-bordered w-full"
             />
           </div>
-          <div className="flex gap-6">
+          {/* form2 */}
+          <div className=" flex gap-6">
             {/* category */}
             <div className="form-control w-full my-6">
               <label className="label">
-                <span className="label-text">Category*</span>
+                <span className="label-text">Category
+                  <span className="text-red">*</span>
+                </span>
               </label>
               <select
                 defaultValue="default"
@@ -86,19 +92,22 @@ const AddBook = () => {
                 <option disabled value="default">
                   Select a category
                 </option>
-                <option value="salad">Salad</option>
-                <option value="pizza">Pizza</option>
-                <option value="soup">Soup</option>
-                <option value="dessert">Dessert</option>
-                <option value="drinks">Drinks</option>
-                <option value="popular">popular</option>
+                <option value="salad">Non-fiction</option>
+                <option value="pizza">Economic</option>
+                <option value="soup">Literature</option>
+                <option value="dessert">Political</option>
+                <option value="drinks">Language</option>
+                <option value="drinks">TextBook</option>
+                <option value="popular">Popular</option>
               </select>
             </div>
 
             {/* price */}
             <div className="form-control w-full my-6">
               <label className="label">
-                <span className="label-text">Price*</span>
+                <span className="label-text">Price
+                  <span className="text-red">*</span>
+                </span>
               </label>
               <input
                 type="number"
@@ -108,15 +117,80 @@ const AddBook = () => {
               />
             </div>
           </div>
-          {/* recipe details */}
+          {/* form3 */}
+          <div className="flex gap-6">
+            {/* publisher */}
+            <div className="form-control w-full my-6">
+              <label className="label">
+                <span className="label-text">Publisher
+                  <span className="text-red">*</span>
+                </span>
+              </label>
+              <input
+                type="text"
+                placeholder="Publisher name"
+                {...register("price", { required: true })}
+                className="input input-bordered w-full"
+              />
+            </div>
+
+            {/* author */}
+            <div className="form-control w-full my-6">
+              <label className="label">
+                <span className="label-text">Author
+                  <span className="text-red">*</span>
+                </span>
+              </label>
+              <input
+                type="text"
+                placeholder="Author name"
+                {...register("price", { required: true })}
+                className="input input-bordered w-full"
+              />
+            </div>
+          </div>
+          {/* form4 */}
+          <div className="flex gap-6">
+            {/* publish year */}
+            <div className="form-control w-full my-6">
+              <label className="label">
+                <span className="label-text">Publish year
+                  <span className="text-red">*</span>
+                </span>
+              </label>
+              <input
+                type="number"
+                placeholder="Publish year"
+                {...register("price", { required: true })}
+                className="input input-bordered w-full"
+              />
+            </div>
+
+            {/* quantity */}
+            <div className="form-control w-full my-6">
+              <label className="label">
+                <span className="label-text">Quantity
+                  <span className="text-red">*</span>
+                </span>
+              </label>
+              <input
+                type="number"
+                placeholder="Total books"
+                {...register("price", { required: true })}
+                className="input input-bordered w-full"
+              />
+            </div>
+          </div>
+          {/* form5 */}
+          {/* description details */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">Book Details</span>
             </label>
             <textarea
-              {...register("recipe")}
+              {...register("description")}
               className="textarea textarea-bordered h-24"
-              placeholder="Bio"
+              placeholder="Type here..."
             ></textarea>
           </div>
 
