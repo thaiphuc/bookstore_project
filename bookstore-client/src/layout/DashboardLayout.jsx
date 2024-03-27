@@ -1,59 +1,67 @@
-import logo from "/logoadmin.png";
+import React, { useContext } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { MdDashboard, MdOutlineDashboardCustomize } from "react-icons/md";
-import {
-  FaEdit,
-  FaHome,
-  FaLocationArrow,
-  FaPlusCircle,
-  FaQuestionCircle,
-  FaRegUser,
-  FaShoppingBag,
-  FaUsers,
-} from "react-icons/fa";
+import { FaEdit, FaHome, FaLocationArrow, FaPlusCircle, FaQuestionCircle, FaRegUser, FaShoppingBag, FaUsers } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { AuthContext } from "../contexts/AuthProvider";
 import useAdmin from "../hooks/useAdmin";
-import Login from "../components/Login";
 import useAuth from "../hooks/useAuth";
-
-const sharedBook = (
-  <>
-    <li className="mt-3">
-      <Link to="/">
-        <FaHome />
-        Home
-      </Link>
-    </li>
-    <li>
-      <Link to="/book">
-        <FaCartShopping />
-        Book
-      </Link>
-    </li>
-    <li>
-      <Link to="/book">
-        <FaLocationArrow />
-        Orders Tracking
-      </Link>
-    </li>
-    <li>
-      <Link to="/book">
-        <FaQuestionCircle />
-        Customer Support
-      </Link>
-    </li>
-  </>
-);
+import Login from "../components/Login";
+import logo from "/logoadmin.png";
 
 const DashboardLayout = () => {
   const { loading } = useAuth()
   const [isAdmin, isAdminLoading] = useAdmin();
-  // console.log(isAdmin);
+  const { logOut } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  // logout
+  const handleLogout = () => {
+    logOut()
+      .then(() => {
+        // Sign-out successful.
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const sharedBook = (
+    <>
+      <li className="mt-3">
+        <Link to="/">
+          <FaHome />
+          Home
+        </Link>
+      </li>
+      <li>
+        <Link to="/book">
+          <FaCartShopping />
+          Book
+        </Link>
+      </li>
+      <li>
+        <Link to="/order">
+          <FaLocationArrow />
+          Orders Tracking
+        </Link>
+      </li>
+      <li>
+        <a onClick={handleLogout}>
+          <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
+          Logout
+        </a>
+      </li>
+    </>
+  );
 
   return (
     <div>
-      {
-        isAdminLoading || isAdmin ? <div className="drawer sm:drawer-open">
+      {isAdminLoading || isAdmin ? (
+        <div className="drawer sm:drawer-open">
           <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content flex flex-col sm:items-start sm:justify-start my-2">
             {/* Page content here */}
@@ -134,10 +142,10 @@ const DashboardLayout = () => {
               {sharedBook}
             </ul>
           </div>
-        </div> : (loading ? <Login /> : <div className="h-screen flex items-center justify-center">
-          <Link to="/" >Back to Home</Link>
-        </div>)
-      }
+        </div>
+      ) : (loading ? <Login /> : <div className="h-screen flex items-center justify-center">
+        <Link to="/">Back to Home</Link>
+      </div>)}
     </div>
   );
 };
