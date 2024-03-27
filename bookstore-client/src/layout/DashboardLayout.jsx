@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { MdDashboard, MdOutlineDashboardCustomize } from "react-icons/md";
-import { FaEdit, FaHome, FaLocationArrow, FaPlusCircle, FaQuestionCircle, FaRegUser, FaShoppingBag, FaUsers } from "react-icons/fa";
+import { FaEdit, FaHome, FaLocationArrow, FaPlusCircle, FaRegUser, FaShoppingBag, FaUsers } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -74,7 +74,7 @@ const DashboardLayout = () => {
               </label>
 
               {/* login or signout */}
-              <button className="btn flex items-center gap-2 rounded-full px-6 bg-mainBG text-white sm:hidden">
+              <button className="btn flex items-center gap-2 rounded-full px-6 bg-mainBG text-white sm:hidden" onClick={handleLogout}>
                 <FaRegUser /> Logout
               </button>
             </div>
