@@ -1,9 +1,8 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const cartSchema = new Schema({
-    bookItemId: String,
-    name: {
+const bookSchema = new Schema({
+    title: {
         type: String,
         trim: true,
         required: true,
@@ -11,15 +10,33 @@ const cartSchema = new Schema({
     },
     description: String,
     image: String, 
-    price: Number,
-    quantity: Number,
-    email: {
-        type: String,
-        trim: true,
-        required: true,
+    category: {
+        type: [String],
+        required: true
+    },
+    author: {
+        type: [String],
+        required: true
+    },
+    publisher: {
+        type: [String],
+        required: true
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    quantity: {
+        type: Number,
+        default: 0
+    },
+    publishYear: String,
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
 });
 
-const Carts = mongoose.model("Cart", cartSchema);
+const Book = mongoose.model('Book', bookSchema);
 
-module.exports = Carts;
+module.exports = Book;
