@@ -34,7 +34,7 @@ const SamplePrevArrow = (props) => {
 };
 
 const PopularBooks = () => {
-  const [recipes, setRecipes] = useState([]);
+  const [descriptions, setDescriptions] = useState([]);
   const slider = React.useRef(null);
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const PopularBooks = () => {
       .then((data) => {
         const specials = data.filter((item) => item.category === "popular");
         // console.log(specials)
-        setRecipes(specials);
+        setDescriptions(specials);
       });
   }, []);
   const settings = {
@@ -104,7 +104,7 @@ const PopularBooks = () => {
       </div>
 
       <Slider ref={slider} {...settings} className="overflow-hidden mt-10 space-x-5">
-        {recipes.map((item, i) => (
+        {descriptions.map((item, i) => (
           <Cards item={item} key={i} />
         ))}
       </Slider>

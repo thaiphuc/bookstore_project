@@ -23,51 +23,50 @@ const postBookItem = async (req, res) => {
 
 // delete a Book item
 const deleteBook = async (req, res) => {
-    const bookId = req.params.id;
-    // console.log(bookId);
+  const bookId = req.params.id;
+  // console.log(bookId);
 
-    try {
-        const deletedBook = await Book.findByIdAndDelete(bookId);
-        // console.log(deletedBook);
+  try {
+    const deletedBook = await Book.findByIdAndDelete(bookId);
+    // console.log(deletedBook);
 
-        if (!deletedBook) {
-            return res.status(404).json({ message: "Book not found" });
-        }
-
-        res.status(200).json({ message: "Book Item Deleted Successfully" });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+    if (!deletedBook) {
+      return res.status(404).json({ message: "Book not found" });
     }
+
+    res.status(200).json({ message: "Book Item Deleted Successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 // find a single Book item
 const singleBookItem = async (req, res) => {
-    const bookId = req.params.id;
-    try {
-
-        const book = await Book.findById(bookId);
-        // console.log(Book);
-        res.status(200).json(book);
-        
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+  const bookId = req.params.id;
+  try {
+    const book = await Book.findById(bookId);
+    // console.log(Book);
+    res.status(200).json(book);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 // update a Book item
 const updateBookItem = async (req, res) => {
-    const bookId = req.params.id;
-    console.log(bookId)
-  const { _id, name, recipe, image, category, price, createdAt} = req.body;
+  const bookId = req.params.id;
+  console.log(bookId);
+  const { _id, name, description, image, category, price, createdAt } =
+    req.body;
   // console.log(req.body)
   try {
     const updatedBook = await Book.findByIdAndUpdate(
-        bookId,
-      {  name, recipe, image, category, price},
+      bookId,
+      { name, description, image, category, price },
       { new: true, runValidators: true }
     );
 
-    console.log(updatedBook)
+    console.log(updatedBook);
 
     if (!updatedBook) {
       return res.status(404).json({ message: "updated Item not found" });
@@ -84,5 +83,5 @@ module.exports = {
   postBookItem,
   deleteBook,
   singleBookItem,
-  updateBookItem
+  updateBookItem,
 };

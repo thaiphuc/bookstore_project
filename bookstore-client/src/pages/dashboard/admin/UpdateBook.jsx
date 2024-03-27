@@ -38,7 +38,7 @@ const UpdateBook = () => {
         name: data?.name,
         category: data.category,
         price: parseFloat(data.price),
-        recipe: data.recipe,
+        description: data.description,
         image: hostingImg.data.data.display_url,
       };
       //
@@ -72,7 +72,7 @@ const UpdateBook = () => {
             </label>
             <input
               type="text"
-              placeholder="Recipe Name"
+              placeholder="Description Name"
               defaultValue={item.name}
               {...register("name", { required: true })}
               required
@@ -116,16 +116,16 @@ const UpdateBook = () => {
               />
             </div>
           </div>
-          {/* recipe details */}
+          {/* description details */}
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Recipe Details</span>
+              <span className="label-text">Description Details</span>
             </label>
             <textarea
-              {...register("recipe")}
+              {...register("description")}
               className="textarea textarea-bordered h-24"
-              placeholder="recipe details"
-              defaultValue={item.recipe}
+              placeholder="description details"
+              defaultValue={item.description}
             ></textarea>
           </div>
 

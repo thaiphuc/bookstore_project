@@ -32,7 +32,7 @@ const AddBook = () => {
         name: data.name,
         category: data.category,
         price: parseFloat(data.price),
-        recipe: data.recipe,
+        description: data.description,
         image: hostingImg.data.data.display_url
       }
       // 
@@ -62,11 +62,13 @@ const AddBook = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-control w-full my-6">
             <label className="label">
-              <span className="label-text">Book Title*</span>
+              <span className="label-text">Book Title
+                <span className="text-red">*</span>
+              </span>
             </label>
             <input
               type="text"
-              placeholder="Recipe Name"
+              placeholder="Book Name"
               {...register("name", { required: true })}
               required
               className="input input-bordered w-full"
@@ -76,7 +78,9 @@ const AddBook = () => {
             {/* category */}
             <div className="form-control w-full my-6">
               <label className="label">
-                <span className="label-text">Category*</span>
+                <span className="label-text">Category
+                  <span className="text-red">*</span>
+                </span>
               </label>
               <select
                 defaultValue="default"
@@ -86,19 +90,22 @@ const AddBook = () => {
                 <option disabled value="default">
                   Select a category
                 </option>
-                <option value="salad">Salad</option>
-                <option value="pizza">Pizza</option>
-                <option value="soup">Soup</option>
-                <option value="dessert">Dessert</option>
-                <option value="drinks">Drinks</option>
-                <option value="popular">popular</option>
+                <option value="salad">Non-fiction</option>
+                <option value="pizza">Economic</option>
+                <option value="soup">Literature</option>
+                <option value="dessert">Political</option>
+                <option value="drinks">Language</option>
+                <option value="drinks">TextBook</option>
+                <option value="popular">Popular</option>
               </select>
             </div>
 
             {/* price */}
             <div className="form-control w-full my-6">
               <label className="label">
-                <span className="label-text">Price*</span>
+                <span className="label-text">Price
+                  <span className="text-red">*</span>
+                </span>
               </label>
               <input
                 type="number"
@@ -108,15 +115,15 @@ const AddBook = () => {
               />
             </div>
           </div>
-          {/* recipe details */}
+          {/* description details */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">Book Details</span>
             </label>
             <textarea
-              {...register("recipe")}
+              {...register("description")}
               className="textarea textarea-bordered h-24"
-              placeholder="Bio"
+              placeholder="Type here..."
             ></textarea>
           </div>
 

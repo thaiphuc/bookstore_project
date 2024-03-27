@@ -9,12 +9,12 @@ const getCartByEmail = async (req, res) => {
     const query = { email: email };
     // console.log(email)
 
-     // extra for JWT verification 
-     const decodedEmail = req.decoded.email;
+    // extra for JWT verification
+    const decodedEmail = req.decoded.email;
 
-     if(email !== decodedEmail){
-        res.status(403).json({ message: "Forbidden access!"});
-     }
+    if (email !== decodedEmail) {
+      res.status(403).json({ message: "Forbidden access!" });
+    }
 
     const result = await Carts.find(query).exec();
     res.status(200).json(result);
@@ -25,12 +25,12 @@ const getCartByEmail = async (req, res) => {
 
 // post all carts
 const addToCarts = async (req, res) => {
-  const { name, recipe, image, price, email, quantity, bookItemId } = req.body;
+  const { name, description, image, price, email, quantity, bookItemId } =
+    req.body;
 
   try {
-    
     // Check if bookItemId already exists in the database
-    const existingCartItem = await Carts.findOne({email, bookItemId });
+    const existingCartItem = await Carts.findOne({ email, bookItemId });
     // console.log(existingCartItem)
 
     if (existingCartItem) {
@@ -43,7 +43,7 @@ const addToCarts = async (req, res) => {
     // If bookItemId doesn't exist, create a new cart item
     const cartItem = await Carts.create({
       name,
-      recipe,
+      description,
       image,
       price,
       email,
@@ -76,11 +76,12 @@ const deleteCart = async (req, res) => {
 // update cart quantity
 const updateCart = async (req, res) => {
   const cartId = req.params.id;
-  const { name, recipe, image, price, email, quantity, bookItemId } = req.body;
+  const { name, description, image, price, email, quantity, bookItemId } =
+    req.body;
   try {
     const updatedCart = await Carts.findByIdAndUpdate(
       cartId,
-      { name, recipe, image, price, email, quantity, bookItemId },
+      { name, description, image, price, email, quantity, bookItemId },
       { new: true, runValidators: true }
     );
 
