@@ -48,13 +48,13 @@ const UpdateBook = () => {
         // show success popup
         reset();
         Swal.fire({
-          position: "top-end",
+          position: "center",
           icon: "success",
           title: `Item is updated successfully!`,
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/dashboard/manage-items");
+        navigate("/dashboard/manage-books");
       }
     }
   };
