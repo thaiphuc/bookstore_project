@@ -2,12 +2,26 @@ import { useForm } from "react-hook-form";
 import { FaUpload } from "react-icons/fa";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useState } from "react";
 import Swal from "sweetalert2";
 
 const AddBook = () => {
   const { register, handleSubmit, reset } = useForm();
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
+  const [quantity, setQuantity] = useState(0);
+
+  const handleIncrease = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const handleDecrease = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+
 
   // image hosting keys
   const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
@@ -23,16 +37,30 @@ const AddBook = () => {
         "content-type": "multipart/form-data",
       },
     });
-
+    const authorArray = data.author.split(",").map((item) => item.trim());
+    const publisherArray = data.publisher.split(",").map((item) => item.trim());
     // console.log(hostingImg.data);
-
+    if(data.quantity < 0 || data.price < 0 || data.publishYear < 0)
+    {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: `Input data is invalid. (Numerical data are not allowed to be negative numbers.)`,
+          showConfirmButton: false,
+          timer: 1500
+        });
+    }
     if (hostingImg.data.success) {
       // now send the book item data to the server with the image url
       const bookItem = {
         name: data.name,
-        category: data.category,
-        price: parseFloat(data.price),
         description: data.description,
+        category: data.category,
+        author: authorArray,
+        publisher: publisherArray,
+        publishYear: data.publishYear,
+        price: parseFloat(data.price),
+        quantity: data.quantity,
         image: hostingImg.data.data.display_url
       }
       // 
@@ -42,7 +70,7 @@ const AddBook = () => {
         // show success popup
         reset();
         Swal.fire({
-          position: "top-end",
+          position: "center",
           icon: "success",
           title: `${data.name} is added to the book.`,
           showConfirmButton: false,
@@ -86,7 +114,10 @@ const AddBook = () => {
               </label>
               <select
                 defaultValue="default"
-                {...register("category", { required: true })}
+                {...register("category", { 
+                  required: true,
+                  validate: (value) => value !== "default",
+                 })}
                 className="select select-bordered w-full"
               >
                 <option disabled value="default">
@@ -129,7 +160,7 @@ const AddBook = () => {
               <input
                 type="text"
                 placeholder="Publisher name"
-                {...register("price", { required: true })}
+                {...register("publisher", { required: true })}
                 className="input input-bordered w-full"
               />
             </div>
@@ -144,7 +175,7 @@ const AddBook = () => {
               <input
                 type="text"
                 placeholder="Author name"
-                {...register("price", { required: true })}
+                {...register("author", { required: true })}
                 className="input input-bordered w-full"
               />
             </div>
@@ -161,7 +192,7 @@ const AddBook = () => {
               <input
                 type="number"
                 placeholder="Publish year"
-                {...register("price", { required: true })}
+                {...register("publishYear", { required: true })}
                 className="input input-bordered w-full"
               />
             </div>
@@ -169,16 +200,35 @@ const AddBook = () => {
             {/* quantity */}
             <div className="form-control w-full my-6">
               <label className="label">
-                <span className="label-text">Quantity
-                  <span className="text-red">*</span>
-                </span>
+                <span className="label-text">Quantity</span>
               </label>
-              <input
-                type="number"
-                placeholder="Total books"
-                {...register("price", { required: true })}
-                className="input input-bordered w-full"
-              />
+              <div className="flex items-center">
+                <button
+                  type="button"
+                  onClick={handleDecrease}
+                  className="bg-gray-200 text-gray-600 px-3 py-1 rounded-l"
+                >
+                  -
+                </button>
+                <input
+                  type="number"
+                  value={quantity}
+                  onChange={(e) => {
+                    // Loại bỏ dấu '-' nếu có
+                    const value = e.target.value.replace(/[^0-9]/g, "");
+                    // Chuyển đổi giá trị thành số nguyên
+                    setQuantity(value === "" ? 0 : parseInt(value));
+                  }}
+                  className="ml-2 mr-2 input input-bordered w-1/4 text-center"
+                />
+                <button
+                  type="button"
+                  onClick={handleIncrease}
+                  className="bg-gray-200 text-gray-600 px-3 py-1 rounded-r"
+                >
+                  +
+                </button>
+              </div>
             </div>
           </div>
           {/* form5 */}
