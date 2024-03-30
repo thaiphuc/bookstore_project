@@ -5,6 +5,7 @@ import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { FaUtensils } from "react-icons/fa";
+import { useState } from "react";
 
 const UpdateBook = () => {
   const item = useLoaderData();
@@ -14,6 +15,18 @@ const UpdateBook = () => {
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
+  const [quantity, setQuantity] = useState(0);
+
+  const handleIncrease = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const handleDecrease = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
 
   // image hosting keys
   const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
@@ -36,10 +49,14 @@ const UpdateBook = () => {
       // now send the book item data to the server with the image url
       const bookItem = {
         name: data?.name,
-        category: data.category,
-        price: parseFloat(data.price),
         description: data.description,
-        image: hostingImg.data.data.display_url,
+        category: data.category,
+        // author: authorArray,
+        // publisher: publisherArray,
+        publishYear: data.publishYear,
+        price: parseFloat(data.price),
+        quantity: data.quantity,
+        image: hostingImg.data.data.display_url
       };
       //
       const bookRes = await axiosSecure.patch(`book/${item._id}`, bookItem);
@@ -170,8 +187,8 @@ const UpdateBook = () => {
               <input
                 type="number"
                 placeholder="Publish year"
-                defaultValue={item.price}
-                {...register("price", { required: true })}
+                defaultValue={item.publishYear}
+                {...register("publishYear", { required: true })}
                 className="input input-bordered w-full"
               />
             </div>
@@ -179,17 +196,35 @@ const UpdateBook = () => {
             {/* Quantity */}
             <div className="form-control w-full my-6">
               <label className="label">
-                <span className="label-text">Quantity
-                  <span className="text-red">*</span>
-                </span>
+                <span className="label-text">Quantity</span>
               </label>
-              <input
-                type="number"
-                placeholder="Quantity"
-                defaultValue={item.price}
-                {...register("price", { required: true })}
-                className="input input-bordered w-full"
-              />
+              <div className="flex items-center">
+                <button
+                  type="button"
+                  onClick={handleDecrease}
+                  className="bg-gray-200 text-gray-600 px-3 py-1 rounded-l"
+                >
+                  -
+                </button>
+                <input
+                  type="number"
+                  defaultValue={item.quantity}
+                  onChange={(e) => {
+                    // Loại bỏ dấu '-' nếu có
+                    const value = e.target.value.replace(/[^0-9]/g, "");
+                    // Chuyển đổi giá trị thành số nguyên
+                    setQuantity(value === "" ? 0 : parseInt(value));
+                  }}
+                  className="ml-2 mr-2 input input-bordered w-1/4 text-center"
+                />
+                <button
+                  type="button"
+                  onClick={handleIncrease}
+                  className="bg-gray-200 text-gray-600 px-3 py-1 rounded-r"
+                >
+                  +
+                </button>
+              </div>
             </div>
           </div>
           {/* description details */}
