@@ -10,6 +10,8 @@ const AddBook = () => {
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
   const [quantity, setQuantity] = useState(0);
+  const [publishYearError, setPublishYearError] = useState("");
+  const [priceError, setPriceError] = useState("");
 
   const handleIncrease = () => {
     setQuantity(quantity + 1);
@@ -23,12 +25,32 @@ const AddBook = () => {
 
 
 
+
   // image hosting keys
   const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
   const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
   // on submit form
   const onSubmit = async (data) => {
+    // check publish year
+    // delete '-' 
+    const value = data.publishYear.toString().replace(/[^0-9]/g, "");
+    const year = parseInt(value);
+    // check year
+    if (isNaN(year) || value.length !== 4) {
+      setPublishYearError("Publish year must be a valid 4-digit number.");
+      return;
+    } else {
+      setPublishYearError("");
+    }
+    // set maximum price
+    if (parseFloat(data.price) > 1000000000) {
+      setPriceError("Price cannot exceed 1,000,000,000.");
+      return;
+    } else {
+      setPriceError("");
+    }
+
     // console.log(data);
     // image upload to imgbb and then get an url
     const imageFile = { image: data.image[0] };
@@ -39,16 +61,17 @@ const AddBook = () => {
     });
     const authorArray = data.author.split(",").map((item) => item.trim());
     const publisherArray = data.publisher.split(",").map((item) => item.trim());
+    data.quantity = quantity;
+
     // console.log(hostingImg.data);
-    if(data.quantity < 0 || data.price < 0 || data.publishYear < 0)
-    {
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: `Input data is invalid. (Numerical data are not allowed to be negative numbers.)`,
-          showConfirmButton: false,
-          timer: 1500
-        });
+    if (data.quantity < 0 || data.price < 0 || data.publishYear < 0) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: `Input data is invalid. (Numerical data are not allowed to be negative numbers.)`,
+        showConfirmButton: false,
+        timer: 1500
+      });
     }
     if (hostingImg.data.success) {
       // now send the book item data to the server with the image url
@@ -67,6 +90,7 @@ const AddBook = () => {
       const bookRes = await axiosSecure.post('/book', bookItem);
       console.log(bookRes)
       if (bookRes.status === 200) {
+        setQuantity(0);
         // show success popup
         reset();
         Swal.fire({
@@ -114,10 +138,10 @@ const AddBook = () => {
               </label>
               <select
                 defaultValue="default"
-                {...register("category", { 
+                {...register("category", {
                   required: true,
                   validate: (value) => value !== "default",
-                 })}
+                })}
                 className="select select-bordered w-full"
               >
                 <option disabled value="default">
@@ -146,6 +170,9 @@ const AddBook = () => {
                 {...register("price", { required: true })}
                 className="input input-bordered w-full"
               />
+              {priceError && (
+                <p className="text-red text-sm mt-1">{priceError}</p>
+              )}
             </div>
           </div>
           {/* form3 */}
@@ -195,6 +222,9 @@ const AddBook = () => {
                 {...register("publishYear", { required: true })}
                 className="input input-bordered w-full"
               />
+              {publishYearError && (
+                <p className="text-red text-sm mt-1">{publishYearError}</p>
+              )}
             </div>
 
             {/* quantity */}
