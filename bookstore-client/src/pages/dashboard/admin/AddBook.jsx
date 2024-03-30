@@ -64,7 +64,7 @@ const AddBook = () => {
     data.quantity = quantity;
 
     // console.log(hostingImg.data);
-    if (data.quantity < 0 || data.price < 0 || data.publishYear < 0) {
+    if (data.price < 0 || data.publishYear < 0) {
       Swal.fire({
         position: "center",
         icon: "error",
@@ -147,13 +147,13 @@ const AddBook = () => {
                 <option disabled value="default">
                   Select a category
                 </option>
-                <option value="salad">Non-fiction</option>
-                <option value="pizza">Economic</option>
-                <option value="soup">Literature</option>
-                <option value="dessert">Political</option>
-                <option value="drinks">Language</option>
-                <option value="drinks">TextBook</option>
-                <option value="popular">Popular</option>
+                <option value="Non-fiction">Non-fiction</option>
+                <option value="Economic">Economic</option>
+                <option value="Literature">Literature</option>
+                <option value="Political">Political</option>
+                <option value="Language">Language</option>
+                <option value="TextBook">TextBook</option>
+                <option value="Popular">Popular</option>
               </select>
             </div>
 
@@ -244,10 +244,7 @@ const AddBook = () => {
                   type="number"
                   value={quantity}
                   onChange={(e) => {
-                    // Loại bỏ dấu '-' nếu có
-                    const value = e.target.value.replace(/[^0-9]/g, "");
-                    // Chuyển đổi giá trị thành số nguyên
-                    setQuantity(value === "" ? 0 : parseInt(value));
+                    setQuantity(parseInt(e.target.value));
                   }}
                   className="ml-2 mr-2 input input-bordered w-1/4 text-center"
                 />

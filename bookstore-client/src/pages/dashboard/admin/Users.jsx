@@ -20,7 +20,7 @@ const Users = () => {
       .then(res => {
         console.log(res.data)
         Swal.fire({
-          position: "top-end",
+          position: "center",
           icon: "success",
           title: `${user.name} is an Admin Now!`,
           showConfirmButton: false,

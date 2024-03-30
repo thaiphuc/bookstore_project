@@ -48,7 +48,7 @@ const ManageBookings = () => {
       .then(res => {
         console.log(res.data)
         Swal.fire({
-          position: "top-end",
+          position: "center",
           icon: "success",
           title: `Order Confirmed Now!`,
           showConfirmButton: false,

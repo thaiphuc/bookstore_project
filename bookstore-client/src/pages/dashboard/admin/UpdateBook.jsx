@@ -4,12 +4,11 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
-import { FaUtensils } from "react-icons/fa";
+import { FaUpload } from "react-icons/fa";
 import { useState } from "react";
 
 const UpdateBook = () => {
   const item = useLoaderData();
-  console.log(item);
 
   const { register, handleSubmit, reset } = useForm();
   const axiosPublic = useAxiosPublic();
@@ -22,36 +21,24 @@ const UpdateBook = () => {
   };
 
   const handleDecrease = () => {
-    if (quantity > 1) {
+    if (quantity >= 1) {
       setQuantity(quantity - 1);
     }
   };
-const handleInputChange = (e) => {
-  const value = e.target.value === "" ? "" : parseInt(e.target.value);
-  setQuantity(value >= 0 ? value : 0);
-};
-
-
-  // image hosting keys
-  const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
-  const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
-
   // on submit form
   const onSubmit = async (data) => {
-    // console.log(data);
-    // image upload to imgbb and then get an url
-    const imageFile = { image: data.image[0] };
-    const hostingImg = await axiosPublic.post(image_hosting_api, imageFile, {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    });
 
-    // console.log(hostingImg.data);
     const authorArray = data.author.split(",").map((item) => item.trim());
     const publisherArray = data.publisher.split(",").map((item) => item.trim());
-    if (hostingImg.data.success) {
-      // now send the book item data to the server with the image url
+    if (data.price < 0 || data.publishYear < 0) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: `Input data is invalid. (Numerical data are not allowed to be negative numbers.)`,
+        showConfirmButton: false,
+        timer: 1500
+      });
+    } else {
       const bookItem = {
         name: data?.name,
         description: data.description,
@@ -60,8 +47,7 @@ const handleInputChange = (e) => {
         publisher: publisherArray,
         publishYear: data.publishYear,
         price: parseFloat(data.price),
-        quantity: parseFloat(data.quantity),
-        image: hostingImg.data.data.display_url
+        quantity: data.quantity,
       };
       //
       
@@ -73,13 +59,15 @@ const handleInputChange = (e) => {
         Swal.fire({
           position: "center",
           icon: "success",
-          title: `Item is updated successfully!`,
+          title: `Book is updated successfully!`,
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/dashboard/manage-books");
+        navigate("/dashboard/manage-items");
       }
     }
+    
+
   };
 
   return (
@@ -120,13 +108,14 @@ const handleInputChange = (e) => {
               >
                 <option disabled value="default">
                   Select a category
-                </option>
-                <option value="salad">Non-fiction</option>
-                <option value="pizza">Economic</option>
-                <option value="soup">Literature</option>
-                <option value="dessert">Political</option>
-                <option value="drinks">Language</option>
-                <option value="popular">TextBook</option>
+                  </option>
+                  <option value="Non-fiction">Non-fiction</option>
+                  <option value="Economic">Economic</option>
+                  <option value="Literature">Literature</option>
+                  <option value="Political">Political</option>
+                  <option value="Language">Language</option>
+                  <option value="TextBook">TextBook</option>
+                  <option value="Popular">Popular</option>
               </select>
             </div>
 
@@ -213,10 +202,11 @@ const handleInputChange = (e) => {
                   -
                 </button>
                 <input
-                  type="number"
-                  value={quantity}
-                  onChange={(e) =>
-                    setQuantity(parseInt(e.target.value))}
+                 type="number"
+                 value={quantity}
+                 onChange={(e) => {
+                  setQuantity(parseInt(e.target.value));
+                 }}
                   className="ml-2 mr-2 input input-bordered w-1/4 text-center"
                 />
                 <button
@@ -242,16 +232,16 @@ const handleInputChange = (e) => {
             ></textarea>
           </div>
 
-          <div className="form-control w-full my-6">
+          {/* <div className="form-control w-full my-6">
             <input
-              {...register("image", { required: true })}
+              {...register("image", { required: false })}
               type="file"
               className="file-input w-full max-w-xs"
             />
-          </div>
+          </div> */}
 
-          <button className="btn bg-mainBG text-white px-6">
-            Update Item <FaUtensils></FaUtensils>
+          <button className="btn bg-mainBG text-white px-6 mt-8">
+            Update Book <FaUpload></FaUpload>
           </button>
         </form>
       </div>

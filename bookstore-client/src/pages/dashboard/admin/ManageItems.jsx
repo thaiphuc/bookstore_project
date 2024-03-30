@@ -34,7 +34,7 @@ const ManageItems = () => {
         // console.log(res.data);
         refetch();
         Swal.fire({
-          position: "top-end",
+          position: "center",
           icon: "success",
           title: `${item.name} has been deleted`,
           showConfirmButton: false,
