@@ -15,7 +15,7 @@ const UpdateBook = () => {
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(item.quantity || 0);
 
   const handleIncrease = () => {
     setQuantity(quantity + 1);
@@ -26,6 +26,10 @@ const UpdateBook = () => {
       setQuantity(quantity - 1);
     }
   };
+const handleInputChange = (e) => {
+  const value = e.target.value === "" ? "" : parseInt(e.target.value);
+  setQuantity(value >= 0 ? value : 0);
+};
 
 
   // image hosting keys
@@ -44,21 +48,23 @@ const UpdateBook = () => {
     });
 
     // console.log(hostingImg.data);
-
+    const authorArray = data.author.split(",").map((item) => item.trim());
+    const publisherArray = data.publisher.split(",").map((item) => item.trim());
     if (hostingImg.data.success) {
       // now send the book item data to the server with the image url
       const bookItem = {
         name: data?.name,
         description: data.description,
         category: data.category,
-        // author: authorArray,
-        // publisher: publisherArray,
+        author: authorArray,
+        publisher: publisherArray,
         publishYear: data.publishYear,
         price: parseFloat(data.price),
-        quantity: data.quantity,
+        quantity: parseFloat(data.quantity),
         image: hostingImg.data.data.display_url
       };
       //
+      
       const bookRes = await axiosSecure.patch(`book/${item._id}`, bookItem);
       console.log(bookRes);
       if (bookRes.status === 200) {
@@ -153,8 +159,8 @@ const UpdateBook = () => {
               <input
                 type="text"
                 placeholder="Publisher name"
-                defaultValue={item.price}
-                {...register("price", { required: true })}
+                defaultValue={item.publisher}
+                {...register("publisher", { required: true })}
                 className="input input-bordered w-full"
               />
             </div>
@@ -169,8 +175,8 @@ const UpdateBook = () => {
               <input
                 type="text"
                 placeholder="Author name"
-                defaultValue={item.price}
-                {...register("price", { required: true })}
+                defaultValue={item.author}
+                {...register("author", { required: true })}
                 className="input input-bordered w-full"
               />
             </div>
@@ -208,13 +214,9 @@ const UpdateBook = () => {
                 </button>
                 <input
                   type="number"
-                  defaultValue={item.quantity}
-                  onChange={(e) => {
-                    // Loại bỏ dấu '-' nếu có
-                    const value = e.target.value.replace(/[^0-9]/g, "");
-                    // Chuyển đổi giá trị thành số nguyên
-                    setQuantity(value === "" ? 0 : parseInt(value));
-                  }}
+                  value={quantity}
+                  onChange={(e) =>
+                    setQuantity(parseInt(e.target.value))}
                   className="ml-2 mr-2 input input-bordered w-1/4 text-center"
                 />
                 <button
