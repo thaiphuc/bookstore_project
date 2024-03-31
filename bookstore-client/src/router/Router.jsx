@@ -32,7 +32,13 @@ const router = createBrowserRouter([
       },
       {
         path: "/book",
-        element: <Book />
+        element: <Book />,
+        // children:[
+        //   {
+        //     path: ":id",
+        //     element: <ProductDetails />
+        //   }
+        // ]
       },
       {
         path: "/order",
@@ -55,7 +61,7 @@ const router = createBrowserRouter([
         element: <FavoritePage />
       },
       {
-        path: "/product-page",
+        path: "/book/:id",
         element: <ProductDetails />,
       },
       {

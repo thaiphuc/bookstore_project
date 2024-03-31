@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Cards from "../../components/Cards";
 import { FaFilter } from "react-icons/fa";
 import { useTheme } from "../../hooks/ThemeContext";
+import { Link } from "react-router-dom";
 
 const Book = () => {
   const { isDarkMode } = useTheme();
@@ -184,7 +185,9 @@ const Book = () => {
         {/* product card */}
         <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4 ">
           {currentItems.map((item, index) => (
-            <Cards key={index} item={item} />
+            <Link to={`/book/${item.id}`}>
+              <Cards key={index} item={item} />
+            </Link>
           ))}
         </div>
       </div>

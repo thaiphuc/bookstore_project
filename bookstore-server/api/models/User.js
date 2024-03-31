@@ -14,6 +14,8 @@ const userSchema = new Schema({
         enum: ['user', 'admin'],
         default: 'user',
     },
+    phone: String,
+    address: String,
     wishList: [String]
 })
 

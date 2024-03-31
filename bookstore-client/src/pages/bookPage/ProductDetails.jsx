@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { useTheme } from "../../hooks/ThemeContext";
+import React, { useState, useEffect } from 'react';
+import { useTheme  } from "../../hooks/ThemeContext";
+import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faTruckFast, faUser, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import book from "../../../public/book1.jpg";
@@ -91,6 +92,32 @@ const CommentInput = () => {
 
 const ProductDetails = () => {
     const { isDarkMode } = useTheme();
+    const { id } = useParams();
+    const [book, setBook] = useState(null);
+    const [loading, setLoading] = useState(true);
+  
+    useEffect(() => {
+      setLoading(true);
+  
+      fetch(`http://localhost:5000/book/${id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setBook(data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching book details:", error);
+          setLoading(false);
+        });
+    }, [id]);
+  
+    if (loading) {
+      return <div>Loading...</div>;
+    }
+  
+    if (!book) {
+      return <div>Book not found</div>;
+    }
 
     return (
         <div className={`max-w-screen-2xl container mx-auto xl:px-24 bg-gradient-to-r from-0% from-[#FAFAFA] to-[#FCFCFC] to-100% ${isDarkMode ? 'dark' : ''}`}>
@@ -103,26 +130,26 @@ const ProductDetails = () => {
                     <ul>
                         <li><a>Home</a></li>
                         <li><a>Book Details</a></li>
-                        <li>Book title</li>
+                        <li>{book.name}</li>
                     </ul>
                 </div>
             </div>
             <div className="flex flex-col md:flex-row md:space-x-8">
                 <div className="md:w-1/2">
-                    <img src={book} alt="Product" className="w-full" />
+                    <img src={book.image} alt="Product" className="w-full" />
                 </div>
 
                 <div className="md:w-1/2 p-3 ">
                     <div className="py-6">
-                        <h3 className={`mb-2 text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>ĐẮC NHÂN TÂM - DALE CARNEGIE</h3>
+                        <h3 className={`mb-2 text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>{book.name}</h3>
                         <p className={`mb-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}>
                             <span className="font-bold">Sold:</span> 12,3k products
                         </p>
                         <p className={`mb-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}>
-                            <span className="font-bold">Price:</span> $19.99
+                            <span className="font-bold">Price:</span> {book.price}
                         </p>
                         <p className={`text-lg ${isDarkMode ? 'text-white' : 'text-black'}`} style={{ textAlign: 'justify' }}>
-                            <span className="font-bold">Description:</span> Đắc nhân tâm – How to win friends and Influence People của Dale Carnegie là quyển sách nổi tiếng nhất, bán chạy nhất và có tầm ảnh hưởng nhất của mọi thời đại. Tác phẩm đã được chuyển ngữ sang hầu hết các thứ tiếng trên thế giới và có mặt ở hàng trăm quốc gia. Đây là quyển sách duy nhất về thể loại self-help liên tục đứng đầu danh mục sách bán chạy nhất (best-selling Books) do báo The New York Times bình chọn suốt 10 năm liền. Riêng bản tiếng Anh của sách đã bán được hơn 15 triệu bản trên thế giới. Tác phẩm có sức lan toả vô cùng rộng lớn – dù bạn đi đến bất cứ nơi đâu, bất kỳ quốc gia nào cũng đều có thể nhìn thấy...
+                            <span className="font-bold">Description:</span> {book.description}
                         </p>
 
                     </div>
@@ -131,17 +158,17 @@ const ProductDetails = () => {
                         <div className="flex items-center mb-2">
                             <FontAwesomeIcon icon={faUser} className="text-mainBG text-xl mr-2 p-0 icon" />
                             <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>Author:</span>
-                            <span className={`ml-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}> Dale Carnegie</span>
+                            <span className={`ml-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}> {book.author} </span>
                         </div>
                         <div className="flex items-center mb-2">
                             <FontAwesomeIcon icon={faUserGroup} className="text-mainBG text-xl mr-2 p-0 icon" />
                             <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>Publisher:</span>
-                            <span className={`ml-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}> First News</span>
+                            <span className={`ml-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}> {book.publisher} </span>
                         </div>
                         <div className="flex items-center mb-2">
                             <FontAwesomeIcon icon={faBook} className="text-mainBG text-xl mr-2 p-0 icon" />
                             <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>Total books:</span>
-                            <span className={`ml-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}> 122</span>
+                            <span className={`ml-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}> {book.quantity} </span>
                         </div>
                         <div className="flex items-center">
                             <FontAwesomeIcon icon={faTruckFast} className="text-mainBG text-xl mr-2 p-0 icon" />
