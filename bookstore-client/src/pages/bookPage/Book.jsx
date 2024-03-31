@@ -185,9 +185,7 @@ const Book = () => {
         {/* product card */}
         <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4 ">
           {currentItems.map((item, index) => (
-            <Link to={`/book/${item.id}`}>
               <Cards key={index} item={item} />
-            </Link>
           ))}
         </div>
       </div>

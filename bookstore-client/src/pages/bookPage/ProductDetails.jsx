@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useTheme  } from "../../hooks/ThemeContext";
 import { useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faTruckFast, faUser, faUserGroup } from '@fortawesome/free-solid-svg-icons';
-import book from "../../../public/book1.jpg";
+import { AuthContext } from "../../contexts/AuthProvider";
 import avatar from "../../../public/th.jpg"
 import RelatedBook from '../../components/RelatedBook';
+import axios from 'axios';
+
+
 const CommentSection = () => {
     // data giả 
     const comments = [
@@ -95,6 +100,9 @@ const ProductDetails = () => {
     const { id } = useParams();
     const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(true);
+    const { user } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const location = useLocation();
   
     useEffect(() => {
       setLoading(true);
@@ -118,7 +126,59 @@ const ProductDetails = () => {
     if (!book) {
       return <div>Book not found</div>;
     }
-
+    const handleAddToCart = () => {
+        if (user && user.email && book) { // Giả sử `user` được quản lý ở đâu đó trong context hoặc state
+          const cartItem = { 
+            bookItemId: book._id, 
+            name: book.name, 
+            quantity: 1, 
+            image: book.image, 
+            price: book.price, 
+            email: user.email 
+          }
+    
+          axios.post('http://localhost:5000/carts', cartItem)
+            .then((response) => {
+              console.log(response);
+              if (response.data) {
+                // refetch cart logic here
+                Swal.fire({
+                  position: 'center',
+                  icon: 'success',
+                  title: 'Book added to the cart.',
+                  showConfirmButton: false,
+                  timer: 1500
+                })
+              }
+            })
+            .catch((error) => {
+              console.log(error.response.data.message);
+              const errorMessage = error.response.data.message;
+              Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: `${errorMessage}`,
+                showConfirmButton: false,
+                timer: 1500
+              })
+            });
+        }
+        else {
+          Swal.fire({
+            title: 'Please login to order the book',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Login now!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate('/login', { state: { from: location } })
+            }
+          })
+        }
+    }
+    
     return (
         <div className={`max-w-screen-2xl container mx-auto xl:px-24 bg-gradient-to-r from-0% from-[#FAFAFA] to-[#FCFCFC] to-100% ${isDarkMode ? 'dark' : ''}`}>
             <div className={`py-20 p-2 flex flex-col justify-center gap-8 ${isDarkMode ? 'text-white' : ''}`}>
@@ -134,11 +194,10 @@ const ProductDetails = () => {
                     </ul>
                 </div>
             </div>
-            <div className="flex flex-col md:flex-row md:space-x-8">
-                <div className="md:w-1/2">
-                    <img src={book.image} alt="Product" className="w-full" />
+            <div className="flex flex-col md:flex-row md:space-x-8 items-center justify-center">
+                <div className="md:w-1/2 flex items-center justify-center">
+                    <img src={book.image} alt="Product" className="max-w-xs h-auto custom-shadow" />
                 </div>
-
                 <div className="md:w-1/2 p-3 ">
                     <div className="py-6">
                         <h3 className={`mb-2 text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>{book.name}</h3>
@@ -158,12 +217,12 @@ const ProductDetails = () => {
                         <div className="flex items-center mb-2">
                             <FontAwesomeIcon icon={faUser} className="text-mainBG text-xl mr-2 p-0 icon" />
                             <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>Author:</span>
-                            <span className={`ml-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}> {book.author} </span>
+                            <span className={`ml-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}> {book.author?.join(", ")} </span>
                         </div>
                         <div className="flex items-center mb-2">
                             <FontAwesomeIcon icon={faUserGroup} className="text-mainBG text-xl mr-2 p-0 icon" />
                             <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>Publisher:</span>
-                            <span className={`ml-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}> {book.publisher} </span>
+                            <span className={`ml-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}> {book.publisher?.join(", ")} </span>
                         </div>
                         <div className="flex items-center mb-2">
                             <FontAwesomeIcon icon={faBook} className="text-mainBG text-xl mr-2 p-0 icon" />
@@ -173,12 +232,12 @@ const ProductDetails = () => {
                         <div className="flex items-center">
                             <FontAwesomeIcon icon={faTruckFast} className="text-mainBG text-xl mr-2 p-0 icon" />
                             <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>Shipping fee:</span>
-                            <span className={`ml-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}> freeship</span>
+                            <span className={`ml-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}> Freeship</span>
                         </div>
                     </div>
 
                     <div className="flex mt-4">
-                        <button className="bg-mainBG hover:bg-gray-300 text-white font-bold py-2 px-4 rounded mr-4">
+                        <button onClick={handleAddToCart} className="bg-mainBG hover:bg-gray-300 text-white font-bold py-2 px-4 rounded mr-4">
                             Add to Cart
                         </button>
                         <button className="bg-blue-600 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded">

@@ -2,18 +2,17 @@ import React, { useContext, useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import useCart from "../hooks/useCart";
 import axios from 'axios';
 
 const Cards = ({ item }) => {
-  const { name, image, price, description, _id } = item;
+  const { name, image, price, _id } = item;
 
   const { user } = useContext(AuthContext);
   const [cart, refetch] = useCart();
   const navigate = useNavigate();
   const location = useLocation();
-  // console.log(item)
   const [isHeartFilled, setIsHeartFilled] = useState(false);
 
   const handleHeartClick = () => {
@@ -22,7 +21,7 @@ const Cards = ({ item }) => {
 
   // add to cart handler
   const handleAddToCart = item => {
-    // console.log(item);
+
     if (user && user.email) {
       const cartItem = { bookItemId: _id, name, quantity: 1, image, price, email: user.email }
 
@@ -69,7 +68,7 @@ const Cards = ({ item }) => {
   }
 
   return (
-    <div to={`/book/${item._id}`} className="card shadow-xl relative mr-5 md:my-5">
+    <div to={`/book/${item._id}`} className="card shadow-xl relative mr-5 md:my-5 w-3/4 h-auto">
       <div
         className={`rating gap-1 absolute right-2 top-2 p-4 heartStar bg-mainBG ${isHeartFilled ? "text-rose-500" : "text-white"
           }`}
@@ -79,7 +78,7 @@ const Cards = ({ item }) => {
       </div>
       <Link to={`/book/${item._id}`}>
         <figure>
-          <img src={item.image} alt="Shoes" className="hover:scale-105 transition-all duration-300 md:h-72" />
+        <img src={item.image} alt="Shoes" className="w-48 h-48 object-cover hover:scale-105 transition-all duration-300" />
         </figure>
       </Link>
       <div className="card-body">
