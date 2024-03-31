@@ -34,18 +34,30 @@ const SamplePrevArrow = (props) => {
 };
 
 const PopularBooks = () => {
-  const [descriptions, setDescriptions] = useState([]);
   const slider = React.useRef(null);
+  const [book, setBook] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
 
   useEffect(() => {
-    fetch("/menu.json")
-      .then((res) => res.json())
-      .then((data) => {
-        const specials = data.filter((item) => item.category === "popular");
-        // console.log(specials)
-        setDescriptions(specials);
-      });
+    // Fetch data from the backend
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/book");
+        let data = await response.json();
+        console.log(data);
+        // Lọc để chỉ giữ lại sách có thể loại là 'popular'
+        data = data.filter((item) => item.category.includes('drinks'));
+        console.log(data);
+        setBook(data);
+        setFilteredItems(data); // Initially, display books of category 'popular'
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+  
+    fetchData();
   }, []);
+  
   const settings = {
     dots: true,
     infinite: false,
@@ -87,7 +99,7 @@ const PopularBooks = () => {
     <div className="max-w-screen-2xl container mx-auto xl:px-24 px-4 my-20 relative">
       <div className='text-left'>
         <p className='subtitle'>Customer Favorites</p>
-        <h2 className='title'>Popular Catagories</h2>
+        <h2 className='title'>Popular Book</h2>
       </div>
       <div className="md:absolute right-3 top-8 mb-10 md:mr-24">
         <button onClick={() => slider?.current?.slickPrev()}
@@ -104,8 +116,8 @@ const PopularBooks = () => {
       </div>
 
       <Slider ref={slider} {...settings} className="overflow-hidden mt-10 space-x-5">
-        {descriptions.map((item, i) => (
-          <Cards item={item} key={i} />
+        {filteredItems.map((book, i) => (
+          <Cards item={book} key={i} />
         ))}
       </Slider>
     </div>
