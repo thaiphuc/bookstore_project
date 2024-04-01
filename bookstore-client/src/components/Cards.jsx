@@ -7,7 +7,22 @@ import useCart from "../hooks/useCart";
 import axios from 'axios';
 
 const Cards = ({ item }) => {
-  const { name, image, price, _id } = item;
+  const { name, image, description, price, _id } = item;
+  // cutdown max word
+  const maxWords = 20; // Số từ tối đa  muốn hiển thị
+
+  const shortenDescription = (description, maxWords) => {
+    if (description.length > 15) {
+      const spaceIndex = description.indexOf(' ', 15);
+      const shortenedText = description.substring(0, spaceIndex);
+      const words = shortenedText.split(' ');
+      const shortDescription = words.slice(0, maxWords).join(' ');
+      return `${shortDescription}...`;
+    }
+    return description;
+  };
+
+  const shortDescription = shortenDescription(description, maxWords);
 
   const { user } = useContext(AuthContext);
   const [cart, refetch] = useCart();
@@ -78,12 +93,12 @@ const Cards = ({ item }) => {
       </div>
       <Link to={`/book/${item._id}`}>
         <figure>
-        <img src={item.image} alt="Shoes" className="w-48 h-48 object-cover hover:scale-105 transition-all duration-300" />
+          <img src={item.image} alt="Shoes" className="w-48 h-48 object-cover hover:scale-105 transition-all duration-300" />
         </figure>
       </Link>
       <div className="card-body">
-        <Link to={`/book/${item._id}`}><h2 className="card-title">{item.name}</h2></Link>
-        <p>Description of the item</p>
+        <Link to={`/book/${item._id}`}><h2 className="card-title">{item.name}!</h2></Link>
+        <p>{shortDescription}</p>
         <div className="card-actions justify-between items-center mt-2">
           <h5 className="font-semibold">
             <span className="text-sm text-red">$ </span> {item.price}
