@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useTheme  } from "../../hooks/ThemeContext";
+import { useTheme } from "../../hooks/ThemeContext";
 import { useParams } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
@@ -9,6 +9,7 @@ import { AuthContext } from "../../contexts/AuthProvider";
 import avatar from "../../../public/th.jpg"
 import RelatedBook from '../../components/RelatedBook';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 
 const CommentSection = () => {
@@ -103,82 +104,82 @@ const ProductDetails = () => {
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
-  
+
     useEffect(() => {
-      setLoading(true);
-  
-      fetch(`http://localhost:5000/book/${id}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setBook(data);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching book details:", error);
-          setLoading(false);
-        });
+        setLoading(true);
+
+        fetch(`http://localhost:5000/book/${id}`)
+            .then((response) => response.json())
+            .then((data) => {
+                setBook(data);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error("Error fetching book details:", error);
+                setLoading(false);
+            });
     }, [id]);
-  
+
     if (loading) {
-      return <div>Loading...</div>;
+        return <div>Loading...</div>;
     }
-  
+
     if (!book) {
-      return <div>Book not found</div>;
+        return <div>Book not found</div>;
     }
     const handleAddToCart = () => {
         if (user && user.email && book) { // Giả sử `user` được quản lý ở đâu đó trong context hoặc state
-          const cartItem = { 
-            bookItemId: book._id, 
-            name: book.name, 
-            quantity: 1, 
-            image: book.image, 
-            price: book.price, 
-            email: user.email 
-          }
-    
-          axios.post('http://localhost:5000/carts', cartItem)
-            .then((response) => {
-              console.log(response);
-              if (response.data) {
-                // refetch cart logic here
-                Swal.fire({
-                  position: 'center',
-                  icon: 'success',
-                  title: 'Book added to the cart.',
-                  showConfirmButton: false,
-                  timer: 1500
+            const cartItem = {
+                bookItemId: book._id,
+                name: book.name,
+                quantity: 1,
+                image: book.image,
+                price: book.price,
+                email: user.email
+            }
+
+            axios.post('http://localhost:5000/carts', cartItem)
+                .then((response) => {
+                    console.log(response);
+                    if (response.data) {
+                        // refetch cart logic here
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Book added to the cart.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
                 })
-              }
-            })
-            .catch((error) => {
-              console.log(error.response.data.message);
-              const errorMessage = error.response.data.message;
-              Swal.fire({
-                position: 'center',
-                icon: 'error',
-                title: `${errorMessage}`,
-                showConfirmButton: false,
-                timer: 1500
-              })
-            });
+                .catch((error) => {
+                    console.log(error.response.data.message);
+                    const errorMessage = error.response.data.message;
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: `${errorMessage}`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                });
         }
         else {
-          Swal.fire({
-            title: 'Please login to order the book',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Login now!'
-          }).then((result) => {
-            if (result.isConfirmed) {
-              navigate('/login', { state: { from: location } })
-            }
-          })
+            Swal.fire({
+                title: 'Please login to order the book',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Login now!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate('/login', { state: { from: location } })
+                }
+            })
         }
     }
-    
+
     return (
         <div className={`max-w-screen-2xl container mx-auto xl:px-24 bg-gradient-to-r from-0% from-[#FAFAFA] to-[#FCFCFC] to-100% ${isDarkMode ? 'dark' : ''}`}>
             <div className={`py-20 p-2 flex flex-col justify-center gap-8 ${isDarkMode ? 'text-white' : ''}`}>
@@ -188,8 +189,8 @@ const ProductDetails = () => {
 
                 <div className="text-sm breadcrumbs">
                     <ul>
-                        <li><a>Home</a></li>
-                        <li><a>Book Details</a></li>
+                        <li><Link to="/">Home</Link></li>
+                        <li><Link to="/book">Book</Link></li>
                         <li><a>{book.category}</a></li>
                         <li>{book.name}</li>
                     </ul>

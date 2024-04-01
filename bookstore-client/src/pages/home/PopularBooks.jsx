@@ -46,7 +46,7 @@ const PopularBooks = () => {
         let data = await response.json();
         console.log(data);
         // Lọc để chỉ giữ lại sách có thể loại là 'popular'
-        data = data.filter((item) => item.category.includes('drinks'));
+        data = data.filter((item) => item.category.includes('Popular'));
         console.log(data);
         setBook(data);
         setFilteredItems(data); // Initially, display books of category 'popular'

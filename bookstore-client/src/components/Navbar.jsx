@@ -58,18 +58,15 @@ const Navbar = () => {
       </li>
       <li tabIndex={0}>
         <details>
-          <summary className={`text-${isDarkMode ? 'dark' : ''}`}>Categories</summary>
+          <summary className={`text-${isDarkMode ? 'dark' : ''}`}>Books</summary>
           <ul className={`p-2 ${isDarkMode ? 'dark' : ''}`}>
             <li>
-              <a href="/book" className={`text-${isDarkMode ? 'dark' : ''}`}>
+              <Link to="/book" className={`text-${isDarkMode ? 'dark' : ''}`}>
                 All
-              </a>
+              </Link>
             </li>
             <li>
-              <a className={`text-${isDarkMode ? 'dark' : ''}`}>Salad</a>
-            </li>
-            <li>
-              <a className={`text-${isDarkMode ? 'dark' : 'dark'}`}>Pizza</a>
+              <a className={`text-${isDarkMode ? 'dark' : ''}`}>Category</a>
             </li>
           </ul>
         </details>
@@ -80,9 +77,6 @@ const Navbar = () => {
           <ul className={`p-2 ${isDarkMode ? 'dark' : ''}`}>
             <li>
               <a className={`text-${isDarkMode ? 'text-white' : 'black'}`}>Online Order</a>
-            </li>
-            <li>
-              <a className={`text-${isDarkMode ? 'white' : 'black'}`}>Table Booking</a>
             </li>
             <li>
               <a className={`text-${isDarkMode ? 'white' : 'black'}`}>Order Tracking</a>
@@ -153,9 +147,9 @@ const Navbar = () => {
               {navItems}
             </ul>
           </div>
-          <a href="/">
+          <Link to="/">
             <img src={logo} alt="" />
-          </a>
+          </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-4">{navItems}</ul>
