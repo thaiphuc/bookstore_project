@@ -10,6 +10,9 @@ router.get('/', verifyToken, verifyAdmin, (req, res) => {
     userController.getAllUsers(req, res)
 } )
 
+// get user
+router.get('/info', verifyToken, userController.getUser);
+
 // create a new user
 router.post('/', userController.createUser )
 
@@ -17,7 +20,7 @@ router.post('/', userController.createUser )
 router.patch('/:id', verifyToken, userController.updateUser);
 
 // delete a user
-router.delete('/:id',verifyToken, verifyAdmin, userController.deleteUser)
+router.delete('/:id', verifyToken, verifyAdmin, userController.deleteUser)
 
 // get admin
 router.get('/admin/:email',verifyToken, userController.getAdmin);

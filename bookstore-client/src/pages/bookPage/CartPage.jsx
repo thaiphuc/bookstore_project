@@ -11,6 +11,7 @@ const CartPage = () => {
   const { isDarkMode } = useTheme();
   const { user } = useContext(AuthContext);
   const [cart, refetch] = useCart();
+  const [info, setUser] = useState(null);
   const [totalItems, setTotalItems] = useState(0); // State to hold total quantity of items
 
   useEffect(() => {
@@ -47,6 +48,36 @@ const CartPage = () => {
       console.error("Error updating quantity:", error);
     }
   };
+
+  const fetchUserInfo = async () => {
+
+    const token = localStorage.getItem('access_token'); // Lấy token từ localStorage
+    if (!token) {
+      console.error('Token not found');
+      return;
+    }
+  
+    try {
+      const response = await fetch(`http://localhost:5000/users/info?email=${user.email}`, {
+        method: 'GET', // Phương thức HTTP
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Đính kèm token vào header
+        }
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok.');
+      }
+      const data = await response.json();
+      setUser(data);
+
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
+  
+  fetchUserInfo();
+  
 
   // Handle quantity decrease
   const handleDecrease = async (item) => {
@@ -195,13 +226,10 @@ const CartPage = () => {
           <div className="flex flex-col md:flex-row justify-between items-start my-12 gap-8">
             <div className="md:w-1/2 space-y-3">
               <h3 className="text-lg font-semibold">Customer Details</h3>
-              <p>Name: {user?.displayName || "None"}</p>
-              <p>Email: {user?.email}</p>
-              <p>Address:</p>
-              <p>Phone number:</p>
-              <p>
-                User_id: <span className="text-sm">{user?.uid}</span>
-              </p>
+              <p>Name: {info.name || "None"}</p>
+              <p>Email: {info.email}</p>
+              <p>Address: {info.address}</p>
+              <p>Phone number: {info.phone}</p>
             </div>
             <div className="md:w-1/2 space-y-3">
               <h3 className="text-lg font-semibold">Shopping Details</h3>

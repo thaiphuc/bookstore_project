@@ -93,15 +93,14 @@ const makeAdmin = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const userEmail = req.params.id; // Nên đổi tên biến thành userEmail cho rõ ràng
+  const userEmail = req.params.id;
   const updateData = req.body; // Dữ liệu cần cập nhật
 
   try {
-    // Sử dụng { email: userEmail } để tạo query dựa trên email
     const updatedUser = await User.findOneAndUpdate(
-      { email: userEmail }, // Đây là đối tượng query dựa trên email
+      { email: userEmail }, 
       updateData,
-      { new: true, runValidators: true } // Các tuỳ chọn
+      { new: true, runValidators: true } 
     );
 
     if (!updatedUser) {
@@ -114,6 +113,22 @@ const updateUser = async (req, res) => {
   }
 };
 
+const getUser = async (req, res) => {
+  // Lấy email từ query string
+  const userEmail = req.query.email;
+
+  try {
+    const user = await User.findOne({ email: userEmail });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found with the provided email.' });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: `Error fetching user data: ${error.message}` });
+  }
+};
+
+
 
 module.exports = {
   getAllUsers,
@@ -121,5 +136,6 @@ module.exports = {
   deleteUser,
   getAdmin,
   makeAdmin,
-  updateUser
+  updateUser,
+  getUser,
 };
