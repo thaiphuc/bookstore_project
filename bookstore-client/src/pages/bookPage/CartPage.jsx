@@ -11,7 +11,7 @@ const CartPage = () => {
   const { isDarkMode } = useTheme();
   const { user } = useContext(AuthContext);
   const [cart, refetch] = useCart();
-  const [info, setUser] = useState(null);
+  const [info, setUser] = useState();
   const [totalItems, setTotalItems] = useState(0); // State to hold total quantity of items
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const CartPage = () => {
       console.error('Token not found');
       return;
     }
-  
+
     try {
       const response = await fetch(`http://localhost:5000/users/info?email=${user.email}`, {
         method: 'GET', // Phương thức HTTP
@@ -75,9 +75,9 @@ const CartPage = () => {
       console.error('Error fetching user data:', error);
     }
   };
-  
+
   fetchUserInfo();
-  
+
 
   // Handle quantity decrease
   const handleDecrease = async (item) => {
@@ -226,11 +226,16 @@ const CartPage = () => {
           <div className="flex flex-col md:flex-row justify-between items-start my-12 gap-8">
             <div className="md:w-1/2 space-y-3">
               <h3 className="text-lg font-semibold">Customer Details</h3>
-              <p>Name: {info.name || "None"}</p>
-              <p>Email: {info.email}</p>
-              <p>Address: {info.address}</p>
-              <p>Phone number: {info.phone}</p>
+              {info && (
+                <>
+                  <p>Name: {info.name}</p>
+                  <p>Email: {info.email}</p>
+                  <p>Address: {info.address}</p>
+                  <p>Phone number: {info.phone}</p>
+                </>
+              )}
             </div>
+
             <div className="md:w-1/2 space-y-3">
               <h3 className="text-lg font-semibold">Shopping Details</h3>
               <p>Total Items: {totalItems}</p>
