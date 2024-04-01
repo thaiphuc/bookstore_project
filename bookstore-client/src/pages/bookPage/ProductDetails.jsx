@@ -190,6 +190,7 @@ const ProductDetails = () => {
                     <ul>
                         <li><a>Home</a></li>
                         <li><a>Book Details</a></li>
+                        <li><a>{book.category}</a></li>
                         <li>{book.name}</li>
                     </ul>
                 </div>
