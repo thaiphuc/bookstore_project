@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { FaHeart } from "react-icons/fa"
 import Cards from "../../components/Cards";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 
@@ -39,15 +38,12 @@ const PopularBooks = () => {
   const [filteredItems, setFilteredItems] = useState([]);
 
   useEffect(() => {
-    // Fetch data from the backend
+    // Fetch data from the backend with category filter
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/book");
-        let data = await response.json();
-        console.log(data);
-        // Lọc để chỉ giữ lại sách có thể loại là 'popular'
-        data = data.filter((item) => item.category.includes('Popular'));
-        console.log(data);
+        // Thêm query parameter `category` vào URL
+        const response = await fetch("http://localhost:5000/book?category=Popular");
+        const data = await response.json();
         setBook(data);
         setFilteredItems(data); // Initially, display books of category 'popular'
       } catch (error) {

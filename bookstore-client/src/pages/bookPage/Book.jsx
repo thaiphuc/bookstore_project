@@ -32,10 +32,8 @@ const Book = () => {
   // console.log(book)
 
   const filterItems = (category) => {
-    const filtered =
-      category === "all"
-        ? book
-        : book.filter((item) => item.category === category);
+    const filtered = book.filter((item) => 
+      category === "all" || item.category.includes(category));
 
     setFilteredItems(filtered);
     setSelectedCategory(category);
@@ -119,44 +117,44 @@ const Book = () => {
               All
             </button>
             <button
-              onClick={() => filterItems("salad")}
-              className={selectedCategory === "salad" ? "active" : ""}
+              onClick={() => filterItems("Non-fiction")}
+              className={selectedCategory === "Non-fiction" ? "active" : ""}
             >
               Non-fiction
             </button>
             <button
-              onClick={() => filterItems("pizza")}
-              className={selectedCategory === "pizza" ? "active" : ""}
+              onClick={() => filterItems("Economic")}
+              className={selectedCategory === "Economic" ? "active" : ""}
             >
               Economic
             </button>
             <button
-              onClick={() => filterItems("soup")}
-              className={selectedCategory === "soup" ? "active" : ""}
+              onClick={() => filterItems("Literature")}
+              className={selectedCategory === "Literature" ? "active" : ""}
             >
               Literature
             </button>
             <button
-              onClick={() => filterItems("dessert")}
-              className={selectedCategory === "dessert" ? "active" : ""}
+              onClick={() => filterItems("Political")}
+              className={selectedCategory === "Political" ? "active" : ""}
             >
               Political
             </button>
             <button
-              onClick={() => filterItems("drinks")}
-              className={selectedCategory === "drinks" ? "active" : ""}
+              onClick={() => filterItems("Language")}
+              className={selectedCategory === "Language" ? "active" : ""}
             >
               Language
             </button>
             <button
-              onClick={() => filterItems("drinks")}
-              className={selectedCategory === "drinks" ? "active" : ""}
+              onClick={() => filterItems("TextBook")}
+              className={selectedCategory === "TextBook" ? "active" : ""}
             >
               TextBook
             </button>
             <button
-              onClick={() => filterItems("drinks")}
-              className={selectedCategory === "drinks" ? "active" : ""}
+              onClick={() => filterItems("Popular")}
+              className={selectedCategory === "Popular" ? "active" : ""}
             >
               Popular
             </button>

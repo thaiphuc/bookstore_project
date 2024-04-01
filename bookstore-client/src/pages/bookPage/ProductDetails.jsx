@@ -104,7 +104,6 @@ const ProductDetails = () => {
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
-
     useEffect(() => {
         setLoading(true);
 
@@ -248,7 +247,7 @@ const ProductDetails = () => {
                     </div>
                 </div>
             </div>
-            <RelatedBook />
+            <RelatedBook category={book.category}/>
             {/* Phần đánh giá khách hàng */}
             <div className="mt-8 flex flex-col md:flex-row">
                 <div className="md:w-1/2">

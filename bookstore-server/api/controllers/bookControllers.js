@@ -3,12 +3,24 @@ const Book = require("../models/Book");
 // get all Book items
 const getAllBookItems = async (req, res) => {
   try {
-    const books = await Book.find({}).sort({ createdAt: -1 });
+    let query = {};
+
+    // Kiểm tra xem có query string category không
+    const { category } = req.query;
+
+    if (category) {
+      // Nếu category là một mảng (khi có nhiều giá trị được gửi trong query)
+      // Sử dụng $in operator để tìm sách thuộc bất kỳ category nào trong mảng đó
+      query.category = { $in: Array.isArray(category) ? category : [category] };
+    }
+
+    const books = await Book.find(query).sort({ createdAt: -1 });
     res.status(200).json(books);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 // post a Book item
 const postBookItem = async (req, res) => {
