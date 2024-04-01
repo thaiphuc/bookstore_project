@@ -13,6 +13,9 @@ router.get('/', verifyToken, verifyAdmin, (req, res) => {
 // create a new user
 router.post('/', userController.createUser )
 
+// update a user
+router.patch('/:id', verifyToken, userController.updateUser);
+
 // delete a user
 router.delete('/:id',verifyToken, verifyAdmin, userController.deleteUser)
 

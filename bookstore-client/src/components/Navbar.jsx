@@ -17,6 +17,7 @@ const Navbar = () => {
   const [isBookOpen, setIsBookOpen] = useState(false);
   const [totalItems, setTotalItems] = useState(0); // State to hold total quantity of items
 
+
   const toggleBook = () => {
     setIsBookOpen((prev) => !prev);
   };
@@ -200,7 +201,7 @@ const Navbar = () => {
 
           {
             user ? <>
-              <Profile user={user} />
+              <Profile user = {user} />
             </> : <button onClick={() => document.getElementById('my_modal_5').showModal()} className="btn flex items-center gap-2 rounded-full px-6 bg-mainBG text-white">
               <FaRegUser /> Login
             </button>
