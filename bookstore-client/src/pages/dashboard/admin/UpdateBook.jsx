@@ -50,7 +50,7 @@ const UpdateBook = () => {
         quantity: data.quantity,
       };
       //
-      
+
       const bookRes = await axiosSecure.patch(`book/${item._id}`, bookItem);
       console.log(bookRes);
       if (bookRes.status === 200) {
@@ -66,7 +66,7 @@ const UpdateBook = () => {
         navigate("/dashboard/manage-items");
       }
     }
-    
+
 
   };
 
@@ -108,14 +108,14 @@ const UpdateBook = () => {
               >
                 <option disabled value="default">
                   Select a category
-                  </option>
-                  <option value="Non-fiction">Non-fiction</option>
-                  <option value="Economic">Economic</option>
-                  <option value="Literature">Literature</option>
-                  <option value="Political">Political</option>
-                  <option value="Language">Language</option>
-                  <option value="TextBook">TextBook</option>
-                  <option value="Popular">Popular</option>
+                </option>
+                <option value="Non-fiction">Non-fiction</option>
+                <option value="Economic">Economic</option>
+                <option value="Literature">Literature</option>
+                <option value="Political">Political</option>
+                <option value="Language">Language</option>
+                <option value="TextBook">TextBook</option>
+                <option value="Popular">Popular</option>
               </select>
             </div>
 
@@ -130,7 +130,11 @@ const UpdateBook = () => {
                 type="number"
                 placeholder="Price"
                 defaultValue={item.price}
-                {...register("price", { required: true })}
+                {...register("price", {
+                  required: true,
+                  min: 0
+                })}
+                step="0.01"
                 className="input input-bordered w-full"
               />
             </div>
@@ -202,11 +206,11 @@ const UpdateBook = () => {
                   -
                 </button>
                 <input
-                 type="number"
-                 value={quantity}
-                 onChange={(e) => {
-                  setQuantity(parseInt(e.target.value));
-                 }}
+                  type="number"
+                  value={quantity}
+                  onChange={(e) => {
+                    setQuantity(parseInt(e.target.value));
+                  }}
                   className="ml-2 mr-2 input input-bordered w-1/4 text-center"
                 />
                 <button
@@ -234,7 +238,7 @@ const UpdateBook = () => {
 
           {/* <div className="form-control w-full my-6">
             <input
-              {...register("image", { required: false })}
+              {...register("image", { required: true })}
               type="file"
               className="file-input w-full max-w-xs"
             />

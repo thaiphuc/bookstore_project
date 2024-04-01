@@ -21,6 +21,17 @@ const Cards = ({ item }) => {
     }
     return description;
   };
+  const shortenText = (text, maxWords) => {
+    if (text.length > maxWords) {
+      const spaceIndex = text.indexOf(' ', maxWords);
+      const shortenedText = text.substring(0, spaceIndex);
+      const words = shortenedText.split(' ');
+      const shortText = words.slice(0, maxWords).join(' ');
+      return `${shortText}...`;
+    }
+    return text;
+  };
+  const shortName = shortenText(name, 10);
 
   const shortDescription = shortenDescription(description, maxWords);
 
@@ -93,15 +104,17 @@ const Cards = ({ item }) => {
       </div>
       <Link to={`/book/${item._id}`}>
         <figure>
-          <img src={item.image} alt="Shoes" className="w-48 h-48 object-cover hover:scale-105 transition-all duration-300" />
+          <img src={item.image} alt="Shoes" className="w-48 h-48 object-fit hover:scale-105 transition-all duration-300" />
         </figure>
       </Link>
       <div className="card-body">
-        <Link to={`/book/${item._id}`}><h2 className="card-title">{item.name}!</h2></Link>
+        <Link to={`/book/${item._id}`}>
+          <h2 className="card-title">{shortName}!</h2>
+        </Link>
         <p>{shortDescription}</p>
         <div className="card-actions justify-between items-center mt-2">
           <h5 className="font-semibold">
-            <span className="text-sm text-red">$ </span> {item.price}
+            <span className="text-sm text-red"> </span>{item.price} $
           </h5>
           <button onClick={() => handleAddToCart(item)} className="btn bg-mainBG text-white">Add to Cart </button>
         </div>
