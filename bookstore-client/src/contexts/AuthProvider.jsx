@@ -36,11 +36,11 @@ const AuthProvider = ({children}) => {
     }
 
     // update your profile
-    const updateUserProfile = (name, photoURL) => {
-      return  updateProfile(auth.currentUser, {
-            displayName: name, photoURL: photoURL
-          })
-    }
+    // const updateUserProfile = (name, photoURL) => {
+    //   return  updateProfile(auth.currentUser, {
+    //         displayName: name, photoURL: photoURL
+    //       })
+    // }
 
     useEffect( () =>{
         const unsubscribe = onAuthStateChanged(auth, currentUser =>{
@@ -76,7 +76,7 @@ const AuthProvider = ({children}) => {
         login, 
         logOut,
         signUpWithGmail,
-        updateUserProfile
+        // updateUserProfile
     }
 
     return (

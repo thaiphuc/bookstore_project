@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useTheme } from "../../hooks/ThemeContext";
-import { useParams } from "react-router-dom";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faTruckFast, faUser, faUserGroup } from '@fortawesome/free-solid-svg-icons';

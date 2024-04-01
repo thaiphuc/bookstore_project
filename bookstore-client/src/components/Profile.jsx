@@ -1,14 +1,13 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../contexts/AuthProvider";
 import avatarImg from "/images/avatar.jpg"
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { faUser, faClipboardList, faSignOutAlt, faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Profile = ({ user }) => {
   const { logOut } = useContext(AuthContext);
   const navigate = useNavigate()
-
   // logout
   const handleLogout = () => {
     logOut()
@@ -46,10 +45,10 @@ const Profile = ({ user }) => {
           <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
             {/* Sidebar content here */}
             <li>
-              <a href="/update-profile">
-                <FontAwesomeIcon icon={faUser} className="mr-2" />
-                Profile
-              </a>
+                <Link to={`/update-profile/${user.email}`}>
+                  <FontAwesomeIcon icon={faUser} className="mr-2" />
+                    Profile
+              </Link>
             </li>
             <li>
               <a href="/order">
