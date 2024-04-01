@@ -205,7 +205,7 @@ const ProductDetails = () => {
                             <span className="font-bold">Sold:</span> 12,3k products
                         </p>
                         <p className={`mb-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}>
-                            <span className="font-bold">Price:</span> {book.price}
+                            <span className="font-bold">Price:</span> {book.price} $
                         </p>
                         <p className={`text-lg ${isDarkMode ? 'text-white' : 'text-black'}`} style={{ textAlign: 'justify' }}>
                             <span className="font-bold">Description:</span> {book.description}
@@ -246,7 +246,7 @@ const ProductDetails = () => {
                     </div>
                 </div>
             </div>
-            <RelatedBook category={book.category}/>
+            <RelatedBook category={book.category} />
             {/* Phần đánh giá khách hàng */}
             <div className="mt-8 flex flex-col md:flex-row">
                 <div className="md:w-1/2">

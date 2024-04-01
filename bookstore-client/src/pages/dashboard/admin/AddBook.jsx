@@ -153,6 +153,7 @@ const AddBook = () => {
                 <option value="Political">Political</option>
                 <option value="Language">Language</option>
                 <option value="TextBook">TextBook</option>
+                <option value="Self-help">Self-Help</option>
                 <option value="Popular">Popular</option>
               </select>
             </div>
@@ -167,9 +168,14 @@ const AddBook = () => {
               <input
                 type="number"
                 placeholder="Price"
-                {...register("price", { required: true })}
+                {...register("price", {
+                  required: true,
+                  min: 0 // Giá trị tối thiểu là 0
+                })}
+                step="0.01" // Bước nhảy là 0.01 để cho phép nhập số thập phân
                 className="input input-bordered w-full"
               />
+
               {priceError && (
                 <p className="text-red text-sm mt-1">{priceError}</p>
               )}

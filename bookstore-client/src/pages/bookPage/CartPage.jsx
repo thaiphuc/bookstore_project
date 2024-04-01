@@ -155,7 +155,7 @@ const CartPage = () => {
                         </div>
                       </td>
                       <td className="font-medium">{item.name}</td>
-                      <td className="flex">
+                      <td >
                         <button
                           className="btn btn-xs"
                           onClick={() => handleDecrease(item)}

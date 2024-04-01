@@ -62,9 +62,9 @@ const Navbar = () => {
           <summary className={`text-${isDarkMode ? 'dark' : ''}`}>Books</summary>
           <ul className={`p-2 ${isDarkMode ? 'dark' : ''}`}>
             <li>
-              <Link to="/book" className={`text-${isDarkMode ? 'dark' : ''}`}>
+              <a href="/book" className={`text-${isDarkMode ? 'dark' : ''}`}>
                 All
-              </Link>
+              </a>
             </li>
             <li>
               <a className={`text-${isDarkMode ? 'dark' : ''}`}>Category</a>
