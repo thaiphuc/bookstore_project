@@ -17,15 +17,15 @@ const UserProfile = () => {
   const axiosSecure = useAxiosSecure();
 
   const onSubmit = async (data) => {
-    const infor = {
+    const info = {
       name: data.name,
       address: data.address,
       phone: data.telephone,
     }
   
     try {
-      const userRes = await axiosSecure.patch(`users/${id}`, infor);
-      console.log(userRes);
+      const userRes = await axiosSecure.patch(`users/${id}`, info);
+
       if (userRes.status === 200) {
         // show success popup
         reset(); // Đảm bảo bạn đã khai báo và sử dụng `reset` từ react-hook-form nếu cần
