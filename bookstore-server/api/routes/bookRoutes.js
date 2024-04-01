@@ -24,15 +24,4 @@ router.get('/:id', bookController.singleBookItem);
 router.patch('/:id',verifyToken, verifyAdmin, bookController.updateBookItem);
 
 
-// get all Book items
-
-// router.get('/', async (req, res) => {
-//     try {
-//         const books = await Book.find({});
-//         res.status(200).json(books);
-//     } catch (error) {
-//         res.status(500).json({ message: error.message });
-//     }
-// });
-
 module.exports = router;

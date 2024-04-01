@@ -3,9 +3,10 @@ import React, { useEffect, useState } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { FaHeart } from "react-icons/fa"
+import axios from 'axios';
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 import Cards from "./Cards";
+import { useParams } from 'react-router-dom';
 
 const SampleNextArrow = (props) => {
     const { className, style, onClick } = props;
@@ -33,19 +34,29 @@ const SamplePrevArrow = (props) => {
     );
 };
 
-const RelatedBook = () => {
-    const [descriptions, setDescriptions] = useState([]);
+const RelatedBook = ({ category }) => {
+    const { id } = useParams();
     const slider = React.useRef(null);
-
+    const [relatedBooks, setRelatedBooks] = useState([]);
     useEffect(() => {
-        fetch("/menu.json")
-            .then((res) => res.json())
-            .then((data) => {
-                const specials = data.filter((item) => item.category === "popular");
-                // console.log(specials)
-                setDescriptions(specials);
-            });
-    }, []);
+        // Tạo query string cho các category
+        const queryString = category.map(cat => `category=${encodeURIComponent(cat)}`).join('&');
+
+        const fetchRelatedBooks = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/book?${queryString}`);
+                const filteredBooks = response.data.filter(book => book._id !== id); // Loại bỏ sách hiện tại
+                setRelatedBooks(filteredBooks);
+            } catch (error) {
+                console.error("Error fetching related books:", error);
+            }
+        };
+
+        if (category.length > 0) {
+            fetchRelatedBooks();
+        }
+    }, [category]); // Chạy useEffect này mỗi khi categories thay đổi
+
     const settings = {
         dots: true,
         infinite: false,
@@ -103,8 +114,8 @@ const RelatedBook = () => {
             </div>
 
             <Slider ref={slider} {...settings} className="overflow-hidden mt-10 space-x-5">
-                {descriptions.map((item, i) => (
-                    <Cards item={item} key={i} />
+                {relatedBooks.map(book => (
+                    <Cards key={book.id} item={book} />
                 ))}
             </Slider>
         </div>
