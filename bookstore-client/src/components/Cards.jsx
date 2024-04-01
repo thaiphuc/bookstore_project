@@ -9,7 +9,7 @@ import axios from 'axios';
 const Cards = ({ item }) => {
   const { name, image, description, price, _id } = item;
   // cutdown max word
-  const maxWords = 20; // Số từ tối đa  muốn hiển thị
+  const maxWords = 20; 
 
   const shortenDescription = (description, maxWords) => {
     if (description.length > 15) {

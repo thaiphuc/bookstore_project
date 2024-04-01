@@ -153,6 +153,7 @@ const AddBook = () => {
                 <option value="Political">Political</option>
                 <option value="Language">Language</option>
                 <option value="TextBook">TextBook</option>
+                <option value="Self-help">Self-Help</option>
                 <option value="Popular">Popular</option>
               </select>
             </div>

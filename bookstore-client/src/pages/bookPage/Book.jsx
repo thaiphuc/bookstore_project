@@ -11,7 +11,7 @@ const Book = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortOption, setSortOption] = useState("default");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(8); // Number of items to display per page
+  const [itemsPerPage] = useState(6); // Number of items to display per page
 
   useEffect(() => {
     // Fetch data from the backend
@@ -145,6 +145,12 @@ const Book = () => {
               className={selectedCategory === "Language" ? "active" : ""}
             >
               Language
+            </button>
+            <button
+              onClick={() => filterItems("Self-help")}
+              className={selectedCategory === "Self-help" ? "active" : ""}
+            >
+              Self-help
             </button>
             <button
               onClick={() => filterItems("TextBook")}

@@ -114,6 +114,7 @@ const UpdateBook = () => {
                 <option value="Literature">Literature</option>
                 <option value="Political">Political</option>
                 <option value="Language">Language</option>
+                <option value="Self-help">Self-Help</option>
                 <option value="TextBook">TextBook</option>
                 <option value="Popular">Popular</option>
               </select>
