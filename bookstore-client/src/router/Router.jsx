@@ -12,10 +12,10 @@ import DashboardLayout from "../layout/DashboardLayout";
 import Dashboard from "../pages/dashboard/admin/Dashboard";
 import Users from "../pages/dashboard/admin/Users";
 import AddBook from "../pages/dashboard/admin/AddBook";
-import ManageItems from "../pages/dashboard/admin/ManageItems";
+import ManageItems from "../pages/dashboard/admin/ManageBooks";
 import UpdateBook from "../pages/dashboard/admin/UpdateBook";
 import Payment from "../pages/bookPage/Payment";
-import ManageBookings from "../pages/dashboard/admin/ManageBookings";
+import ManageOrders from "../pages/dashboard/admin/ManageOrders";
 import FavoritePage from "../pages/bookPage/FavoritePage";
 import ProductDetails from "../pages/bookPage/ProductDetails";
 import ContactPage from "../pages/bookPage/ContactPage";
@@ -108,8 +108,8 @@ const router = createBrowserRouter([
         loader: ({ params }) => fetch(`http://localhost:5000/book/${params.id}`)
       },
       {
-        path: 'bookings',
-        element: <ManageBookings />
+        path: 'orders',
+        element: <ManageOrders />
       }
     ]
   }

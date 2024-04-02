@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 
-const ManageBookings = () => {
+const ManageOrders = () => {
   const { user, loading } = useAuth();
   const token = localStorage.getItem("access_token");
   const { refetch, data: orders = [] } = useQuery({
@@ -141,4 +141,4 @@ const ManageBookings = () => {
   )
 }
 
-export default ManageBookings
+export default ManageOrders
