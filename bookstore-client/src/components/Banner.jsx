@@ -6,7 +6,7 @@ import banner1 from "/images/home/banner/banner1.jpg";
 import banner2 from "/images/home/banner/banner2.jpg";
 import banner3 from "/images/home/banner/banner3.jpg";
 import banner4 from "/images/home/banner/banner4.jpg";
-
+import { Link } from "react-router-dom";
 const Banner = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -29,7 +29,7 @@ const Banner = () => {
     slidesToScroll: 1,
     initialSlide: currentSlide,
     beforeChange: (current, next) => setCurrentSlide(next),
-    
+
   };
 
   return (
@@ -51,9 +51,11 @@ const Banner = () => {
           <p className="text-[#4A4A4A] text-lg">
             Where you can enjoy thousands of valuable books spanning all genres and offering excellent knowledge.
           </p>
-          <button className="bg-mainBG font-semibold btn text-white px-8 py-3 rounded-full">
-            Buy Now
-          </button>
+          <Link to="/book">
+            <button className="mt-1 bg-mainBG font-semibold btn text-white px-8 py-3 rounded-full">
+              Buy Now
+            </button>
+          </Link>
         </div>
       </div>
     </div>

@@ -77,10 +77,10 @@ const Navbar = () => {
           <summary className={`text-${isDarkMode ? 'dark' : ''}`}>Services</summary>
           <ul className={`p-2 ${isDarkMode ? 'dark' : ''}`}>
             <li>
-              <a className={`text-${isDarkMode ? 'text-white' : 'black'}`}>Online Order</a>
+              <a className={`text-${isDarkMode ? 'text-white' : 'black'}`}>Our services</a>
             </li>
             <li>
-              <a className={`text-${isDarkMode ? 'white' : 'black'}`}>Order Tracking</a>
+              <a href="/order" className={`text-${isDarkMode ? 'white' : 'black'}`}>Order Tracking</a>
             </li>
           </ul>
         </details>

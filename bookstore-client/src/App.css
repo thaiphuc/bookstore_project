@@ -15,13 +15,36 @@ body{
 .themediv{
   z-index: 20001;
 }
+.py-20 {
+  padding-top: 5rem;
+  padding-bottom: 1rem;
+}
 
+.py-24 {
+  padding-top: 6rem;
+  padding-bottom: 2rem;
+}
+
+.py-16 {
+  padding-top: 4rem;
+  /* padding-bottom: 4rem; */
+}
+
+.h-48 {
+  height: 14rem;
+}
+
+.space-y-7> :not([hidden])~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: 0;
+  margin-bottom: calc(1.75rem* var(--tw-space-y-reverse));
+}
 header, nav{
   z-index: 10001 !important;
 }
 
 .subtitle{
-  @apply text-red uppercase tracking-wide font-semibold text-lg;
+  @apply text-mainBG uppercase tracking-wide font-semibold text-lg;
 }
 
 .title{
@@ -80,7 +103,7 @@ header, nav{
   justify-content: center;
   min-height: 100vh;
   font-size: 1.5rem;
-  color: #fff; 
+  color: #00d3b7; 
 }
 
 input[type="number"]::-webkit-inner-spin-button,
@@ -103,10 +126,7 @@ input[type="number"] {
 .menu-horizontal > li:not(.menu-title)>details>ul{
   width: 100%;
 }
-.py-20{
-  padding-top: 5rem;
-  padding-bottom: 1rem;
-}
+
 .icon {
   width: 1.3rem;
   height: 1.3rem;
@@ -114,7 +134,7 @@ input[type="number"] {
 /* comment component */
 .comment-section {
 }
-
+/* avatar */
 .avatar-container {
   width: 50px;
   /* Định kích thước avatar */
@@ -131,9 +151,7 @@ input[type="number"] {
 }
 .avatar-container img {
   max-width: 100%;
-  /* Đảm bảo ảnh không vượt quá kích thước của container */
   max-height: 100%;
-  /* Đảm bảo ảnh không vượt quá kích thước của container */
 }
 .avatar-online::before{
   content: "";
@@ -188,7 +206,4 @@ padding: 20px;
   flex-direction: column;
   padding: var(--padding-card, 1.5rem);
   gap: 0.5rem;
-}
-.h-48{
-  height: 14rem;
 }

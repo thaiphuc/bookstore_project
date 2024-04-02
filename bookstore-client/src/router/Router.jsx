@@ -20,6 +20,7 @@ import FavoritePage from "../pages/bookPage/FavoritePage";
 import ProductDetails from "../pages/bookPage/ProductDetails";
 import ContactPage from "../pages/bookPage/ContactPage";
 import AboutUsPage from "../pages/bookPage/AboutUsPage";
+import ManageComment from "../pages/dashboard/admin/ManageComment";
 
 const router = createBrowserRouter([
   {
@@ -92,9 +93,14 @@ const router = createBrowserRouter([
         path: 'add-book',
         element: <AddBook />
       },
+
       {
         path: 'manage-items',
         element: <ManageItems />
+      },
+      {
+        path: 'manage-comments',
+        element: <ManageComment />
       },
       {
         path: 'update-book/:id',

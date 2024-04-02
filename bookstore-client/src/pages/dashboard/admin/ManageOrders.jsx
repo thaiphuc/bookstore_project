@@ -2,11 +2,30 @@ import React, { useState } from "react";
 import useBook from "../../../hooks/useBook";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
-import { FaArrowCircleRight, FaArrowLeft, FaArrowRight, FaEdit, FaTrashAlt } from "react-icons/fa";
+import { FaArrowCircleRight, FaArrowLeft, FaArrowRight, FaEdit, FaTrashAlt, FaUsers } from "react-icons/fa";
+import { GiConfirmed } from "react-icons/gi";
 import Swal from "sweetalert2";
+import useAuth from "../../../hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
 
-const ManageItems = () => {
-  const [book, , refetch] = useBook();
+const ManageBookings = () => {
+  const { user, loading } = useAuth();
+  const token = localStorage.getItem("access_token");
+  const { refetch, data: orders = [] } = useQuery({
+    queryKey: ["orders", user?.email],
+    enabled: !loading,
+    queryFn: async () => {
+      const res = await fetch(
+        `http://localhost:5000/payments/all`,
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return res.json();
+    },
+  });
   //   console.log(book)
   const axiosSecure = useAxiosSecure();
 
@@ -15,54 +34,53 @@ const ManageItems = () => {
   const items_Per_Page = 10;
   const indexOfLastItem = currentPage * items_Per_Page;
   const indexOfFirstItem = indexOfLastItem - items_Per_Page;
-  const currentItems = book.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = orders.slice(indexOfFirstItem, indexOfLastItem);
 
   // delete item
   const handleDeleteItem = (item) => {
     console.log(item._id)
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const res = await axiosSecure.delete(`/book/${item._id}`);
-        // console.log(res.data);
-        refetch();
+  }
+
+  // confirm order
+  const confiremedOrder = async (item) => {
+    console.log(item)
+    await axiosSecure.patch(`/payments/${item._id}`)
+      .then(res => {
+        console.log(res.data)
         Swal.fire({
           position: "center",
           icon: "success",
-          title: `${item.name} has been deleted`,
+          title: `Order Confirmed Now!`,
           showConfirmButton: false,
           timer: 1500
         });
+        refetch();
+      })
 
-      }
-    });
   }
+
+  console.log(orders)
+
 
   return (
     <div className="w-full md:w-[870px] mx-auto px-4 ">
       <h2 className="text-2xl font-semibold my-4">
-        Manage All <span className="text-mainBG">Books!</span>
+        Manage All <span className="text-mainBG">Orders!</span>
       </h2>
 
       {/* book items table  */}
       <div>
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto lg:overflow-x-visible">
           <table className="table w-full">
             {/* head */}
-            <thead>
+            <thead className="bg-mainBG text-white">
               <tr>
                 <th>#</th>
-                <th>Image</th>
-                <th>Book Name</th>
+                <th>User</th>
+                <th>Transition Id</th>
                 <th>Price</th>
-                <th>Update</th>
+                <th>Status</th>
+                <th>Confirm Order</th>
                 <th>Delete</th>
               </tr>
             </thead>
@@ -71,28 +89,21 @@ const ManageItems = () => {
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>
-                    <div className="flex items-center gap-3">
-                      <div className="avatar">
-                        <div className="mask mask-squircle w-12 h-12">
-                          <img
-                            src={item.image}
-                            alt="Avatar Tailwind CSS Component"
-                          />
-                        </div>
-                      </div>
-                    </div>
+                    {item.email}
                   </td>
-                  <td>{item.name}</td>
+                  <td>{item.transitionId}</td>
                   <td>${item.price}</td>
                   <td>
-                    <Link to={`/dashboard/update-book/${item._id}`}>
-                      <button className="btn btn-ghost btn-xs bg-orange-500">
-                        <FaEdit
-                          className="text-white 
-                                        "
-                        ></FaEdit>
-                      </button>
-                    </Link>
+                    {item.status}
+                  </td>
+                  <td className="text-center">
+                    {item.status === "confirmed" ? "done" : <button
+                      className="btn bg-mainBG text-white btn-xs text-center"
+                      onClick={() => confiremedOrder(item)}
+                    >
+                      <GiConfirmed />
+                    </button>}
+
                   </td>
                   <td>
                     <button
@@ -120,14 +131,14 @@ const ManageItems = () => {
         </button>
         <button
           onClick={() => setCurrentPage(currentPage + 1)}
-          disabled={indexOfLastItem >= book.length}
+          disabled={indexOfLastItem >= orders.length}
           className="btn btn-sm bg-mainBG text-white"
         >
           Next  <FaArrowRight />
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ManageItems;
+export default ManageBookings

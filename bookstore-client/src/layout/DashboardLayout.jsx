@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { MdDashboard, MdOutlineDashboardCustomize } from "react-icons/md";
-import { FaEdit, FaHome, FaLocationArrow, FaPlusCircle, FaRegUser, FaShoppingBag, FaUsers } from "react-icons/fa";
+import { FaEdit, FaHome, FaLocationArrow, FaPen, FaPlusCircle, FaRegUser, FaShoppingBag, FaUsers } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -126,6 +126,12 @@ const DashboardLayout = () => {
               <li>
                 <Link to="/dashboard/manage-items">
                   <FaEdit /> Manage Books
+                </Link>
+              </li>
+              {/* Manage Comments */}
+              <li>
+                <Link to="/dashboard/manage-comments">
+                  <FaPen /> Manage Comments
                 </Link>
               </li>
 
