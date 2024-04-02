@@ -9,6 +9,7 @@ import avatar from "../../../public/th.jpg"
 import RelatedBook from '../../components/RelatedBook';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { FaHeart, FaShoppingCart } from 'react-icons/fa';
 
 
 const CommentSection = () => {
@@ -56,12 +57,31 @@ const CommentInput = () => {
     const [comment, setComment] = useState('');
     const [inputFocused, setInputFocused] = useState(false);
     const { isDarkMode } = useTheme();
+    const { user } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const handleCommentChange = (e) => {
         setComment(e.target.value);
     };
 
     const handleCommentSubmit = () => {
+        if (!user || !user.email) { // Kiểm tra xem người dùng đã đăng nhập chưa
+            // Nếu chưa đăng nhập, hiển thị cảnh báo
+            Swal.fire({
+                title: 'Please login to submit a comment',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Login now!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate('/login', { state: { from: location } })
+                }
+            });
+            return;
+        }
         // Xử lý việc gửi bình luận (chưa được triển khai ở đây)
         console.log('Comment submitted:', comment);
         setComment(''); // Xóa nội dung của ô input sau khi gửi
@@ -202,10 +222,10 @@ const ProductDetails = () => {
                     <div className="py-6">
                         <h3 className={`mb-2 text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>{book.name}</h3>
                         <p className={`mb-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}>
-                            <span className="font-bold">Sold:</span> 12,3k products
+                            <span className="font-bold">Favorites:</span> 12,3k peoples
                         </p>
                         <p className={`mb-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}>
-                            <span className="font-bold">Price:</span> {book.price} $
+                            <span className="font-bold">Price:</span> {book.price} <span className="text-lg font-bold text-red">$ </span>
                         </p>
                         <p className={`text-lg ${isDarkMode ? 'text-white' : 'text-black'}`} style={{ textAlign: 'justify' }}>
                             <span className="font-bold">Description:</span> {book.description}
@@ -238,12 +258,13 @@ const ProductDetails = () => {
 
                     <div className="flex mt-4">
                         <button onClick={handleAddToCart} className="bg-mainBG hover:bg-gray-300 text-white font-bold py-2 px-4 rounded mr-4">
-                            Add to Cart
+                            <span className="inline-block"><FaShoppingCart className="mr-2" /></span> Add to Cart
                         </button>
-                        <button className="bg-blue-600 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded">
-                            Add to Wishlist
+                        <button className="bg-light-purple hover:bg-gray-400 text-white font-bold py-2 px-4 rounded">
+                            <span className="inline-block"><FaHeart className="mr-2" /></span> Add to Wishlist
                         </button>
                     </div>
+
                 </div>
             </div>
             <RelatedBook category={book.category} />

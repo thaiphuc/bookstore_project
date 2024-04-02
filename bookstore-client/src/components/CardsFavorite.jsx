@@ -70,7 +70,7 @@ const CardsFavorite = ({ item }) => {
     return (
         <div to={`/menu/${item._id}`} className="card shadow-xl relative mr-5 md:my-5">
             <div
-                className={`rating gap-1 absolute right-2 top-2 p-4 heartStar bg-mainBG ${isHeartFilled ? "text-white" : "text-rose-500"
+                className={`rating gap-1 absolute right-2 top-2 p-4 heartStar bg-light-purple-200 ${isHeartFilled ? "text-white" : "text-pink"
                     }`}
                 onClick={handleHeartClick}
             >

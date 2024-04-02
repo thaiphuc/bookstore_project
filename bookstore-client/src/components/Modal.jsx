@@ -164,9 +164,6 @@ const Modal = () => {
             <button className="btn btn-circle hover:bg-mainBG hover:text-white">
               <FaFacebookF />
             </button>
-            <button className="btn btn-circle hover:bg-mainBG hover:text-white">
-              <FaGithub />
-            </button>
           </div>
         </div>
       </div>

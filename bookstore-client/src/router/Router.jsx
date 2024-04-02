@@ -21,6 +21,7 @@ import ProductDetails from "../pages/bookPage/ProductDetails";
 import ContactPage from "../pages/bookPage/ContactPage";
 import AboutUsPage from "../pages/bookPage/AboutUsPage";
 import ManageComment from "../pages/dashboard/admin/ManageComment";
+import UpdatePassword from "../pages/dashboard/user/UpdatePassword";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "/update-profile/:id",
         element: <UserProfile />
+      },
+      {
+        path: "/update-password/:id",
+        element: <UpdatePassword />
       },
       {
         path: "/cart-page",

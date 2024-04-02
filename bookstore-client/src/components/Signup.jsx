@@ -176,7 +176,7 @@ const Signup = () => {
             </Link>
           </div>
         </form>
-        <div className="text-center space-x-3">
+        {/* <div className="text-center space-x-3">
           <button
             onClick={handleRegister}
             className="btn btn-circle hover:bg-mainBG hover:text-white"
@@ -189,7 +189,7 @@ const Signup = () => {
           <button className="btn btn-circle hover:bg-mainBG hover:text-white">
             <FaGithub />
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

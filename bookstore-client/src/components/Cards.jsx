@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
 import Swal from 'sweetalert2';
@@ -9,7 +9,7 @@ import axios from 'axios';
 const Cards = ({ item }) => {
   const { name, image, description, price, _id } = item;
   // cutdown max word
-  const maxWords = 20; 
+  const maxWords = 20;
 
   const shortenDescription = (description, maxWords) => {
     if (description.length > 15) {
@@ -96,7 +96,7 @@ const Cards = ({ item }) => {
   return (
     <div to={`/book/${item._id}`} className="card shadow-xl relative mr-5 md:my-5 w-3/4 h-auto">
       <div
-        className={`rating gap-1 absolute right-2 top-2 p-4 heartStar bg-mainBG ${isHeartFilled ? "text-rose-500" : "text-white"
+        className={`rating gap-1 absolute right-2 top-2 p-4 heartStar bg-light-purple-200 ${isHeartFilled ? "text-pink" : "text-white"
           }`}
         onClick={handleHeartClick}
       >
@@ -114,9 +114,9 @@ const Cards = ({ item }) => {
         <p>{shortDescription}</p>
         <div className="card-actions justify-between items-center mt-2">
           <h5 className="font-semibold">
-            <span className="text-sm text-red"> </span>{item.price} $
+            {item.price} <span className="text-sm text-red">$ </span>
           </h5>
-          <button onClick={() => handleAddToCart(item)} className="btn bg-mainBG text-white">Add to Cart </button>
+          <button onClick={() => handleAddToCart(item)} className="btn bg-mainBG text-white"> <FaShoppingCart /> Add to Cart </button>
         </div>
       </div>
     </div>

@@ -97,9 +97,11 @@ const Book = () => {
               Discover the enchanting world of literature at our bookstore, where you can embark on captivating journeys through the pages of fiction and non-fiction alike. Immerse yourself in tales of adventure, knowledge, and inspiration, from timeless classics to contemporary masterpieces.
               With an array of genres including mystery, romance, business, and more, there is something for every reader to explore. Dive into the pages and let your imagination soar as you uncover the treasures that await within the covers of our beloved books.
             </p>
-            <button className="bg-mainBG font-semibold btn text-white px-8 py-3 rounded-full">
-              Order Now
-            </button>
+            <Link to="/cart-page">
+              <button className="mt-2 bg-mainBG font-semibold btn text-white px-8 py-3 rounded-full">
+                Your cart
+              </button>
+            </Link>
           </div>
         </div>
       </div>

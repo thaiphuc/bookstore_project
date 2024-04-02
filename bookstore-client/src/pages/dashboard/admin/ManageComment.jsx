@@ -1,60 +1,38 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import React from "react";
-import { FaTrashAlt, FaUsers } from "react-icons/fa";
+import { useState } from "react";
+import { FaEye, FaTrashAlt, FaUsers } from "react-icons/fa";
 import Swal from "sweetalert2";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const ManageComment = () => {
-    const axiosSecure = useAxiosSecure();
-    const { data: users = [], refetch } = useQuery({
-        queryKey: ['users'],
-        queryFn: async () => {
-            const res = await axiosSecure.get('/users');
-            return res.data;
-        }
-    })
+    const [users] = useState([
+        { _id: 1, name: "John Doe", comment: "Đừng so sánh bản thân với người khác. Hãy so sánh bản thân ngày hôm nay với bản thân ngày hôm qua.Đừng so sánh bản thân với người khác. Hãy so sánh bản thân ngày hôm nay với bản thân ngày hôm qua.Đừng so sánh bản thân với người khác. Hãy so sánh bản thân ngày hôm nay với bản thân ngày hôm qua.", time: "01/02/2024 - 10:00 AM" },
+        { _id: 2, name: "Jane Doe", comment: "Đừng so sánh bản thân với người khác. Hãy so sánh bản thân ngày hôm nay với bản thân ngày hôm qua.", time: "02/02/2024 - 11:00 AM" },
+        { _id: 3, name: "Alice", comment: "Đừng so sánh bản thân với người khác. Hãy so sánh bản thân ngày hôm nay với bản thân ngày hôm qua.", time: "03/02/2024 - 12:00 PM" },
+        { _id: 4, name: "phucthai", comment: "Đừng so sánh bản thân với người khác. Hãy so sánh bản thân ngày hôm nay với bản thân ngày hôm qua.", time: "05/02/2024 - 18:00 PM" },
+        { _id: 5, name: "quipham", comment: "Đừng so sánh bản thân với người khác. Hãy so sánh bản thân ngày hôm nay với bản thân ngày hôm qua.", time: "06/02/2024 - 15:00 PM" },
+    ]);
 
-    const handleMakeAdmin = user => {
-        axiosSecure.patch(`/users/admin/${user._id}`)
-            .then(res => {
-                console.log(res.data)
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: `${user.name} is an Admin Now!`,
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                refetch();
-            })
+    const handleDeleteUser = (user) => {
+        console.log(`${user.name} has been deleted.`);
+        Swal.fire({
+            title: "Deleted!",
+            text: "This comment has been deleted.",
+            icon: "success",
+        });
     };
 
-    const handleDeleteUser = user => {
+    const handleViewUser = (user) => {
+        console.log(`Viewing details of ${user.name}`);
         Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-
-                axiosSecure.delete(`/users/${user._id}`)
-                    .then(res => {
-                        console.log(res)
-                        Swal.fire({
-                            title: "Deleted!",
-                            text: "Your file has been deleted.",
-                            icon: "success"
-                        });
-                    })
-                refetch();
-            }
+            title: "Comment Details",
+            html: `
+        <p style="text-align: left;"><strong>Name:</strong> ${user.name}</p>
+        <p style="text-align: left;"><strong>Comment:</strong> ${user.comment}</p>
+        <p style="text-align: left;"><strong>Created at:</strong> ${user.time}</p>
+    `,
+            confirmButtonText: "Close",
         });
-    }
+
+    };
 
     return (
         <div>
@@ -74,7 +52,8 @@ const ManageComment = () => {
                                 <th>Name</th>
                                 <th>Comment</th>
                                 <th>Time</th>
-                                <th>Action</th>
+                                <th>View</th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -82,23 +61,22 @@ const ManageComment = () => {
                                 <tr key={user._id}>
                                     <th>{index + 1}</th>
                                     <td>{user.name}</td>
-                                    <td>{user.email}</td>
+                                    <td className="comment">
+                                        {user.comment.length > 40 ? `${user.comment.substring(0, user.comment.lastIndexOf(' ', 40))}...` : user.comment}
+                                    </td>
+                                    <td>{user.time}</td>
                                     <td>
-                                        {user.role === "admin" ? (
-                                            "Admin"
-                                        ) : (
-                                            <button
-                                                onClick={() => handleMakeAdmin(user)}
-                                                className="btn btn-xs btn-circle bg-indigo-500"
-                                            >
-                                                <FaUsers className="text-white"></FaUsers>
-                                            </button>
-                                        )}
+                                        <button
+                                            onClick={() => handleViewUser(user)}
+                                            className="btn bg-orange-500 btn-xs"
+                                        >
+                                            <FaEye className="text-white" />
+                                        </button>
                                     </td>
                                     <td>
                                         <button
                                             onClick={() => handleDeleteUser(user)}
-                                            className="btn bg-orange-500 btn-xs"
+                                            className="btn bg-red btn-xs"
                                         >
                                             <FaTrashAlt className="text-white" />
                                         </button>

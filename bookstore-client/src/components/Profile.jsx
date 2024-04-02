@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../contexts/AuthProvider";
 import avatarImg from "/images/avatar.jpg"
 import { useNavigate, Link } from "react-router-dom";
-import { faUser, faClipboardList, faSignOutAlt, faUserTie } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faClipboardList, faSignOutAlt, faUserTie, faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Profile = ({ user }) => {
@@ -45,9 +45,15 @@ const Profile = ({ user }) => {
           <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
             {/* Sidebar content here */}
             <li>
-                <Link to={`/update-profile/${user.email}`}>
-                  <FontAwesomeIcon icon={faUser} className="mr-2" />
-                    Profile
+              <Link to={`/update-profile/${user.email}`}>
+                <FontAwesomeIcon icon={faUser} className="mr-2" />
+                Profile
+              </Link>
+            </li>
+            <li>
+              <Link to={`/update-password/${user.email}`}>
+                <FontAwesomeIcon icon={faLock} className="mr-2" />
+                ChangPassword
               </Link>
             </li>
             <li>

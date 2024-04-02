@@ -6,7 +6,7 @@ import Slider from "react-slick";
 import { FaHeart } from "react-icons/fa"
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 import CardsFavorite from "./CardsFavorite";
-
+import Cards from "./Cards";
 const SampleNextArrow = (props) => {
     const { className, style, onClick } = props;
     return (
