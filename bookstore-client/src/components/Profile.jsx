@@ -53,7 +53,7 @@ const Profile = ({ user }) => {
             <li>
               <Link to={`/update-password/${user.email}`}>
                 <FontAwesomeIcon icon={faLock} className="mr-2" />
-                ChangPassword
+                ChangePassword
               </Link>
             </li>
             <li>

@@ -207,3 +207,7 @@ padding: 20px;
   padding: var(--padding-card, 1.5rem);
   gap: 0.5rem;
 }
+.footer{
+  position: relative;
+  z-index: 1;
+}
