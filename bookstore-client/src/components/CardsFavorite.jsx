@@ -15,8 +15,25 @@ const CardsFavorite = ({ item }) => {
     const location = useLocation();
     const [isHeartFilled, setIsHeartFilled] = useState(false); // Khởi tạo là false
 
-    const handleHeartClick = () => {
-        setIsHeartFilled(!isHeartFilled); // Khi click, đảo ngược giá trị của isHeartFilled
+    const axiosSecure = useAxiosSecure();
+
+    const handleHeartClick = async () => {
+        const bookId = item._id;
+        try {
+        const userRes = await axiosSecure.put(`users/wishlist?email=${user.email}`, {bookId: bookId});
+        setIsHeartFilled(!isHeartFilled);
+        if (userRes.status === 200) {
+            Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `The book has been added to the wish list.`,
+            showConfirmButton: false,
+            timer: 1500,
+            });
+        }
+        } catch (error) {
+        console.error('Error:', error);
+        }
     };
 
     // add to cart handler

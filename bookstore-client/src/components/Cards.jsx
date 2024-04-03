@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 import { AuthContext } from "../contexts/AuthProvider";
 import Swal from 'sweetalert2';
 import useCart from "../hooks/useCart";
@@ -40,9 +41,49 @@ const Cards = ({ item }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isHeartFilled, setIsHeartFilled] = useState(false);
+  const axiosSecure = useAxiosSecure();
+  const [check, setUser] = useState();
 
-  const handleHeartClick = () => {
+  const checkFavorite = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/users/info?email=${user.email}`, {
+        method: 'GET', // Phương thức HTTP
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.accessToken}` // Đính kèm token vào header
+        }
+      });
+    const data = await response.json();
+    setUser(data);
+
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+  }
+  if (check.wishlist.includes(bookId)) {
     setIsHeartFilled(!isHeartFilled);
+  }
+};
+useEffect(() => {
+  checkFavorite();
+}, []);
+
+  const handleHeartClick = async () => {
+    const bookId = item._id;
+    try {
+      const userRes = await axiosSecure.put(`users/wishlist?email=${user.email}`, {bookId: bookId});
+      setIsHeartFilled(!isHeartFilled);
+      if (userRes.status === 200) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: `The book has been added to the wish list.`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   // add to cart handler

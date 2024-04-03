@@ -51,7 +51,7 @@ const CartPage = () => {
 
   const fetchUserInfo = async () => {
 
-    const token = localStorage.getItem('access_token'); // Lấy token từ localStorage
+    const token = localStorage.getItem('access_token');
     if (!token) {
       console.error('Token not found');
       return;
@@ -75,8 +75,11 @@ const CartPage = () => {
       console.error('Error fetching user data:', error);
     }
   };
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
 
-  fetchUserInfo();
+
 
 
   // Handle quantity decrease

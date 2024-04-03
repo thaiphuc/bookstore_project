@@ -28,7 +28,7 @@ const UserProfile = () => {
 
       if (userRes.status === 200) {
         // show success popup
-        reset(); // Đảm bảo bạn đã khai báo và sử dụng `reset` từ react-hook-form nếu cần
+        reset(); 
         Swal.fire({
           position: "center",
           icon: "success",
@@ -43,14 +43,6 @@ const UserProfile = () => {
       // Xử lý lỗi ở đây, ví dụ: hiển thị thông báo lỗi
     }
   
-    
-    // updateUserProfile(name, photoURL).then(() => {
-    //   // Profile updated!
-    //   alert("Profile updated successfully")
-    // }).catch((error) => {
-    //   // An error occurred
-    //   // ...
-    // });
   }
   return (
     <div className='h-screen max-w-md mx-auto flex items-center justify-center '>

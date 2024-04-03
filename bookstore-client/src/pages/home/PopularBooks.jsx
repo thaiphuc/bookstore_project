@@ -41,7 +41,6 @@ const PopularBooks = () => {
     // Fetch data from the backend with category filter
     const fetchData = async () => {
       try {
-        // Thêm query parameter `category` vào URL
         const response = await fetch("http://localhost:5000/book?category=Popular");
         const data = await response.json();
         setBook(data);

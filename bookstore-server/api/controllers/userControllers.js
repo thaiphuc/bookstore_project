@@ -128,6 +128,35 @@ const getUser = async (req, res) => {
   }
 };
 
+const addWishlist = async (req, res) => {
+  const userEmail = req.query.email;
+  const {bookId}  = req.body;
+
+  try {
+    // Find the user by email
+    const user = await User.findOne({ email: userEmail });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found with the provided email.' });
+    }
+    
+    // Check if the book is already in the wishlist
+    if (user.wishlist.includes(bookId)) {
+      return res.status(400).json({ message: 'Book is already in the wishlist.' });
+    }
+    // Add the book ID to the user's wishlist
+    user.wishlist.push(bookId);
+    // Save the updated user document
+    await user.save();
+    
+    // Respond with the updated user data
+    res.status(200).json({ message: 'Book added to wishlist successfully.', user });
+  } catch (error) {
+    res.status(500).json({ message: `Error updating user data: ${error.message}` });
+  }
+};
+
+
+
 
 
 module.exports = {
@@ -138,4 +167,5 @@ module.exports = {
   makeAdmin,
   updateUser,
   getUser,
+  addWishlist
 };
