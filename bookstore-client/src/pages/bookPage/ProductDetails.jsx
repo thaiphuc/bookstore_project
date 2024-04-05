@@ -21,7 +21,12 @@ const CommentSection = () => {
         { id: 4, avatar: 'avatar2.jpg', username: 'thao quyen', time: '1 week ago', comment: 'I highly recommend it.' },
         // add cmt here
     ];
+    const [isExpanded, setIsExpanded] = useState(false);
+    const MAX_LINES = 3; // Giới hạn số dòng hiển thị
 
+    const toggleExpansion = () => {
+        setIsExpanded(!isExpanded);
+    };
     const { isDarkMode } = useTheme();
 
     const commentCount = comments.length; // Đếm số lượng bình luận
@@ -197,6 +202,13 @@ const ProductDetails = () => {
             })
         }
     }
+    // Rút gọn tên tác giả nếu quá dài
+    let authorToDisplay = book.author?.join(", ");
+    const MAX_AUTHOR_LENGTH = 30; // 
+
+    if (authorToDisplay.length > MAX_AUTHOR_LENGTH) {
+        authorToDisplay = authorToDisplay.substring(0, MAX_AUTHOR_LENGTH) + '...';
+    }
 
     return (
         <div className={`max-w-screen-2xl container mx-auto xl:px-24 bg-gradient-to-r from-0% from-[#FAFAFA] to-[#FCFCFC] to-100% ${isDarkMode ? 'dark' : ''}`}>
@@ -237,7 +249,7 @@ const ProductDetails = () => {
                         <div className="flex items-center mb-2">
                             <FontAwesomeIcon icon={faUser} className="text-mainBG text-xl mr-2 p-0 icon" />
                             <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>Author:</span>
-                            <span className={`ml-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}> {book.author?.join(", ")} </span>
+                            <span className={`ml-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}>{authorToDisplay}</span>
                         </div>
                         <div className="flex items-center mb-2">
                             <FontAwesomeIcon icon={faUserGroup} className="text-mainBG text-xl mr-2 p-0 icon" />
