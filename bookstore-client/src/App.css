@@ -57,7 +57,12 @@ header, nav{
   /* height: 480px !important; */
 }
  
-
+button.slick-arrow.slick-prev::before{
+  color: #ccc;
+}
+button.slick-arrow.slick-next::before {
+  color: #ccc;
+}
 .slick-prev {
   z-index: 1;
   /* background-color: red !important; */

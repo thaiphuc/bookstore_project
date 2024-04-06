@@ -6,9 +6,11 @@ import banner1 from "/images/home/banner/banner1.jpg";
 import banner2 from "/images/home/banner/banner2.jpg";
 import banner3 from "/images/home/banner/banner3.jpg";
 import banner4 from "/images/home/banner/banner4.jpg";
+import { useTheme } from '../hooks/ThemeContext';
 import { Link } from "react-router-dom";
 const Banner = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { isDarkMode } = useTheme();
 
   const banners = [banner1, banner2, banner3, banner4];
 
@@ -33,7 +35,7 @@ const Banner = () => {
   };
 
   return (
-    <div className="max-w-screen-2xl container mx-auto xl:px-24 bg-gradient-to-r from-0% from-[#FAFAFA] to-[#FCFCFC] to-100%">
+        <div className={`max-w-screen-2xl container mx-auto xl:px-24 bg-gradient-to-r from-0% from-[#FAFAFA] to-[#FCFCFC] to-100% ${isDarkMode ? " dark" : ""}`}>
       <div className={`py-24 relative flex flex-col md:flex-row-reverse items-center justify-between gap-8`}>
         <div className="md:w-2/3">
           <Slider {...settings}>
@@ -48,7 +50,7 @@ const Banner = () => {
           <h2 className="md:text-5xl text-4xl font-bold md:leading-snug leading-snug">
             Wellcome to our world of <span className="text-mainBG">Book</span>
           </h2>
-          <p className="text-[#4A4A4A] text-lg">
+          <p className="text-lg">
             Where you can enjoy thousands of valuable books spanning all genres and offering excellent knowledge.
           </p>
           <Link to="/book">
