@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 import { AuthContext } from "../contexts/AuthProvider";
 import Swal from 'sweetalert2';
 import useCart from "../hooks/useCart";
@@ -40,13 +41,71 @@ const Cards = ({ item }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isHeartFilled, setIsHeartFilled] = useState(false);
+  const axiosSecure = useAxiosSecure();
+  const [data, setUser] = useState();
+  const bookId = item._id;;
 
-  const handleHeartClick = () => {
-    setIsHeartFilled(!isHeartFilled);
+  const checkFavorite = async () => {
+    try {
+      const response = await axiosSecure.get(`users/info?email=${user.email}`);
+      const data = response.data;
+      setUser(data);
+      if (data.wishlist.includes(bookId)) {
+        setIsHeartFilled(true);
+      }
+
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }  
+  };
+useEffect(() => {
+  checkFavorite();
+}, []);
+
+  const handleHeartClick = async () => {
+    if (!user || !user.email) { // Kiểm tra xem người dùng đã đăng nhập chưa
+      // Nếu chưa đăng nhập, hiển thị cảnh báo
+      Swal.fire({
+          title: 'Please login!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Login now!'
+      }).then((result) => {
+          if (result.isConfirmed) {
+              navigate('/login', { state: { from: location } })
+          }
+      });
+      return;
+    }
+    try {
+      const userRes = await axiosSecure.put(`users/wishlist?email=${user.email}`, {bookId: bookId});
+      if (userRes.status === 201) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: `The book has been added to the wish list.`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+      if (userRes.status === 200) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: `The book has been removed from the wish list.`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   // add to cart handler
-  const handleAddToCart = item => {
+  const handleAddToCart = () => {
 
     if (user && user.email) {
       const cartItem = { bookItemId: _id, name, quantity: 1, image, price, email: user.email }

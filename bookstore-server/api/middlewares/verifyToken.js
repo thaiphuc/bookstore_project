@@ -3,7 +3,7 @@
  
  const verifyToken = (req, res, next) => {
   
-    // console.log(req.headers.authorization);
+
     if (!req.headers.authorization) {
       return res.status(401).send({ message: 'unauthorized access' });
     }

@@ -6,6 +6,7 @@ const userSchema = new Schema({
     email: {
         type: String,
         trim: true,
+        unique: true,
         minlength: 3,
     },
     photoURL: String,
@@ -16,7 +17,7 @@ const userSchema = new Schema({
     },
     phone: String,
     address: String,
-    wishList: [String]
+    wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }]
 })
 
 const User = mongoose.model('User', userSchema);

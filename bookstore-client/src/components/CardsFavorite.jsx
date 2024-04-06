@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 import Swal from 'sweetalert2'
 import useCart from "../hooks/useCart";
 import axios from 'axios';
@@ -13,14 +14,30 @@ const CardsFavorite = ({ item }) => {
     const [cart, refetch] = useCart();
     const navigate = useNavigate();
     const location = useLocation();
+    const axiosSecure = useAxiosSecure();
     const [isHeartFilled, setIsHeartFilled] = useState(false); // Khởi tạo là false
 
-    const handleHeartClick = () => {
-        setIsHeartFilled(!isHeartFilled); // Khi click, đảo ngược giá trị của isHeartFilled
+    const handleHeartClick = async () => {
+        const bookId = item._id;
+        try {
+        const userRes = await axiosSecure.put(`users/wishlist?email=${user.email}`, {bookId: bookId});
+        if (userRes.status === 200) {
+            Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `The book has been removed from the wish list.`,
+            showConfirmButton: false,
+            timer: 1500,
+            });
+        }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+       window.location.reload();
     };
 
     // add to cart handler
-    const handleAddToCart = item => {
+    const handleAddToCart = () => {
         // console.log(item);
         if (user && user.email) {
             const cartItem = { menuItemId: _id, name, quantity: 1, image, price, email: user.email }
@@ -68,7 +85,7 @@ const CardsFavorite = ({ item }) => {
     }
 
     return (
-        <div to={`/menu/${item._id}`} className="card shadow-xl relative mr-5 md:my-5">
+        <div to={`/book/${item._id}`} className="card shadow-xl relative mr-5 md:my-5">
             <div
                 className={`rating gap-1 absolute right-2 top-2 p-4 heartStar bg-light-purple-200 ${isHeartFilled ? "text-white" : "text-pink"
                     }`}
@@ -76,13 +93,13 @@ const CardsFavorite = ({ item }) => {
             >
                 <FaHeart className="w-5 h-5 cursor-pointer" />
             </div>
-            <Link to={`/menu/${item._id}`}>
+            <Link to={`/book/${item._id}`}>
                 <figure>
                     <img src={item.image} alt="Shoes" className="hover:scale-105 transition-all duration-300 md:h-72" />
                 </figure>
             </Link>
             <div className="card-body">
-                <Link to={`/menu/${item._id}`}><h2 className="card-title">{item.name}!</h2></Link>
+                <Link to={`/book/${item._id}`}><h2 className="card-title">{item.name}!</h2></Link>
                 <p style={{ textAlign: 'left' }}>Description of the item</p>
                 <div className="card-actions justify-between items-center mt-2">
                     <h5 className="font-semibold">
