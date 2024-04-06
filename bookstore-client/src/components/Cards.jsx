@@ -53,6 +53,9 @@ const Cards = ({ item }) => {
       if (data.wishlist.includes(bookId)) {
         setIsHeartFilled(true);
       }
+      else {
+        setIsHeartFilled(false);
+      }
 
     } catch (error) {
       console.error('Error fetching user data:', error);
@@ -60,7 +63,7 @@ const Cards = ({ item }) => {
   };
 useEffect(() => {
   checkFavorite();
-}, []);
+}, [bookId]);
 
   const handleHeartClick = async () => {
     if (!user || !user.email) { // Kiểm tra xem người dùng đã đăng nhập chưa
