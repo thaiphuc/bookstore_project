@@ -92,7 +92,7 @@ const FavoriteBook = () => {
         prevArrow: <SamplePrevArrow />,
     };
     return (
-        <div className="max-w-screen-xl container mx-auto xl:px-12 px-4 mb-20 relative">
+        <div className="max-w-screen-2xl container mx-auto xl:px-24 px-4 mb-20 relative">
             <div className='text-left'>
                 <p className='subtitle'>Your Favorite Books</p>
             </div>

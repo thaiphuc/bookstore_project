@@ -43,7 +43,7 @@ const Cards = ({ item }) => {
   const [isHeartFilled, setIsHeartFilled] = useState(false);
   const axiosSecure = useAxiosSecure();
   const [data, setUser] = useState();
-  const bookId = item._id;;
+  const bookId = item._id;
 
   const checkFavorite = async () => {
     try {
