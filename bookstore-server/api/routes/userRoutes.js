@@ -28,7 +28,12 @@ router.get('/admin/:email', verifyToken, userController.getAdmin)
 // make admin
 router.patch('/admin/:id', verifyToken, verifyAdmin, userController.makeAdmin)
 
-// add wishlist
-router.put('/wishlist', userController.addWishlist)
+// add, remove wish list
+router.put('/wishlist', userController.Wishlist)
+
+//get wish list books
+router.get('/wishlist', userController.getWishlistBooks)
+
+
 
 module.exports = router;

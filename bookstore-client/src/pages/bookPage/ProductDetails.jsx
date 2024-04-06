@@ -10,6 +10,7 @@ import RelatedBook from '../../components/RelatedBook';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { FaHeart, FaShoppingCart } from 'react-icons/fa';
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 
 const CommentSection = () => {
@@ -123,6 +124,7 @@ const ProductDetails = () => {
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
+    const axiosSecure = useAxiosSecure();
     useEffect(() => {
         setLoading(true);
 
@@ -145,6 +147,40 @@ const ProductDetails = () => {
     if (!book) {
         return <div>Book not found</div>;
     }
+
+    const handleWishlistClick = async () => {
+        if (!user || !user.email) { // Kiểm tra xem người dùng đã đăng nhập chưa
+          // Nếu chưa đăng nhập, hiển thị cảnh báo
+          Swal.fire({
+              title: 'Please login!',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Login now!'
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  navigate('/login', { state: { from: location } })
+              }
+          });
+          return;
+        }
+        try {
+          const userRes = await axiosSecure.put(`users/wishlist?email=${user.email}`, {bookId: id});
+          if (userRes.status === 201) {
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: `The book has been added to the wish list.`,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      };
+
     const handleAddToCart = () => {
         if (user && user.email && book) { // Giả sử `user` được quản lý ở đâu đó trong context hoặc state
             const cartItem = {
@@ -260,7 +296,7 @@ const ProductDetails = () => {
                         <button onClick={handleAddToCart} className="bg-mainBG hover:bg-gray-300 text-white font-bold py-2 px-4 rounded mr-4">
                             <span className="inline-block"><FaShoppingCart className="mr-2" /></span> Add to Cart
                         </button>
-                        <button className="bg-light-purple hover:bg-gray-400 text-white font-bold py-2 px-4 rounded">
+                        <button onClick={handleWishlistClick} className="bg-light-purple hover:bg-gray-400 text-white font-bold py-2 px-4 rounded">
                             <span className="inline-block"><FaHeart className="mr-2" /></span> Add to Wishlist
                         </button>
                     </div>

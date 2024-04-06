@@ -1,12 +1,14 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { FaHeart } from "react-icons/fa"
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import { AuthContext } from "../contexts/AuthProvider";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 import CardsFavorite from "./CardsFavorite";
-import Cards from "./Cards";
+
 const SampleNextArrow = (props) => {
     const { className, style, onClick } = props;
     return (
@@ -34,18 +36,24 @@ const SamplePrevArrow = (props) => {
 };
 
 const FavoriteBook = () => {
-    const [descriptions, setDescriptions] = useState([]);
     const slider = React.useRef(null);
-
+    const { user } = useContext(AuthContext);
+    const [bookList, setWishlist] = useState([]); // Khởi tạo state với giá trị ban đầu là mảng rỗng
+    const axiosSecure = useAxiosSecure();
+    
+    const fetchWishlist = async () => {
+      try {
+        const response = await axiosSecure.get(`users/wishlist?email=${user.email}`);
+        setWishlist(response.data);
+      } catch (error) {
+          console.error('Error fetching wishlist data:', error);
+        }
+    };
+    
     useEffect(() => {
-        fetch("/menu.json")
-            .then((res) => res.json())
-            .then((data) => {
-                const specials = data.filter((item) => item.category === "popular");
-                // console.log(specials)
-                setDescriptions(specials);
-            });
+      fetchWishlist();
     }, []);
+    
     const settings = {
         dots: true,
         infinite: false,
@@ -101,12 +109,18 @@ const FavoriteBook = () => {
                     <FaAngleRight className=" h-8 w-8 p-1" />
                 </button>
             </div>
-
-            <Slider ref={slider} {...settings} className="overflow-hidden mt-10 space-x-5">
-                {descriptions.map((item, i) => (
+            {bookList.length > 0 ? (
+                <Slider ref={slider} {...settings} className="overflow-hidden mt-10 space-x-5">
+                {bookList.map((item, i) => (
                     <CardsFavorite item={item} key={i} />
                 ))}
             </Slider>
+            ) : ( <div className="text-center mt-20">
+                    <p>Favorite book is empty. Please add book.</p>
+                        <Link to="/book"><button className="btn bg-mainBG text-white mt-3">Back to Book</button></Link>
+                </div>)
+          }
+            
         </div>
     );
 };

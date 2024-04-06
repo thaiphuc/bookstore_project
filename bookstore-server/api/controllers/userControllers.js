@@ -128,32 +128,50 @@ const getUser = async (req, res) => {
   }
 };
 
-const addWishlist = async (req, res) => {
+const Wishlist = async (req, res) => {
   const userEmail = req.query.email;
-  const {bookId}  = req.body;
+  const { bookId } = req.body;
 
   try {
-    // Find the user by email
     const user = await User.findOne({ email: userEmail });
     if (!user) {
       return res.status(404).json({ message: 'User not found with the provided email.' });
     }
-    
-    // Check if the book is already in the wishlist
-    if (user.wishlist.includes(bookId)) {
-      return res.status(400).json({ message: 'Book is already in the wishlist.' });
+
+    const index = user.wishlist.indexOf(bookId);
+
+    if (index !== -1) {
+      // Nếu sách đã tồn tại trong wishlist, xóa nó
+      user.wishlist.splice(index, 1);
+      await user.save();
+      res.status(200).json({ message: 'Book removed from wishlist successfully.', user }); 
+    } else {
+      // Nếu sách không tồn tại trong wishlist, thêm nó vào
+      user.wishlist.push(bookId);
+      await user.save();
+      res.status(201).json({ message: 'Book added to wishlist successfully.', user }); 
     }
-    // Add the book ID to the user's wishlist
-    user.wishlist.push(bookId);
-    // Save the updated user document
-    await user.save();
-    
-    // Respond with the updated user data
-    res.status(200).json({ message: 'Book added to wishlist successfully.', user });
   } catch (error) {
     res.status(500).json({ message: `Error updating user data: ${error.message}` });
   }
 };
+
+const getWishlistBooks = async (req, res) => { 
+  const email  = req.query.email;
+  try {
+    const user = await User.findOne({ email: email }).populate('wishlist');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+    const wishlistBooks = user.wishlist;
+
+    res.status(200).json(wishlistBooks);
+  } catch (error) {
+    console.error('Error fetching wishlist books:', error);
+    res.status(500).json({ message: `Error fetching wishlist books: ${error.message}` });
+  }
+};
+
 
 
 
@@ -167,5 +185,6 @@ module.exports = {
   makeAdmin,
   updateUser,
   getUser,
-  addWishlist
+  Wishlist,
+  getWishlistBooks
 };
