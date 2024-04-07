@@ -54,7 +54,7 @@ const Banner = () => {
             Where you can enjoy thousands of valuable books spanning all genres and offering excellent knowledge.
           </p>
           <Link to="/book">
-            <button className="mt-1 bg-mainBG font-semibold btn text-white px-8 py-3 rounded-full">
+            <button className="mt-3 bg-mainBG font-semibold btn text-white px-8 py-3 rounded-full">
               Buy Now
             </button>
           </Link>
