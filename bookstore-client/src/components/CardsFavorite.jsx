@@ -54,7 +54,6 @@ const CardsFavorite = ({ item }) => {
             showConfirmButton: false,
             timer: 1000,
             });
-            
         }
         } catch (error) {
             console.error('Error:', error);
