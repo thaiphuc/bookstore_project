@@ -84,6 +84,7 @@ useEffect(() => {
     }
     try {
       const userRes = await axiosSecure.put(`users/wishlist?email=${user.email}`, {bookId: bookId});
+      setIsHeartFilled(current => !current);
       if (userRes.status === 201) {
         Swal.fire({
           position: "center",
