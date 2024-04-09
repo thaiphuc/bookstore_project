@@ -52,8 +52,9 @@ const CardsFavorite = ({ item }) => {
             icon: "success",
             title: `The book has been removed from the wish list.`,
             showConfirmButton: false,
-            timer: 1500,
+            timer: 1000,
             });
+            
         }
         } catch (error) {
             console.error('Error:', error);
@@ -77,7 +78,7 @@ const CardsFavorite = ({ item }) => {
                             icon: 'success',
                             title: 'Book added on the cart.',
                             showConfirmButton: false,
-                            timer: 1500
+                            timer: 1000
                         })
                     }
                 })
@@ -89,7 +90,7 @@ const CardsFavorite = ({ item }) => {
                         icon: 'warning',
                         title: `${errorMessage}`,
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 1000
                     })
                 });
         }
