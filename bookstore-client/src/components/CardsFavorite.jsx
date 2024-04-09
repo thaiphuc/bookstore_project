@@ -31,7 +31,7 @@ const CardsFavorite = ({ item }) => {
         }
         return text;
     };
-    const shortName = shortenText(name, 10);
+    const shortName = shortenText(name, 8);
 
     const shortDescription = shortenDescription(description, maxWords);
 
@@ -120,7 +120,7 @@ const CardsFavorite = ({ item }) => {
             </div>
             <Link to={`/book/${item._id}`}>
                 <figure>
-                    <img src={item.image} alt="Shoes" className="w-48 h-48 object-fit hover:scale-105 transition-all duration-300 md:h-72" />
+                    <img src={item.image} alt="Shoes" className="w-full h-50 object-cover hover:scale-105 transition-all duration-300 md:h-72" />
                 </figure>
             </Link>
             <div className="card-body">

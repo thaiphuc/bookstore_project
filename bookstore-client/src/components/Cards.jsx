@@ -32,7 +32,7 @@ const Cards = ({ item }) => {
     }
     return text;
   };
-  const shortName = shortenText(name, 10);
+  const shortName = shortenText(name, 8);
 
   const shortDescription = shortenDescription(description, maxWords);
 
@@ -166,7 +166,7 @@ useEffect(() => {
       </div>
       <Link to={`/book/${item._id}`}>
         <figure>
-          <img src={item.image} alt="Shoes" className="w-48 h-48 object-fit hover:scale-105 transition-all duration-300" />
+          <img src={item.image} alt="Shoes" className="w-full h-48 object-fit hover:scale-105 transition-all duration-300" />
         </figure>
       </Link>
       <div className="card-body">
