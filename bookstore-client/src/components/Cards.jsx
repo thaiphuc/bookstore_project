@@ -13,8 +13,8 @@ const Cards = ({ item }) => {
   const maxWords = 20;
 
   const shortenDescription = (description, maxWords) => {
-    if (description.length > 15) {
-      const spaceIndex = description.indexOf(' ', 15);
+    if (description.length > 10) {
+      const spaceIndex = description.indexOf(' ', 10);
       const shortenedText = description.substring(0, spaceIndex);
       const words = shortenedText.split(' ');
       const shortDescription = words.slice(0, maxWords).join(' ');
@@ -32,7 +32,7 @@ const Cards = ({ item }) => {
     }
     return text;
   };
-  const shortName = shortenText(name, 8);
+  const shortName = shortenText(name, 7);
 
   const shortDescription = shortenDescription(description, maxWords);
 
@@ -172,14 +172,14 @@ useEffect(() => {
       </Link>
       <div className="card-body">
         <Link to={`/book/${item._id}`}>
-          <h2 className="card-title">{shortName}!</h2>
+          <h2 className="card-title text-lg">{shortName}!</h2>
         </Link>
         <p>{shortDescription}</p>
         <div className="card-actions justify-between items-center mt-2">
           <h5 className="font-semibold">
             {item.price} <span className="text-sm text-red">$ </span>
           </h5>
-          <button onClick={() => handleAddToCart(item)} className="btn bg-mainBG text-white"> <FaShoppingCart /> Add to Cart </button>
+          <button onClick={() => handleAddToCart(item)} className="btn bg-mainBG text-white"> <FaShoppingCart /> Add </button>
         </div>
       </div>
     </div>

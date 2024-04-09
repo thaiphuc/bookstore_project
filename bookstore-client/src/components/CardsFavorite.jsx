@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
 import useAxiosSecure from "../hooks/useAxiosSecure";
@@ -120,7 +120,7 @@ const CardsFavorite = ({ item }) => {
             </div>
             <Link to={`/book/${item._id}`}>
                 <figure>
-                    <img src={item.image} alt="Shoes" className="w-full h-50 object-cover hover:scale-105 transition-all duration-300 md:h-72" />
+                    <img src={item.image} alt="Shoes" className="w-full h-50 object-fit hover:scale-105 transition-all duration-300 md:h-72" />
                 </figure>
             </Link>
             <div className="card-body">
@@ -130,7 +130,7 @@ const CardsFavorite = ({ item }) => {
                     <h5 className="font-semibold">
                         <span className="text-sm text-red">$ </span> {item.price}
                     </h5>
-                    <button onClick={() => handleAddToCart(item)} className="btn bg-mainBG text-white">Add to Cart </button>
+                    <button onClick={() => handleAddToCart(item)} className="btn bg-mainBG text-white"><FaShoppingCart /> Add  </button>
                 </div>
             </div>
         </div>

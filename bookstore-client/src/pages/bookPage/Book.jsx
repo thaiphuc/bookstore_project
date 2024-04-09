@@ -11,7 +11,7 @@ const Book = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortOption, setSortOption] = useState("default");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(6); // Number of items to display per page
+  const [itemsPerPage] = useState(8); // Number of items to display per page
 
   useEffect(() => {
     // Fetch data from the backend
@@ -189,7 +189,7 @@ const Book = () => {
         </div>
 
         {/* product card */}
-        <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4 ">
+        <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4 ">
           {currentItems.map((item, index) => (
             <Cards key={index} item={item} />
           ))}
