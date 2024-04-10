@@ -60,7 +60,7 @@ const Users = () => {
     <div>
       <div className="flex justify-between mx-4 my-4">
         <h2 className="text-2xl">All Users</h2>
-        <h2 className="text-2xl">Total Users: {users.length}</h2>
+        <h2 className="text-2xl mr-4">Total Users: {users.length}</h2>
       </div>
 
       {/* table */}

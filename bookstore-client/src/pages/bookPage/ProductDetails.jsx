@@ -22,14 +22,14 @@ const CommentSection = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-              const response = await axiosSecure.get(`cmt?bookId=${id}`);
-              setComment(response.data);
+                const response = await axiosSecure.get(`cmt?bookId=${id}`);
+                setComment(response.data);
             } catch (error) {
                 console.error('Error fetching comments:', error);
-              }
-          };
+            }
+        };
         fetchData();
-      }, [id]);
+    }, [id]);
 
     const [isExpanded, setIsExpanded] = useState(false);
     const MAX_LINES = 3; // Giới hạn số dòng hiển thị
@@ -37,6 +37,7 @@ const CommentSection = () => {
     const toggleExpansion = () => {
         setIsExpanded(!isExpanded);
     };
+
     const { isDarkMode } = useTheme();
 
     const commentCount = listcomments.length; // Đếm số lượng bình luận
@@ -47,13 +48,14 @@ const CommentSection = () => {
                 Customer Reviews ({commentCount})
             </h3>
             <div className="comments">
-                {listcomments.map(comment => (
+                {/* Render only the first three comments if not expanded */}
+                {listcomments.slice(0, isExpanded ? listcomments.length : MAX_LINES).map(comment => (
                     <div key={comment._id} className="comment"> {/* Sử dụng _id làm key */}
                         <div className="avatar-details-container flex">
                             {comment.avatar && (
-                              <div className="avatar-container w-24 rounded-full ring ring-mainBG ring-offset-base-100 ring-offset-2 flex items-center justify-center">
-                                  <img src={comment.avatar} alt="Avatar" />
-                              </div>
+                                <div className="avatar-container w-24 rounded-full ring ring-mainBG ring-offset-base-100 ring-offset-2 flex items-center justify-center">
+                                    <img src={comment.avatar} alt="Avatar" />
+                                </div>
                             )}
                             <div className="details ml-2">
                                 <div className="user-info flex items-center">
@@ -67,6 +69,20 @@ const CommentSection = () => {
                         </div>
                     </div>
                 ))}
+                <div className="flex justify-center">
+                    {/* Show the 'Show more' button if comments exceed MAX_LINES */}
+                    {!isExpanded && commentCount > MAX_LINES && (
+                        <button onClick={toggleExpansion} className="text-mainBG font-semibold mt-2 focus:outline-none">
+                            Show more
+                        </button>
+                    )}
+                    {/* Show the 'Show less' button if expanded */}
+                    {isExpanded && (
+                        <button onClick={toggleExpansion} className="text-mainBG font-semibold mt-2 focus:outline-none">
+                            Show less
+                        </button>
+                    )}
+                </div>
             </div>
         </div>
     );
@@ -115,19 +131,19 @@ const CommentInput = () => {
             const cmtRes = await axiosSecure.post('/cmt', Cmt);
             console.log(cmtRes)
             if (cmtRes.status === 200) {
-              await Swal.fire({
-                position: "center",
-                icon: "success",
-                title: `Comment has been posted.`,
-                showConfirmButton: false,
-                timer: 1500
-              });
+                await Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: `Comment has been posted.`,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             }
             setComment(''); // Clear the input field
             window.location.reload();
-          } catch (error) {
+        } catch (error) {
             console.error('Error posting comment:', error);
-          }
+        }
 
     };
 
@@ -193,36 +209,36 @@ const ProductDetails = () => {
 
     const handleWishlistClick = async () => {
         if (!user || !user.email) { // Kiểm tra xem người dùng đã đăng nhập chưa
-          // Nếu chưa đăng nhập, hiển thị cảnh báo
-          Swal.fire({
-              title: 'Please login!',
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Login now!'
-          }).then((result) => {
-              if (result.isConfirmed) {
-                  navigate('/login', { state: { from: location } })
-              }
-          });
-          return;
+            // Nếu chưa đăng nhập, hiển thị cảnh báo
+            Swal.fire({
+                title: 'Please login!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Login now!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate('/login', { state: { from: location } })
+                }
+            });
+            return;
         }
         try {
-          const userRes = await axiosSecure.put(`users/wishlist?email=${user.email}`, {bookId: id});
-          if (userRes.status === 201) {
-            Swal.fire({
-              position: "center",
-              icon: "success",
-              title: `The book has been added to the wish list.`,
-              showConfirmButton: false,
-              timer: 1500,
-            });
-          }
+            const userRes = await axiosSecure.put(`users/wishlist?email=${user.email}`, { bookId: id });
+            if (userRes.status === 201) {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: `The book has been added to the wish list.`,
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            }
         } catch (error) {
-          console.error('Error:', error);
+            console.error('Error:', error);
         }
-      };
+    };
 
     const handleAddToCart = () => {
         if (user && user.email && book) { // Giả sử `user` được quản lý ở đâu đó trong context hoặc state
@@ -278,7 +294,7 @@ const ProductDetails = () => {
     }
     // Rút gọn tên tác giả nếu quá dài
     let authorToDisplay = book.author?.join(", ");
-    const MAX_AUTHOR_LENGTH = 30; // 
+    const MAX_AUTHOR_LENGTH = 30; //
 
     if (authorToDisplay.length > MAX_AUTHOR_LENGTH) {
         authorToDisplay = authorToDisplay.substring(0, MAX_AUTHOR_LENGTH) + '...';

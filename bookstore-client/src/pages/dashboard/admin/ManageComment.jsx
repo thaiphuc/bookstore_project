@@ -38,7 +38,7 @@ const ManageComment = () => {
         <div>
             <div className="flex justify-between mx-4 my-4">
                 <h2 className="text-2xl">All Comments</h2>
-                <h2 className="text-2xl">Total Comments: {users.length}</h2>
+                <h2 className="text-2xl mr-4">Total Comments: {users.length}</h2>
             </div>
 
             {/* table */}
