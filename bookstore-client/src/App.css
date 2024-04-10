@@ -29,11 +29,12 @@ body{
   padding-top: 4rem;
   /* padding-bottom: 4rem; */
 }
-
+div.mt-5.md\:mt-2.mx-4 {
+  width: 100%;
+}
 .h-48 {
   height: 14rem;
 }
-
 .space-y-7> :not([hidden])~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: 0;
