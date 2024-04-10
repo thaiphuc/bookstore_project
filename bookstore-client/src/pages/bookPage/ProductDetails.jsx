@@ -167,9 +167,11 @@ const CommentInput = () => {
                 className={`input-field ${isDarkMode ? 'dark' : ''}`}
                 style={{ width: '100%', height: '200px', border: '2px solid', marginRight: '10px', padding: '10px' }}
             />
-            <button onClick={handleCommentSubmit} className="submit-btn bg-mainBG hover:bg-gray-300 text-white font-bold py-2 px-4 rounded">
+            <div className='flex justify-end'>
+            <button onClick={handleCommentSubmit} className="  bg-mainBG hover:bg-gray-300 text-white font-bold py-2 px-4 rounded">
                 Send
             </button>
+            </div>
         </div>
     );
 };
