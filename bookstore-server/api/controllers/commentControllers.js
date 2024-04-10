@@ -5,11 +5,8 @@ const Book = require("../models/Book");
 // delete a Comment
 const deleteComment = async (req, res) => {
   const commentId = req.params.id;
-  // console.log(commentId);
-
   try {
     const deletedComment = await Comment.findByIdAndDelete(commentId);
-    // console.log(deletedComment);
 
     if (!deletedComment) {
       return res.status(404).json({ message: "Comment not found" });
