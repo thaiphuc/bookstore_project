@@ -47,7 +47,7 @@ const CardsFavorite = ({ item }) => {
         try {
         const userRes = await axiosSecure.put(`users/wishlist?email=${user.email}`, {bookId: bookId});
         if (userRes.status === 200) {
-            Swal.fire({
+            await Swal.fire({
             position: "center",
             icon: "success",
             title: `The book has been removed from the wish list.`,

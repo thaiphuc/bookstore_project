@@ -11,17 +11,26 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { FaHeart, FaShoppingCart } from 'react-icons/fa';
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { formatDistanceToNow } from 'date-fns';
 
 
 const CommentSection = () => {
-    // data giả 
-    const comments = [
-        { id: 1, avatar: 'avatar1.jpg', username: 'thai phuc', time: '2 hours ago', comment: 'This book is amazing!' },
-        { id: 2, avatar: 'avatar2.jpg', username: 'phu qui', time: '1 day ago', comment: 'I highly recommend it.' },
-        { id: 3, avatar: 'avatar2.jpg', username: 'duy linh', time: '1 minute ago', comment: 'I highly recommend it.' },
-        { id: 4, avatar: 'avatar2.jpg', username: 'thao quyen', time: '1 week ago', comment: 'I highly recommend it.' },
-        // add cmt here
-    ];
+    const [listcomments, setComment] = useState([]);
+    const { id } = useParams();
+    const axiosSecure = useAxiosSecure();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+              const response = await axiosSecure.get(`cmt?bookId=${id}`);
+              setComment(response.data);
+            } catch (error) {
+                console.error('Error fetching comments:', error);
+              }
+          };
+        fetchData();
+      }, [id]);
+
     const [isExpanded, setIsExpanded] = useState(false);
     const MAX_LINES = 3; // Giới hạn số dòng hiển thị
 
@@ -30,24 +39,28 @@ const CommentSection = () => {
     };
     const { isDarkMode } = useTheme();
 
-    const commentCount = comments.length; // Đếm số lượng bình luận
+    const commentCount = listcomments.length; // Đếm số lượng bình luận
 
     return (
         <div className="comment-section">
             <h3 className={`mb-2 text-2xl font-bold p-2 ${isDarkMode ? 'text-white' : 'text-black'}`}>
-                Customer Reviews ({commentCount}) {/* Hiển thị số lượng bình luận */}
+                Customer Reviews ({commentCount})
             </h3>
             <div className="comments">
-                {comments.map(comment => (
-                    <div key={comment.id} className="comment">
+                {listcomments.map(comment => (
+                    <div key={comment._id} className="comment"> {/* Sử dụng _id làm key */}
                         <div className="avatar-details-container flex">
-                            <div className="avatar-container w-24 rounded-full ring ring-mainBG ring-offset-base-100 ring-offset-2 flex items-center justify-center">
-                                <img src={avatar} alt="Avatar" />
-                            </div>
+                            {comment.avatar && (
+                              <div className="avatar-container w-24 rounded-full ring ring-mainBG ring-offset-base-100 ring-offset-2 flex items-center justify-center">
+                                  <img src={comment.avatar} alt="Avatar" />
+                              </div>
+                            )}
                             <div className="details ml-2">
                                 <div className="user-info flex items-center">
                                     <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>{comment.username}</span>
-                                    <span className="ml-1 text-sm italic text-gray-500">{comment.time}</span>
+                                    <span className="ml-1 text-sm italic text-gray-500">
+                                        {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })} {/* Định dạng ngày tháng */}
+                                    </span>
                                 </div>
                                 <p className={`comment-text ${isDarkMode ? 'text-white' : 'text-black'}`}>{comment.comment}</p>
                             </div>
@@ -64,14 +77,17 @@ const CommentInput = () => {
     const [inputFocused, setInputFocused] = useState(false);
     const { isDarkMode } = useTheme();
     const { user } = useContext(AuthContext);
+    const { id } = useParams();
     const navigate = useNavigate();
+    const axiosSecure = useAxiosSecure();
     const location = useLocation();
+
 
     const handleCommentChange = (e) => {
         setComment(e.target.value);
     };
 
-    const handleCommentSubmit = () => {
+    const handleCommentSubmit = async () => {
         if (!user || !user.email) { // Kiểm tra xem người dùng đã đăng nhập chưa
             // Nếu chưa đăng nhập, hiển thị cảnh báo
             Swal.fire({
@@ -88,9 +104,31 @@ const CommentInput = () => {
             });
             return;
         }
-        // Xử lý việc gửi bình luận (chưa được triển khai ở đây)
-        console.log('Comment submitted:', comment);
-        setComment(''); // Xóa nội dung của ô input sau khi gửi
+        const Cmt = {
+            username: user.displayName,
+            avatar: user.photoURL,
+            comment: comment,
+            bookId: id
+        }
+
+        try {
+            const cmtRes = await axiosSecure.post('/cmt', Cmt);
+            console.log(cmtRes)
+            if (cmtRes.status === 200) {
+              await Swal.fire({
+                position: "center",
+                icon: "success",
+                title: `Comment has been posted.`,
+                showConfirmButton: false,
+                timer: 1500
+              });
+            }
+            setComment(''); // Clear the input field
+            window.location.reload();
+          } catch (error) {
+            console.error('Error posting comment:', error);
+          }
+
     };
 
     const handleInputFocus = () => {

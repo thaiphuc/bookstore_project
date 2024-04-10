@@ -38,12 +38,16 @@ const usersRoutes = require("./api/routes/userRoutes");
 const paymentRoutes = require("./api/routes/paymentRoutes");
 const adminStats = require("./api/routes/adminStats");
 const orderStats = require("./api/routes/orderStats");
+const commentRoutes = require("./api/routes/commentRoutes");
+
 app.use("/book", bookRoutes);
 app.use("/carts", cartsRoutes);
 app.use("/users", usersRoutes);
 app.use("/payments", paymentRoutes);
 app.use("/admin-stats", adminStats);
 app.use("/order-stats", orderStats);
+app.use("/cmt", commentRoutes);
+
 
 // payment methods routes
 const verifyToken = require("./api/middlewares/verifyToken");

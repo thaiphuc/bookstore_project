@@ -6,15 +6,14 @@ const commentSchema = new Schema({
     type: String,
     required: true,
   },
+  avatar: String,
   comment: {
     type: String,
     required: true,
   },
-  bookName: {
+  bookId: {
     type: String,
-    trim: true,
     required: true,
-    minlength: 3,
   },
   createdAt: {
     type: Date,

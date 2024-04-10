@@ -12,5 +12,8 @@ router.get("/", commentController.getAllComments);
 // delete a Comment item
 router.delete("/:id", verifyToken, verifyAdmin, commentController.deleteComment);
 
+//post cmt
+router.post("/", verifyToken, commentController.postComment);
+
 
 module.exports = router;
