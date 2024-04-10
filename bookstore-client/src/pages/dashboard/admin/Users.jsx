@@ -65,8 +65,8 @@ const Users = () => {
 
       {/* table */}
       <div>
-        <div className="overflow-x-auto">
-          <table className="table table-zebra md:w-[870px]">
+        <div className="overflow-x-auto w-full">
+          <table className="table table-zebra w-full">
             {/* head */}
             <thead className="bg-mainBG text-white">
               <tr>
