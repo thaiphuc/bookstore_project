@@ -12,6 +12,7 @@ const AddBook = () => {
   const [quantity, setQuantity] = useState(0);
   const [publishYearError, setPublishYearError] = useState("");
   const [priceError, setPriceError] = useState("");
+  const [negativePriceError, setNegativePriceError] = useState("");
 
   const handleIncrease = () => {
     setQuantity(quantity + 1);
@@ -23,41 +24,33 @@ const AddBook = () => {
     }
   };
 
-
-
-
-  // image hosting keys
   const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
   const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
-  // on submit form
   const onSubmit = async (data) => {
-    // check publish year
-    // delete '-' 
     const value = data.publishYear.toString().replace(/[^0-9]/g, "");
     const year = parseInt(value);
-    // check year
     if (isNaN(year) || value.length !== 4) {
       setPublishYearError("Publish year must be a valid 4-digit number.");
       return;
     } else {
       setPublishYearError("");
     }
-    // set maximum price
+
     if (parseFloat(data.price) > 1000000000) {
       setPriceError("Price cannot exceed 1,000,000,000.");
       return;
     } else {
       setPriceError("");
     }
+
     if (parseFloat(data.price) < 0) {
-      setPriceError("Price cannot below 0");
+      setNegativePriceError("Price cannot be negative.");
       return;
     } else {
-      setPriceError("");
+      setNegativePriceError("");
     }
-    // console.log(data);
-    // image upload to imgbb and then get an url
+
     const imageFile = { image: data.image[0] };
     const hostingImg = await axiosPublic.post(image_hosting_api, imageFile, {
       headers: {
@@ -68,10 +61,7 @@ const AddBook = () => {
     const publisherArray = data.publisher.split(",").map((item) => item.trim());
     data.quantity = quantity;
 
-    // console.log(hostingImg.data);
-
     if (hostingImg.data.success) {
-      // now send the book item data to the server with the image url
       const bookItem = {
         name: data.name,
         description: data.description,
@@ -83,12 +73,11 @@ const AddBook = () => {
         quantity: data.quantity,
         image: hostingImg.data.data.display_url
       }
-      // 
+
       const bookRes = await axiosSecure.post('/book', bookItem);
       console.log(bookRes)
       if (bookRes.status === 200) {
         setQuantity(0);
-        // show success popup
         reset();
         Swal.fire({
           position: "center",
@@ -99,7 +88,6 @@ const AddBook = () => {
         });
       }
     }
-
   };
 
   return (
@@ -167,14 +155,14 @@ const AddBook = () => {
                 placeholder="Price"
                 {...register("price", {
                   required: true,
-                  min: 0 // Giá trị tối thiểu là 0
                 })}
-                step="0.01" // Bước nhảy là 0.01 để cho phép nhập số thập phân
                 className="input input-bordered w-full"
               />
-
               {priceError && (
                 <p className="text-red text-sm mt-1">{priceError}</p>
+              )}
+              {negativePriceError && (
+                <p className="text-red text-sm mt-1">{negativePriceError}</p>
               )}
             </div>
           </div>

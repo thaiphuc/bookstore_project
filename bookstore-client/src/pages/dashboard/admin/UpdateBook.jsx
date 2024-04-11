@@ -1,73 +1,69 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { FaUpload } from "react-icons/fa";
-import { useState } from "react";
 
 const UpdateBook = () => {
   const item = useLoaderData();
-
   const { register, handleSubmit, reset } = useForm();
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(item.quantity || 0);
+  const [priceError, setPriceError] = useState("");
 
   const handleIncrease = () => {
     setQuantity(quantity + 1);
   };
 
   const handleDecrease = () => {
-    if (quantity >= 1) {
+    if (quantity > 0) {
       setQuantity(quantity - 1);
     }
   };
-  // on submit form
+
   const onSubmit = async (data) => {
+    if (parseFloat(data.price) < 0) {
+      setPriceError("Price cannot be negative.");
+      return;
+    } else if (parseFloat(data.price) > 1000000000) {
+      setPriceError("Price cannot exceed 1,000,000,000.");
+      return;
+    } else {
+      setPriceError("");
+    }
 
     const authorArray = data.author.split(",").map((item) => item.trim());
     const publisherArray = data.publisher.split(",").map((item) => item.trim());
-    if (data.price < 0 || data.publishYear < 0) {
+
+    const bookItem = {
+      name: data?.name,
+      description: data.description,
+      category: data.category,
+      author: authorArray,
+      publisher: publisherArray,
+      publishYear: data.publishYear,
+      price: parseFloat(data.price),
+      quantity: data.quantity,
+    };
+
+
+    const bookRes = await axiosSecure.patch(`book/${item._id}`, bookItem);
+    console.log(bookRes);
+    if (bookRes.status === 200) {
+      reset();
       Swal.fire({
         position: "center",
-        icon: "error",
-        title: `Input data is invalid. (Numerical data are not allowed to be negative numbers.)`,
+        icon: "success",
+        title: `Book is updated successfully!`,
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       });
-    } else {
-      const bookItem = {
-        name: data?.name,
-        description: data.description,
-        category: data.category,
-        author: authorArray,
-        publisher: publisherArray,
-        publishYear: data.publishYear,
-        price: parseFloat(data.price),
-        quantity: data.quantity,
-      };
-      //
-
-      const bookRes = await axiosSecure.patch(`book/${item._id}`, bookItem);
-      console.log(bookRes);
-      if (bookRes.status === 200) {
-        // show success popup
-        reset();
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: `Book is updated successfully!`,
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        navigate("/dashboard/manage-items");
-      }
+      navigate("/dashboard/manage-items");
     }
-
-
   };
 
   return (
@@ -77,7 +73,6 @@ const UpdateBook = () => {
       </h2>
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
-          {/* form1 */}
           <div className="form-control w-full my-6">
             <label className="label">
               <span className="label-text">Book Name
@@ -92,9 +87,8 @@ const UpdateBook = () => {
               className="input input-bordered w-full"
             />
           </div>
-          {/* form2 */}
+
           <div className="flex gap-6">
-            {/* category */}
             <div className="form-control w-full my-6">
               <label className="label">
                 <span className="label-text">Category
@@ -120,7 +114,6 @@ const UpdateBook = () => {
               </select>
             </div>
 
-            {/* price */}
             <div className="form-control w-full my-6">
               <label className="label">
                 <span className="label-text">Price
@@ -138,12 +131,14 @@ const UpdateBook = () => {
                 step="0.01"
                 className="input input-bordered w-full"
               />
+              {priceError && (
+                <p className="text-red text-sm mt-1">{priceError}</p>
+              )}
+          
             </div>
-
           </div>
-          {/* form3 */}
+
           <div className="flex gap-6">
-            {/* publisher */}
             <div className="form-control w-full my-6">
               <label className="label">
                 <span className="label-text">Publisher
@@ -159,7 +154,6 @@ const UpdateBook = () => {
               />
             </div>
 
-            {/* author */}
             <div className="form-control w-full my-6">
               <label className="label">
                 <span className="label-text">Author
@@ -175,9 +169,8 @@ const UpdateBook = () => {
               />
             </div>
           </div>
-          {/* form4 */}
+
           <div className="flex gap-6">
-            {/* Publish year */}
             <div className="form-control w-full my-6">
               <label className="label">
                 <span className="label-text">Publish year
@@ -193,7 +186,6 @@ const UpdateBook = () => {
               />
             </div>
 
-            {/* Quantity */}
             <div className="form-control w-full my-6">
               <label className="label">
                 <span className="label-text">Quantity</span>
@@ -224,7 +216,7 @@ const UpdateBook = () => {
               </div>
             </div>
           </div>
-          {/* description details */}
+
           <div className="form-control">
             <label className="label">
               <span className="label-text">Description Details</span>
@@ -236,14 +228,6 @@ const UpdateBook = () => {
               defaultValue={item.description}
             ></textarea>
           </div>
-
-          {/* <div className="form-control w-full my-6">
-            <input
-              {...register("image", { required: true })}
-              type="file"
-              className="file-input w-full max-w-xs"
-            />
-          </div> */}
 
           <button className="btn bg-mainBG text-white px-6 mt-8">
             Update Book <FaUpload></FaUpload>
