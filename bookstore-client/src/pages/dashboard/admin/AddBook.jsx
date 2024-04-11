@@ -50,7 +50,12 @@ const AddBook = () => {
     } else {
       setPriceError("");
     }
-
+    if (parseFloat(data.price) < 0) {
+      setPriceError("Price cannot below 0");
+      return;
+    } else {
+      setPriceError("");
+    }
     // console.log(data);
     // image upload to imgbb and then get an url
     const imageFile = { image: data.image[0] };
@@ -64,15 +69,7 @@ const AddBook = () => {
     data.quantity = quantity;
 
     // console.log(hostingImg.data);
-    if (data.price < 0 || data.publishYear < 0) {
-      Swal.fire({
-        position: "center",
-        icon: "error",
-        title: `Input data is invalid. (Numerical data are not allowed to be negative numbers.)`,
-        showConfirmButton: false,
-        timer: 1500
-      });
-    }
+
     if (hostingImg.data.success) {
       // now send the book item data to the server with the image url
       const bookItem = {

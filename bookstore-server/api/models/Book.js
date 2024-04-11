@@ -37,22 +37,6 @@ const bookSchema = new Schema({
     }
 });
 
-bookSchema.pre('save', function (next) {
-    if (this.price < 0) {
-      const error = new Error('Price cannot be negative.');
-      return next(error);
-    }
-    if (this.quantity < 0) {
-      const error = new Error('Quantity cannot be negative.');
-      return next(error);
-    }
-    if (this.publishYear < 0) {
-      const error = new Error('Publish year cannot be negative.');
-      return next(error);
-    }
-    next();
-  });
-
 const Book = mongoose.model('Book', bookSchema);
 
 module.exports = Book;
