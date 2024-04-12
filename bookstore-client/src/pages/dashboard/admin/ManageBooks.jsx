@@ -93,7 +93,7 @@ const ManageItems = () => {
                   <td>{item.quantity}</td>
                   <td>
                     <Link to={`/dashboard/update-book/${item._id}`}>
-                      <button className="btn btn-ghost btn-xs bg-orange-500">
+                      <button className="btn btn-ghost btn-xs bg-blue-500">
                         <FaEdit
                           className="text-white 
                                         "
