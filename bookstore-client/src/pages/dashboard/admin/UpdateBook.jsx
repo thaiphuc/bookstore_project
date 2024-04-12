@@ -8,12 +8,14 @@ import { FaUpload } from "react-icons/fa";
 
 const UpdateBook = () => {
   const item = useLoaderData();
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset} = useForm();
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(item.quantity || 0);
+  const [publishYearError, setPublishYearError] = useState("");
   const [priceError, setPriceError] = useState("");
+  const [negativePriceError, setNegativePriceError] = useState("");
 
   const handleIncrease = () => {
     setQuantity(quantity + 1);
@@ -25,16 +27,31 @@ const UpdateBook = () => {
     }
   };
 
+
   const onSubmit = async (data) => {
-    if (parseFloat(data.price) < 0) {
-      setPriceError("Price cannot be negative.");
+    if (data.publishYear < 0)
+    {
+      setPublishYearError("Nam xb khong am!");
       return;
-    } else if (parseFloat(data.price) > 1000000000) {
-      setPriceError("Price cannot exceed 1,000,000,000.");
+    }
+    const value = data.publishYear.toString().replace(/[^0-9]/g, "");
+    const year = parseInt(value);
+    if (isNaN(year) || value.length !== 4) {
+      setPublishYearError("Publish year must be a valid 4-digit number.");
       return;
     } else {
-      setPriceError("");
+      setPublishYearError("");
     }
+
+    if (parseFloat(data.price) > 1000000000) {
+      setPriceError("Price cannot exceed 1,000,000,000.");
+      return;
+    }
+    if (parseFloat(data.price) < 0) {
+      setNegativePriceError("Price cannot be negative.");
+      return;
+    }
+
 
     const authorArray = data.author.split(",").map((item) => item.trim());
     const publisherArray = data.publisher.split(",").map((item) => item.trim());
@@ -46,7 +63,7 @@ const UpdateBook = () => {
       author: authorArray,
       publisher: publisherArray,
       publishYear: data.publishYear,
-      price: parseFloat(data.price),
+      price: data.price,
       quantity: data.quantity,
     };
 
@@ -126,15 +143,15 @@ const UpdateBook = () => {
                 defaultValue={item.price}
                 {...register("price", {
                   required: true,
-                  min: 0
                 })}
-                step="0.01"
                 className="input input-bordered w-full"
               />
               {priceError && (
                 <p className="text-red text-sm mt-1">{priceError}</p>
               )}
-          
+              {negativePriceError && (
+                <p className="text-red text-sm mt-1">{negativePriceError}</p>
+              )}
             </div>
           </div>
 
@@ -184,6 +201,9 @@ const UpdateBook = () => {
                 {...register("publishYear", { required: true })}
                 className="input input-bordered w-full"
               />
+              {publishYearError && (
+                <p className="text-red text-sm mt-1">{publishYearError}</p>
+              )}
             </div>
 
             <div className="form-control w-full my-6">
@@ -224,7 +244,7 @@ const UpdateBook = () => {
             <textarea
               {...register("description")}
               className="textarea textarea-bordered h-24"
-              placeholder="description details"
+              placeholder="Description details"
               defaultValue={item.description}
             ></textarea>
           </div>

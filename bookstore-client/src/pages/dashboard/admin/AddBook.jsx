@@ -28,9 +28,14 @@ const AddBook = () => {
   const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
   const onSubmit = async (data) => {
+    if (data.publishYear < 0)
+    {
+      setPublishYearError("Nam xuat ban khong am!");
+      return;
+    }
     const value = data.publishYear.toString().replace(/[^0-9]/g, "");
     const year = parseInt(value);
-    if (isNaN(year) || value.length !== 4) {
+    if (isNaN(year) || value.length !== 4 || year < 0) {
       setPublishYearError("Publish year must be a valid 4-digit number.");
       return;
     } else {
