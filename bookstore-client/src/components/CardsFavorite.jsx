@@ -134,7 +134,7 @@ const CardsFavorite = ({ item }) => {
                 <p style={{ textAlign: 'left' }}>{shortenDescription(description, maxWords)}</p>
                 <div className="card-actions justify-between items-center mt-2">
                     <h5 className="font-semibold">
-                        <span className="text-sm text-red">$ </span> {item.price}
+                        {item.price} <span className="text-lg text-red">₫ </span> 
                     </h5>
                     <button onClick={() => handleAddToCart(item)} className="btn bg-mainBG text-white"><FaCartPlus /> Thêm </button>
                 </div>

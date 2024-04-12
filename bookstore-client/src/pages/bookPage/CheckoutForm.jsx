@@ -108,17 +108,17 @@ const CheckoutForm = ({ price, cart }) => {
   return (
     <div className="flex flex-col sm:flex-row justify-start items-start gap-8">
       <div className="md:w-1/2 space-y-3">
-        <h4 className="text-lg font-semibold">Order Summary</h4>
-        <p>Total Price: ${price}</p>
-        <p>Number of Items: {cart.length}</p>
-        <p>Name: {user?.displayName || 'Anonymous'}</p>
+        <h4 className="text-lg font-semibold">Tóm tắt đơn hàng</h4>
+        <p>Thành tiền: ${price}</p>
+        <p>Số sản phẩm: {cart.length}</p>
+        <p>Tên: {user?.displayName || 'Anonymous'}</p>
         <p>Email: {user?.email}</p>
-        <p>Adrress: TPHCM </p>
-        <p>Phone number: +84-222-121-763 </p>
+        <p>Địa chỉ: TPHCM </p>
+        <p>Số điện thoại: +84-222-121-763 </p>
       </div>
 
       <div className={`md:w-1/3 w-full border space-y-5  card shrink-0 max-w-sm shadow-2xl bg-base-100 px-4 py-8 ${isDarkMode ? 'dark' : ''}`}>
-        <h4 className="text-lg font-semibold">Process your Payment!</h4>
+        <h4 className="text-lg font-semibold">Tiến hành thanh toán!</h4>
         <h5 className="font-medium">Credit/Debit Card</h5>
         <form onSubmit={handleSubmit}>
           <CardElement

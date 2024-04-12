@@ -120,19 +120,20 @@ const CartPage = () => {
   // delete an item
   const handleDelete = (item) => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: "Bạn muốn xóa chứ?",
+      text: "Bạn sẽ không thể hoàn tác!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Vâng , tôi đồng ý!",
+      cancelButtonText: "Hủy"
     }).then((result) => {
       if (result.isConfirmed) {
         axios.delete(`http://localhost:5000/carts/${item._id}`).then(response => {
           if (response) {
             refetch();
-            Swal.fire("Deleted!", "Your file has been deleted.", "success");
+            Swal.fire("Đã xóa!", "Sách đã xóa khỏi giỏ hàng thành công! ", "success");
           }
         })
           .catch(error => {
@@ -150,7 +151,7 @@ const CartPage = () => {
           {/* content */}
           <div className=" text-center px-4 space-y-7">
             <h2 className="md:text-5xl text-4xl font-bold md:leading-snug leading-snug">
-              Items Added to The<span className="text-mainBG"> Cart</span>
+              Sản phẩm đã thêm vào <span className="text-mainBG">Giỏ hàng</span>
             </h2>
           </div>
         </div>
@@ -167,11 +168,11 @@ const CartPage = () => {
                 <thead className="bg-mainBG text-white rounded-sm">
                   <tr>
                     <th>#</th>
-                    <th>Book</th>
-                    <th>Item Name</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Action</th>
+                    <th>Hình ảnh</th>
+                    <th>Tên sách</th>
+                    <th>Số lượng</th>
+                    <th>Giá</th>
+                    <th>Thao tác</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -209,7 +210,7 @@ const CartPage = () => {
                           +
                         </button>
                       </td>
-                      <td>${calculateTotalPrice(item).toFixed(2)}</td>
+                      <td>{calculateTotalPrice(item).toFixed(2)} ₫</td>
                       <td>
                         <button
                           className="btn btn-sm border-none text-red bg-transparent"
@@ -228,32 +229,32 @@ const CartPage = () => {
           <hr />
           <div className="flex flex-col md:flex-row justify-between items-start my-12 gap-8">
             <div className="md:w-1/2 space-y-3">
-              <h3 className="text-lg font-semibold">Customer Details</h3>
+              <h3 className="text-lg font-semibold">Thông tin người mua hàng</h3>
               {info && (
                 <>
-                  <p>Name: {info.name}</p>
+                  <p>Tên: {info.name}</p>
                   <p>Email: {info.email}</p>
-                  <p>Address: {info.address}</p>
-                  <p>Phone number: {info.phone}</p>
+                  <p>Địa chỉ: {info.address}</p>
+                  <p>Số điện thoại: {info.phone}</p>
                 </>
               )}
             </div>
 
             <div className="md:w-1/2 space-y-3">
-              <h3 className="text-lg font-semibold">Shopping Details</h3>
-              <p>Total Items: {totalItems}</p>
+              <h3 className="text-lg font-semibold">Thông tin mua sắm</h3>
+              <p>Số sản phẩm: {totalItems}</p>
               <p>
-                Total Price:{" "}
-                <span id="total-price">${orderTotal.toFixed(2)}</span>
+                Tổng tiền:{" "}
+                <span id="total-price">{orderTotal.toFixed(2)} ₫</span>
               </p>
               <Link to="/process-checkout" className="btn btn-md bg-mainBG text-white px-8 py-1">
-                Procceed to Checkout
+                Tiến hành thanh toán
               </Link>
             </div>
           </div>
         </div> : <div className="text-center mt-20">
-          <p>Cart is empty. Please add products.</p>
-          <Link to="/book"><button className="btn bg-mainBG text-white mt-3">Back to Book</button></Link>
+          <p>Giỏ hàng trống. Vui lòng thêm sản phẩm.</p>
+          <Link to="/book"><button className="btn bg-mainBG text-white mt-3">Quay về trang sản phẩm</button></Link>
         </div>
       }
 

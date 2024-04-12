@@ -51,31 +51,31 @@ const UserProfile = () => {
           <div className="form-control">
             <h2 className='text-lg font-bold text-center'>Your Profile</h2>
             <label className="label">
-              <span className="label-text">Name</span>
+              <span className="label-text">Tên</span>
             </label>
-            <input type="text" {...register("name")} placeholder="Your name" className="input input-bordered" required />
+            <input type="text" {...register("name")} placeholder="Nhập tên" className="input input-bordered" required />
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Address</span>
+              <span className="label-text">Địa chỉ</span>
             </label>
-            <input type="text" {...register("address")} placeholder="Your address" className="input input-bordered" required />
+            <input type="text" {...register("address")} placeholder="Nhập địa chỉ" className="input input-bordered" required />
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Telephone</span>
+              <span className="label-text">Số điện thoại</span>
             </label>
-            <input type="tel" {...register("telephone")} placeholder="Your telephone number" className="input input-bordered" required />
+            <input type="tel" {...register("telephone")} placeholder="Nhập số điện thoại" className="input input-bordered" required />
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Upload Photo</span>
+              <span className="label-text">Tải ảnh lên</span>
             </label>
             <input type="file" {...register("photoURL")} className="file-input w-full mt-1" />
             {/* <input type="text" {...register("photoURL")} placeholder="photo url" className="input input-bordered" required /> */}
           </div>
           <div className="form-control mt-6">
-            <input type='submit' value={"Update"} className="btn bg-mainBG text-white" />
+            <input type='submit' value={"Cập nhật"} className="btn bg-mainBG text-white" />
           </div>
         </form>
       </div>

@@ -22,13 +22,14 @@ const ManageComment = () => {
 
     const handleDeleteComment = async (commentId) => {
         Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            title: "Bạn muốn xóa?",
+            text: "Bạn sẽ không thể hoàn tác",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
+            confirmButtonText: "Vâng, tôi đồng ý!",
+            cancelButtonText: "Hủy"
           }).then(async (result) => {
             try {
                 // Send delete request to API
@@ -37,14 +38,14 @@ const ManageComment = () => {
                 setComments(comments.filter(comment => comment._id !== commentId));
                 Swal.fire({
                     title: "Deleted!",
-                    text: "This comment has been deleted.",
+                    text: "Đã xóa bình luận thành công!",
                     icon: "success",
                 });
             } catch (error) {
                 console.error('Error deleting comment:', error);
                 Swal.fire({
                     title: "Error",
-                    text: "Failed to delete comment. Please try again later.",
+                    text: "Không thể xóa! Hãy thử lại.",
                     icon: "error",
                 });
             }
@@ -55,23 +56,23 @@ const ManageComment = () => {
     const handleViewComment = (comment) => {
         const formattedDate = format(new Date(comment.createdAt), 'PPpp'); 
         Swal.fire({
-            title: "Comment Details",
+            title: "Chi tiết bình luận",
             html: `
             <div style="text-align: left;">
-                <p><strong>Name:</strong> ${comment.username}</p>
-                <p><strong>Comment:</strong> ${comment.comment}</p>
-                <p><strong>Created at:</strong> ${formattedDate}</p>
+                <p><strong>Tên người dùng:</strong> ${comment.username}</p>
+                <p><strong>Bình luận:</strong> ${comment.comment}</p>
+                <p><strong>Thời gian tạo:</strong> ${formattedDate}</p>
             </div>
     `,
-            confirmButtonText: "Close",
+            confirmButtonText: "Đóng",
         });
     };
 
     return (
         <div>
             <div className="flex justify-between mx-4 my-4">
-                <h2 className="text-2xl">All Comments</h2>
-                <h2 className="text-2xl mr-4">Total Comments: {comments.length}</h2>
+                <h2 className="text-2xl">Bình luận</h2>
+                <h2 className="text-2xl mr-4">Số lượt bình luận: {comments.length}</h2>
             </div>
 
             <div className="overflow-x-auto w-full">
@@ -79,11 +80,11 @@ const ManageComment = () => {
                     <thead className="bg-mainBG text-white">
                         <tr>
                             <th>#</th>
-                            <th>Name</th>
-                            <th>Comment</th>
-                            <th>Time</th>
-                            <th>View</th>
-                            <th>Delete</th>
+                            <th>Tên người dùng</th>
+                            <th>Bình luận</th>
+                            <th>Thời gian tạo</th>
+                            <th>Xem</th>
+                            <th>Xóa</th>
                         </tr>
                     </thead>
                     <tbody>

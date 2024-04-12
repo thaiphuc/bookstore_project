@@ -126,9 +126,8 @@ const UpdateBook = () => {
                 defaultValue={item.price}
                 {...register("price", {
                   required: true,
-                  min: 0
                 })}
-                step="0.01"
+                step="1"
                 className="input input-bordered w-full"
               />
               {priceError && (

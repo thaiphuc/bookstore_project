@@ -4,10 +4,10 @@ import { useTheme } from '../../hooks/ThemeContext';
 const FavoritePage = () => {
     const { isDarkMode } = useTheme();
     const serviceLists = [
-        { id: 1, title: "Email", des: "Send our email: pnqbookstore@gmail.com", img: "/images/home/contacts/icon1.png" },
-        { id: 2, title: "Phone", des: "Our number phone: +84-976-785-069", img: "/images/home/contacts/icon2.png" },
-        { id: 3, title: "Address", des: "Located at: VVN St, Linh Chieu, Thu Duc City", img: "/images/home/contacts/icon3.png" },
-        { id: 4, title: "Hotline", des: "In urgent situation call: 1900-2604", img: "/images/home/contacts/icon4.png" },
+        { id: 1, title: "Email", des: "Gửi qua email: pnqbookstore@gmail.com", img: "/images/home/contacts/icon1.png" },
+        { id: 2, title: "Số điện thoại", des: "Số liên lạc: +84-976-785-069", img: "/images/home/contacts/icon2.png" },
+        { id: 3, title: "Địa chỉ", des: "Địa chỉ: VVN St, Linh Chieu, Thu Duc City", img: "/images/home/contacts/icon3.png" },
+        { id: 4, title: "Hotline", des: "Gọi khẩn cấp: 1900-2604", img: "/images/home/contacts/icon4.png" },
     ]
 
     return (
@@ -17,7 +17,7 @@ const FavoritePage = () => {
                     {/* content */}
                     <div className=" text-center px-4 space-y-7">
                         <h2 className="md:text-5xl text-4xl font-bold md:leading-snug leading-snug">
-                            Contact <span className="text-mainBG"> Us</span>
+                            Liên hệ <span className="text-mainBG"> Chúng tôi</span>
                         </h2>
                         <div className="section-container my-16">
 

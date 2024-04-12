@@ -22,7 +22,7 @@ const Users = () => {
         Swal.fire({
           position: "center",
           icon: "success",
-          title: `${user.name} is an Admin Now!`,
+          title: `${user.name} là admin ngay bây giờ!`,
           showConfirmButton: false,
           timer: 1500
         });
@@ -32,13 +32,14 @@ const Users = () => {
 
   const handleDeleteUser = user => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: "Bạn muốn xóa?",
+      text: "Bạn sẽ không thể hoàn tác!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
+      confirmButtonText: "Vâng, tôi đồng ý!",
+      cancelButtonText:"Hủy"
     }).then((result) => {
       if (result.isConfirmed) {
 
@@ -59,8 +60,8 @@ const Users = () => {
   return (
     <div>
       <div className="flex justify-between mx-4 my-4">
-        <h2 className="text-2xl">All Users</h2>
-        <h2 className="text-2xl mr-4">Total Users: {users.length}</h2>
+        <h2 className="text-2xl">Người dùng</h2>
+        <h2 className="text-2xl mr-4">Tổng số người dùng: {users.length}</h2>
       </div>
 
       {/* table */}
@@ -71,10 +72,10 @@ const Users = () => {
             <thead className="bg-mainBG text-white">
               <tr>
                 <th>#</th>
-                <th>Name</th>
+                <th>Tên</th>
                 <th>Email</th>
-                <th>Role</th>
-                <th>Action</th>
+                <th>Vai trò</th>
+                <th>Thao tác</th>
               </tr>
             </thead>
             <tbody>
