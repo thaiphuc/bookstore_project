@@ -1,52 +1,67 @@
 import { useState, useEffect } from "react";
 import { FaEye, FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
-import axios from 'axios'; // Import axios for API requests
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { format } from 'date-fns';
 
 const ManageComment = () => {
     const [comments, setComments] = useState([]); // State to store comments
+    const axiosSecure = useAxiosSecure();
 
     useEffect(() => {
-        // Fetch comments from API when component mounts
         const fetchComments = async () => {
             try {
-                const response = await axios.get('/cmt'); // Replace with your API endpoint
+                const response = await axiosSecure.get(`cmt`);
                 setComments(response.data);
             } catch (error) {
                 console.error('Error fetching comments:', error);
             }
         };
         fetchComments();
-    }, []); // Empty dependency array ensures useEffect runs only once on mount
+    }, []);
 
     const handleDeleteComment = async (commentId) => {
-        try {
-            // Send delete request to API
-            await axios.delete(`/cmt/${commentId}`);
-            // Remove deleted comment from state
-            setComments(comments.filter(comment => comment._id !== commentId));
-            Swal.fire({
-                title: "Deleted!",
-                text: "This comment has been deleted.",
-                icon: "success",
-            });
-        } catch (error) {
-            console.error('Error deleting comment:', error);
-            Swal.fire({
-                title: "Error",
-                text: "Failed to delete comment. Please try again later.",
-                icon: "error",
-            });
-        }
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+          }).then(async (result) => {
+            try {
+                // Send delete request to API
+                await axiosSecure.delete(`/cmt/${commentId}`);
+                // Remove deleted comment from state
+                setComments(comments.filter(comment => comment._id !== commentId));
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "This comment has been deleted.",
+                    icon: "success",
+                });
+            } catch (error) {
+                console.error('Error deleting comment:', error);
+                Swal.fire({
+                    title: "Error",
+                    text: "Failed to delete comment. Please try again later.",
+                    icon: "error",
+                });
+            }
+          });
+        
     };
 
     const handleViewComment = (comment) => {
+        const formattedDate = format(new Date(comment.createdAt), 'PPpp'); 
         Swal.fire({
             title: "Comment Details",
             html: `
-        <p><strong>Name:</strong> ${comment.name}</p>
-        <p><strong>Comment:</strong> ${comment.comment}</p>
-        <p><strong>Created at:</strong> ${comment.time}</p>
+            <div style="text-align: left;">
+                <p><strong>Name:</strong> ${comment.username}</p>
+                <p><strong>Comment:</strong> ${comment.comment}</p>
+                <p><strong>Created at:</strong> ${formattedDate}</p>
+            </div>
     `,
             confirmButtonText: "Close",
         });
@@ -75,9 +90,9 @@ const ManageComment = () => {
                         {comments.map((comment, index) => (
                             <tr key={comment._id}>
                                 <th>{index + 1}</th>
-                                <td>{comment.name}</td>
+                                <td>{comment.username}</td>
                                 <td className="comment">{comment.comment}</td>
-                                <td>{comment.time}</td>
+                                <td className="text-left">{format(new Date(comment.createdAt), 'PPpp')}</td>
                                 <td>
                                     <button
                                         onClick={() => handleViewComment(comment)}
