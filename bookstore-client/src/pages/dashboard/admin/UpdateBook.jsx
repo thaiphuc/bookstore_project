@@ -55,8 +55,7 @@ const UpdateBook = () => {
 
     const authorArray = data.author.split(",").map((item) => item.trim());
     const publisherArray = data.publisher.split(",").map((item) => item.trim());
-    data.quantity = quantity;
-
+      data.quantity = quantity;
     const bookItem = {
       name: data?.name,
       description: data.description,
@@ -76,7 +75,7 @@ const UpdateBook = () => {
       Swal.fire({
         position: "center",
         icon: "success",
-        title: `Book is updated successfully!`,
+        title: `Sách đã được cập nhật thành công!`,
         showConfirmButton: false,
         timer: 1500,
       });
