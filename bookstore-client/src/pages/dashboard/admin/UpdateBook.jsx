@@ -55,6 +55,7 @@ const UpdateBook = () => {
 
     const authorArray = data.author.split(",").map((item) => item.trim());
     const publisherArray = data.publisher.split(",").map((item) => item.trim());
+    data.quantity = quantity;
 
     const bookItem = {
       name: data?.name,
