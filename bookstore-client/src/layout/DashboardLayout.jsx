@@ -34,25 +34,25 @@ const DashboardLayout = () => {
       <li className="mt-3">
         <Link to="/">
           <FaHome />
-          Home
+          Trang chủ
         </Link>
       </li>
       <li>
         <Link to="/book">
           <FaCartShopping />
-          Book
+          Sản phẩm
         </Link>
       </li>
       <li>
         <Link to="/order">
           <FaLocationArrow />
-          Orders Tracking
+          Đơn hàng
         </Link>
       </li>
       <li>
         <a onClick={handleLogout}>
           <FontAwesomeIcon icon={faSignOutAlt} />
-          Logout
+          Đăng xuất
         </a>
       </li>
     </>
@@ -75,7 +75,7 @@ const DashboardLayout = () => {
 
               {/* login or signout */}
               <button className="btn flex items-center gap-2 rounded-full px-6 bg-mainBG text-white sm:hidden" onClick={handleLogout}>
-                <FaRegUser /> Logout
+                <FaRegUser /> Đăng xuất
               </button>
             </div>
             <div className="mt-5 md:mt-2 mx-4">
@@ -104,34 +104,34 @@ const DashboardLayout = () => {
               {/* dashboard */}
               <li className="mt-3">
                 <Link to="/dashboard">
-                  <MdDashboard /> Dashboard
+                  <MdDashboard /> Trang chủ Admin
                 </Link>
               </li>
 
               {/* manage orders */}
               <li>
                 <Link to="/dashboard/orders">
-                  <FaShoppingBag /> Manage orders
+                  <FaShoppingBag /> Quản lý đơn hàng
                 </Link>
               </li>
 
               {/* Add Book Items */}
               <li>
                 <Link to="/dashboard/add-book">
-                  <FaPlusCircle /> Add Book
+                  <FaPlusCircle /> Thêm sách
                 </Link>
               </li>
 
               {/* Manage Book Items */}
               <li>
                 <Link to="/dashboard/manage-items">
-                  <FaEdit /> Manage Books
+                  <FaEdit /> Quản lý sách
                 </Link>
               </li>
               {/* Manage Comments */}
               <li>
                 <Link to="/dashboard/manage-comments">
-                  <FaPen /> Manage Comments
+                  <FaPen /> Quản lý bình luận
                 </Link>
               </li>
 
@@ -139,7 +139,7 @@ const DashboardLayout = () => {
               <li className="mb-3">
                 <Link to="/dashboard/users">
                   <FaUsers />
-                  Users
+                  Quản lý người dùng
                 </Link>
               </li>
 
@@ -150,7 +150,7 @@ const DashboardLayout = () => {
           </div>
         </div>
       ) : (loading ? <Login /> : <div className="h-screen flex items-center justify-center">
-        <Link to="/">Back to Home</Link>
+        <Link to="/">Trở về trang chủ</Link>
       </div>)}
     </div>
   );

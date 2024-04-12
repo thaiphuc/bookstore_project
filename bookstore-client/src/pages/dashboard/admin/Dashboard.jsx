@@ -95,7 +95,7 @@ const Dashboard = () => {
   return (
     <div className="w-full md:w-[870px] mx-auto px-4 ">
       <h2 className="text-2xl font-semibold my-4">
-        Hi, {user.displayName}
+        Xin chào, {user.displayName} !
       </h2>
       {/* stats */}
       <div className="stats shadow flex flex-col md:flex-row">
@@ -103,8 +103,8 @@ const Dashboard = () => {
           <div className="stat-figure text-secondary">
             <FaDollarSign className="text-3xl"></FaDollarSign>
           </div>
-          <div className="stat-title">Revenue</div>
-          <div className="stat-value">${stats.revenue}</div>
+          <div className="stat-title">Doanh thu</div>
+          <div className="stat-value">{stats.revenue} ₫</div>
           <div className="stat-desc">Jan 1st - Feb 1st</div>
         </div>
 
@@ -112,7 +112,7 @@ const Dashboard = () => {
           <div className="stat-figure text-secondary">
             <FaUsers className="text-3xl"></FaUsers>
           </div>
-          <div className="stat-title">Users</div>
+          <div className="stat-title">Người dùng</div>
           <div className="stat-value">{stats.users}</div>
           <div className="stat-desc">↗︎ 400 (22%)</div>
         </div>
@@ -121,7 +121,7 @@ const Dashboard = () => {
           <div className="stat-figure text-secondary">
             <FaBook className="text-3xl"></FaBook>
           </div>
-          <div className="stat-title">Books</div>
+          <div className="stat-title">Sách</div>
           <div className="stat-value">{stats.bookItems}</div>
           <div className="stat-desc">↗︎ 400 (22%)</div>
         </div>
@@ -142,7 +142,7 @@ const Dashboard = () => {
               ></path>
             </svg>
           </div>
-          <div className="stat-title">Orders</div>
+          <div className="stat-title">Đơn hàng</div>
           <div className="stat-value">{stats.orders}</div>
           <div className="stat-desc">↘︎ 90 (14%)</div>
         </div>

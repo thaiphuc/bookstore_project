@@ -100,19 +100,19 @@ const Signup = () => {
     <div className="max-w-md bg-white shadow w-full mx-auto flex items-center justify-center my-20">
       <div className="mb-5">
         <form className="card-body" onSubmit={handleSubmit(onSubmit)}>
-          <h3 className="font-bold text-lg">Please Create An Account!</h3>
+          <h3 className="font-bold text-lg">Vui lòng tạo tài khoản!</h3>
           {/* name */}
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Name</span>
+              <span className="label-text">Tên người dùng</span>
             </label>
             <input
               type="name"
-              placeholder="Your name"
+              placeholder="Nhập tên"
               className="input input-bordered"
               {...register("name", { required: true })}
             />
-            {errors.name && <p className="text-red italic text-sm ">Please enter your name!</p>}
+            {errors.name && <p className="text-red italic text-sm ">Vui lòng nhập tên!</p>}
           </div>
 
           {/* email */}
@@ -122,40 +122,40 @@ const Signup = () => {
             </label>
             <input
               type="email"
-              placeholder="Your email"
+              placeholder="Nhập Email "
               className="input input-bordered"
               {...register("email", { required: true })}
             />
-            {errors.email && <p className="text-red italic text-sm">Please enter your email!</p>}
+            {errors.email && <p className="text-red italic text-sm"> Vui lòng nhập email!</p>}
           </div>
 
           {/* password */}
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Password</span>
+              <span className="label-text">Mật khẩu</span>
             </label>
             <input
               type="password"
-              placeholder="Your password"
+              placeholder="Nhập mật khẩu"
               className="input input-bordered"
               {...register("password", { required: true })}
             />
-            {errors.password && <p className="text-red italic text-sm">Please enter your password!</p>}
+            {errors.password && <p className="text-red italic text-sm"> Vui lòng nhập mật khẩu!</p>}
           </div>
 
           {/* confirm password */}
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Confirm Password</span>
+              <span className="label-text">Xác nhận mật khẩu</span>
             </label>
             <input
               type="password"
-              placeholder="Confirm your password"
+              placeholder="Xác nhận mật khẩu"
               className="input input-bordered"
               {...register("confirmPassword", { required: true })}
             />
-            {passwordMismatch && <p className="text-red italic text-sm">Passwords do not match!</p>}
-            {errors.password && <p className="text-red italic text-sm">Please enter your confirm password!</p>}
+            {passwordMismatch && <p className="text-red italic text-sm">Mật khẩu không trùng khớp!</p>}
+            {errors.password && <p className="text-red italic text-sm"> Vui lòng xác nhận mật khẩu !</p>}
 
           </div>
 
@@ -164,15 +164,15 @@ const Signup = () => {
             <input
               type="submit"
               className="btn bg-mainBG text-white"
-              value="Sign up"
+              value="Đăng ký"
               disabled={isSubmitting}
             />
           </div>
 
           <div className="text-center my-2">
-            Have an account?
+            Bạn đã có tài khoản?
             <Link to="/login">
-              <button className="ml-2 underline text-blue-700">Login here</button>
+              <button className="ml-2 underline text-blue-700">Đăng nhập ngay</button>
             </Link>
           </div>
         </form>

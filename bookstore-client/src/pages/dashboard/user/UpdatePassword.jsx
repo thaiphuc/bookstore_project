@@ -67,32 +67,32 @@ const UpdatePassword = () => {
             <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                 <form className="card-body" onSubmit={handleSubmit(onSubmit)}>
                     <div className="form-control">
-                        <h2 className='text-lg font-bold text-center'>Change Your Password</h2>
+                        <h2 className='text-lg font-bold text-center'>Đổi mật khẩu</h2>
                         <div className='flex mt-5'>
                             <button
                                 className={`btn bg-mainBG w-1/3 mr-5 text-white ${otpSent ? 'pointer-events-none' : ''}`}
                                 onClick={handleSendOTP}
                                 disabled={otpSent}
                             >
-                                {otpSent ? `Resend OTP (${countdown}s)` : 'Send OTP'}
+                                {otpSent ? `Gửi lại OTP (${countdown}s)` : 'Gửi OTP'}
                             </button>
                             <input type="text" {...register("name")} placeholder="OTP" className="input input-bordered w-full " required />
                         </div>
                     </div>
                     <div className="form-control">
                         <label className="label">
-                            <span className="label-text">New Password</span>
+                            <span className="label-text">Mật khẩu mới</span>
                         </label>
-                        <input type="text" {...register("address")} placeholder="Your New Password" className="input input-bordered" required />
+                        <input type="text" {...register("address")} placeholder="Nhập mật khẩu mới" className="input input-bordered" required />
                     </div>
                     <div className="form-control">
                         <label className="label">
-                            <span className="label-text">Confirm New Password</span>
+                            <span className="label-text">Xác nhận mật khẩu</span>
                         </label>
-                        <input type="tel" {...register("telephone")} placeholder="Confirm Your New Password" className="input input-bordered" required />
+                        <input type="tel" {...register("telephone")} placeholder="Xác nhận mật khẩu" className="input input-bordered" required />
                     </div>
                     <div className="form-control mt-6">
-                        <input type='submit' value={"Update"} className="btn bg-mainBG text-white" />
+                        <input type='submit' value={"Cập nhật"} className="btn bg-mainBG text-white" />
                     </div>
                 </form>
             </div>

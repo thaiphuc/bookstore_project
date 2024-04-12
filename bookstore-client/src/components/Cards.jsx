@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { FaHeart, FaShoppingCart } from "react-icons/fa";
+import { FaCartPlus, FaHeart } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { AuthContext } from "../contexts/AuthProvider";
@@ -9,10 +9,12 @@ import axios from 'axios';
 
 const Cards = ({ item }) => {
   const { name, image, description, price, _id } = item;
-  // cutdown max word
   const maxWords = 20;
 
   const shortenDescription = (description, maxWords) => {
+    if (!description || description.length === 0) {
+      return "Không có mô tả";
+    }
     if (description.length > 10) {
       const spaceIndex = description.indexOf(' ', 10);
       const shortenedText = description.substring(0, spaceIndex);
@@ -22,6 +24,7 @@ const Cards = ({ item }) => {
     }
     return description;
   };
+
   const shortenText = (text, maxWords) => {
     if (text.length > maxWords) {
       const spaceIndex = text.indexOf(' ', maxWords);
@@ -32,8 +35,8 @@ const Cards = ({ item }) => {
     }
     return text;
   };
-  const shortName = shortenText(name, 7);
 
+  const shortName = shortenText(name, 7);
   const shortDescription = shortenDescription(description, maxWords);
 
   const { user } = useContext(AuthContext);
@@ -52,44 +55,43 @@ const Cards = ({ item }) => {
       setUser(data);
       if (data.wishlist.includes(bookId)) {
         setIsHeartFilled(true);
-      }
-      else {
+      } else {
         setIsHeartFilled(false);
       }
-
     } catch (error) {
       console.error('Error fetching user data:', error);
-    }  
+    }
   };
-useEffect(() => {
-  checkFavorite();
-}, [bookId]);
+
+  useEffect(() => {
+    checkFavorite();
+  }, [bookId]);
 
   const handleHeartClick = async () => {
-    if (!user || !user.email) { // Kiểm tra xem người dùng đã đăng nhập chưa
-      // Nếu chưa đăng nhập, hiển thị cảnh báo
+    if (!user || !user.email) {
       Swal.fire({
-          title: 'Please login!',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Login now!'
+        title: 'Vui lòng đăng nhập!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Đăng nhập ngay!',
+        cancelButtonText: 'Hủy'
       }).then((result) => {
-          if (result.isConfirmed) {
-              navigate('/login', { state: { from: location } })
-          }
+        if (result.isConfirmed) {
+          navigate('/login', { state: { from: location } })
+        }
       });
       return;
     }
     try {
-      const userRes = await axiosSecure.put(`users/wishlist?email=${user.email}`, {bookId: bookId});
+      const userRes = await axiosSecure.put(`users/wishlist?email=${user.email}`, { bookId: bookId });
       setIsHeartFilled(current => !current);
       if (userRes.status === 201) {
         Swal.fire({
           position: "center",
           icon: "success",
-          title: `The book has been added to the wish list.`,
+          title: `Đã thêm vào mục yêu thích`,
           showConfirmButton: false,
           timer: 1500,
         });
@@ -98,7 +100,7 @@ useEffect(() => {
         Swal.fire({
           position: "center",
           icon: "success",
-          title: `The book has been removed from the wish list.`,
+          title: `Đã xóa khỏi mục yêu thích`,
           showConfirmButton: false,
           timer: 1500,
         });
@@ -108,9 +110,7 @@ useEffect(() => {
     }
   };
 
-  // add to cart handler
   const handleAddToCart = () => {
-
     if (user && user.email) {
       const cartItem = { bookItemId: _id, name, quantity: 1, image, price, email: user.email }
 
@@ -118,11 +118,11 @@ useEffect(() => {
         .then((response) => {
           console.log(response);
           if (response) {
-            refetch(); // refetch cart
+            refetch();
             Swal.fire({
               position: 'center',
               icon: 'success',
-              title: 'Book added on the cart.',
+              title: 'Đã thêm vào giỏ hàng',
               showConfirmButton: false,
               timer: 1500
             })
@@ -130,7 +130,7 @@ useEffect(() => {
         })
         .catch((error) => {
           console.log(error.response.data.message);
-          const errorMessage = error.response.data.message;
+          const errorMessage = "Sản phẩm đã được thêm vào giỏ hàng";
           Swal.fire({
             position: 'center',
             icon: 'warning',
@@ -142,12 +142,13 @@ useEffect(() => {
     }
     else {
       Swal.fire({
-        title: 'Please login to order the book',
+        title: 'Vui lòng đăng nhập để mua hàng!',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Login now!'
+        confirmButtonText: 'Đăng nhập ngay!',
+        cancelButtonText: 'Hủy'
       }).then((result) => {
         if (result.isConfirmed) {
           navigate('/login', { state: { from: location } })
@@ -167,7 +168,7 @@ useEffect(() => {
       </div>
       <Link to={`/book/${item._id}`}>
         <figure>
-          <img src={item.image} alt="Shoes" className="w-full h-48 object-fit hover:scale-105 transition-all duration-300" />
+          <img src={item.image} alt="Shoes" className="w-48 h-48 object-fit hover:scale-105 transition-all duration-300" />
         </figure>
       </Link>
       <div className="card-body">
@@ -177,9 +178,9 @@ useEffect(() => {
         <p>{shortDescription}</p>
         <div className="card-actions justify-between items-center mt-2">
           <h5 className="font-semibold">
-            {item.price} <span className="text-sm text-red">$ </span>
+            {item.price} <span className="text-lg text-red"> ₫</span>
           </h5>
-          <button onClick={() => handleAddToCart(item)} className="btn bg-mainBG text-white"> <FaShoppingCart /> Add </button>
+          <button onClick={() => handleAddToCart(item)} className="btn bg-mainBG text-white"> <FaCartPlus /> Thêm </button>
         </div>
       </div>
     </div>

@@ -36,7 +36,7 @@ const Order = () => {
           {/* content */}
           <div className=" text-center px-4 space-y-7">
             <h2 className="md:text-5xl text-4xl font-bold md:leading-snug leading-snug">
-              Track Your All<span className="text-mainBG"> Orders</span>
+              Theo dõi<span className="text-mainBG"> đơn hàng</span>
             </h2>
           </div>
         </div>
@@ -53,11 +53,11 @@ const Order = () => {
                   <thead className="bg-mainBG text-white rounded-sm">
                     <tr>
                       <th>#</th>
-                      <th>Order Date</th>
+                      <th>Ngày đặt hàng</th>
                       <th>transitionId</th>
-                      <th>Price</th>
-                      <th>Status</th>
-                      <th>Action</th>
+                      <th>Giá</th>
+                      <th>Trạng thái</th>
+                      <th>Thao tác</th>
                     </tr>
                   </thead>
                   <tbody>

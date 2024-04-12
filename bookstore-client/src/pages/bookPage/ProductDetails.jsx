@@ -13,7 +13,6 @@ import { FaHeart, FaShoppingCart } from 'react-icons/fa';
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { formatDistanceToNow } from 'date-fns';
 
-
 const CommentSection = () => {
     const [listcomments, setComment] = useState([]);
     const { id } = useParams();
@@ -45,7 +44,7 @@ const CommentSection = () => {
     return (
         <div className="comment-section">
             <h3 className={`mb-2 text-2xl font-bold p-2 ${isDarkMode ? 'text-white' : 'text-black'}`}>
-                Customer Reviews ({commentCount})
+                Đánh giá khách hàng ({commentCount})
             </h3>
             <div className="comments">
                 {/* Render only the first three comments if not expanded */}
@@ -61,7 +60,7 @@ const CommentSection = () => {
                                 <div className="user-info flex items-center">
                                     <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>{comment.username}</span>
                                     <span className="ml-1 text-sm italic text-gray-500">
-                                        {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })} {/* Định dạng ngày tháng */}
+                                        {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
                                     </span>
                                 </div>
                                 <p className={`comment-text ${isDarkMode ? 'text-white' : 'text-black'}`}>{comment.comment}</p>
@@ -107,12 +106,13 @@ const CommentInput = () => {
         if (!user || !user.email) { // Kiểm tra xem người dùng đã đăng nhập chưa
             // Nếu chưa đăng nhập, hiển thị cảnh báo
             Swal.fire({
-                title: 'Please login to submit a comment',
+                title: 'Vui lòng đăng nhập để đánh giá',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Login now!'
+                confirmButtonText: 'Đăng nhập ngay',
+                cancelButtonText:"Hủy"
             }).then((result) => {
                 if (result.isConfirmed) {
                     navigate('/login', { state: { from: location } })
@@ -134,7 +134,7 @@ const CommentInput = () => {
                 await Swal.fire({
                     position: "center",
                     icon: "success",
-                    title: `Comment has been posted.`,
+                    title: `Đã gửi đánh giá thành công.`,
                     showConfirmButton: false,
                     timer: 1500
                 });
@@ -159,7 +159,7 @@ const CommentInput = () => {
         <div className="comment-input" >
             <textarea
                 type="text"
-                placeholder={inputFocused ? '' : 'Write a comment...'}
+                placeholder={inputFocused ? '' : 'Nhập đánh giá...'}
                 value={comment}
                 onChange={handleCommentChange}
                 onFocus={handleInputFocus}
@@ -169,7 +169,7 @@ const CommentInput = () => {
             />
             <div className='flex justify-end'>
             <button onClick={handleCommentSubmit} className="  bg-mainBG hover:bg-gray-300 text-white font-bold py-2 px-4 rounded">
-                Send
+                Gửi đánh giá
             </button>
             </div>
         </div>
@@ -213,12 +213,13 @@ const ProductDetails = () => {
         if (!user || !user.email) { // Kiểm tra xem người dùng đã đăng nhập chưa
             // Nếu chưa đăng nhập, hiển thị cảnh báo
             Swal.fire({
-                title: 'Please login!',
+                title: 'Vui lòng đăng nhập để thêm!',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Login now!'
+                confirmButtonText: 'Đăng nhập ngay!',
+                cancelButtonText: "Hủy"
             }).then((result) => {
                 if (result.isConfirmed) {
                     navigate('/login', { state: { from: location } })
@@ -232,7 +233,7 @@ const ProductDetails = () => {
                 Swal.fire({
                     position: "center",
                     icon: "success",
-                    title: `The book has been added to the wish list.`,
+                    title: `Đã thêm sách vào mục yêu thích`,
                     showConfirmButton: false,
                     timer: 1500,
                 });
@@ -261,7 +262,7 @@ const ProductDetails = () => {
                         Swal.fire({
                             position: 'center',
                             icon: 'success',
-                            title: 'Book added to the cart.',
+                            title: 'Đã thêm sách vào giỏ hàng',
                             showConfirmButton: false,
                             timer: 1500
                         })
@@ -281,12 +282,12 @@ const ProductDetails = () => {
         }
         else {
             Swal.fire({
-                title: 'Please login to order the book',
+                title: 'Vui lòng đăng nhập',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Login now!'
+                confirmButtonText: 'Đăng nhập ngay!'
             }).then((result) => {
                 if (result.isConfirmed) {
                     navigate('/login', { state: { from: location } })
@@ -306,14 +307,14 @@ const ProductDetails = () => {
         <div className={`max-w-screen-2xl container mx-auto xl:px-24 bg-gradient-to-r from-0% from-[#FAFAFA] to-[#FCFCFC] to-100% ${isDarkMode ? 'dark' : ''}`}>
             <div className={`py-20 p-2 flex flex-col justify-center gap-8 ${isDarkMode ? 'text-white' : ''}`}>
                 <h2 className="md:text-5xl text-center text-4xl font-bold md:leading-snug leading-snug">
-                    Welcome to your <span className="text-mainBG">Book Details</span>
+                    Chào mừng đến với trang  <span className="text-mainBG">Chi tiết sách</span>
                 </h2>
 
                 <div className="text-sm breadcrumbs">
                     <ul>
-                        <li><Link to="/">Home</Link></li>
-                        <li><Link to="/book">Book</Link></li>
-                        <li><a>{book.category}</a></li>
+                        <li><Link to="/">Trang chủ</Link></li>
+                        <li><Link to="/book">Sản phẩm</Link></li>
+                        <li>{book.category}</li>
                         <li>{book.name}</li>
                     </ul>
                 </div>
@@ -326,13 +327,13 @@ const ProductDetails = () => {
                     <div className="py-6">
                         <h3 className={`mb-2 text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>{book.name}</h3>
                         <p className={`mb-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}>
-                            <span className="font-bold">Favorites:</span> 12,3k peoples
+                            <span className="font-bold">Lượt thích:</span> 12,3k người
                         </p>
                         <p className={`mb-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}>
-                            <span className="font-bold">Price:</span> {book.price} <span className="text-lg font-bold text-red">$ </span>
+                            <span className="font-bold">Giá sản phẩm:</span> {book.price} <span className="text-xl font-bold text-red">₫</span>
                         </p>
                         <p className={`text-lg ${isDarkMode ? 'text-white' : 'text-black'}`} style={{ textAlign: 'justify' }}>
-                            <span className="font-bold">Description:</span> {book.description}
+                            <span className="font-bold">Mô tả:</span> {book.description ? book.description : "Không có mô tả"}
                         </p>
 
                     </div>
@@ -340,32 +341,32 @@ const ProductDetails = () => {
                     <div className="flex flex-col mb-4">
                         <div className="flex items-center mb-2">
                             <FontAwesomeIcon icon={faUser} className="text-mainBG text-xl mr-2 p-0 icon" />
-                            <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>Author:</span>
+                            <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>Tác giả:</span>
                             <span className={`ml-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}>{authorToDisplay}</span>
                         </div>
                         <div className="flex items-center mb-2">
                             <FontAwesomeIcon icon={faUserGroup} className="text-mainBG text-xl mr-2 p-0 icon" />
-                            <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>Publisher:</span>
+                            <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>Nhà xuất bản:</span>
                             <span className={`ml-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}> {book.publisher?.join(", ")} </span>
                         </div>
                         <div className="flex items-center mb-2">
                             <FontAwesomeIcon icon={faBook} className="text-mainBG text-xl mr-2 p-0 icon" />
-                            <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>Total books:</span>
+                            <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>Số lượng:</span>
                             <span className={`ml-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}> {book.quantity} </span>
                         </div>
                         <div className="flex items-center">
                             <FontAwesomeIcon icon={faTruckFast} className="text-mainBG text-xl mr-2 p-0 icon" />
-                            <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>Shipping fee:</span>
-                            <span className={`ml-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}> Freeship</span>
+                            <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>Phí vận chuyển:</span>
+                            <span className={`ml-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}> Miễn phí vận chuyển </span>
                         </div>
                     </div>
 
                     <div className="flex mt-4">
                         <button onClick={handleAddToCart} className="bg-mainBG hover:bg-gray-300 text-white font-bold py-2 px-4 rounded mr-4">
-                            <span className="inline-block"><FaShoppingCart className="mr-2" /></span> Add to Cart
+                            <span className="inline-block"><FaShoppingCart className="mr-2" /></span> Thêm vào giỏ hàng
                         </button>
                         <button onClick={handleWishlistClick} className="bg-light-purple hover:bg-gray-400 text-white font-bold py-2 px-4 rounded">
-                            <span className="inline-block"><FaHeart className="mr-2" /></span> Add to Wishlist
+                            <span className="inline-block"><FaHeart className="mr-2" /></span> Thêm vào yêu thích
                         </button>
                     </div>
 

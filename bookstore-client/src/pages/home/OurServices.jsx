@@ -1,10 +1,10 @@
 import React from "react";
 
 const serviceLists = [
-  { id: 1, title: "Customer Care", des: "We have support staff available to assist you 24/7 with any questions.", img: "/images/home/services/icon1.png"},
-  { id: 2, title: "Fast delivery", des: "We deliver your order promptly to your door faster than you think", img: "/images/home/services/icon2.png" },
-  { id: 3, title: "Online Ordering", des: "Explore category & order with ease using our Online Ordering ", img: "/images/home/services/icon3.png" },
-  { id: 4, title: "Promotions", des: "Give the promotions for the book lovers to get their books which they want", img: "/images/home/services/icon4.png" },
+  { id: 1, title: "Chăm sóc khách hàng", des: "Chúng tôi có nhân viên hỗ trợ sẵn sàng giúp bạn 24/7 với bất kỳ câu hỏi nào.", img: "/images/home/services/icon1.png" },
+  { id: 2, title: "Giao hàng nhanh", des: "Chúng tôi giao hàng nhanh chóng đến cửa nhà bạn một cách nhanh chóng.", img: "/images/home/services/icon2.png" },
+  { id: 3, title: "Đặt hàng trực tuyến", des: "Khám phá các danh mục & đặt hàng dễ dàng thông qua trang web trực tuyến.", img: "/images/home/services/icon3.png" },
+  { id: 4, title: "Khuyến mãi", des: "Cung cấp các khuyến mãi để người dùng mua được sách mong muốn", img: "/images/home/services/icon4.png" }
 ]
 
 const OurServices = () => {
@@ -13,15 +13,16 @@ const OurServices = () => {
       <div className="flex flex-col md:flex-row items-center justify-between gap-12">
         <div className="md:w-1/2">
           <div className="text-left md:w-4/5">
-            <p className="subtitle">Our Story & Services</p>
-            <h2 className="title">Our Literary Adventure and Offerings</h2>
+            <p className="subtitle">Câu Chuyện và Dịch Vụ của Chúng Tôi</p>
+            <h2 className="title">Hành Trình Văn Học và Các Ưu Đãi Của Chúng Tôi</h2>
             <p className="my-5 text-secondary leading-[30px]">
-              Fueled by our love for books, we carefully select captivating reads and provide exceptional services,
-              combining literary treasures with welcoming expertise.
+              Được thúc đẩy bởi tình yêu dành cho sách, chúng tôi tỉ mỉ lựa chọn những đầu sách hấp dẫn và cung cấp dịch vụ
+              xuất sắc, kết hợp bảo vệ những kho báu văn học với sự chuyên nghiệp nồng nhiệt.
             </p>
 
+
             <button className="bg-mainBG font-semibold btn text-white px-8 py-3 rounded-full">
-              Explore
+              Khám phá
             </button>
           </div>
         </div>

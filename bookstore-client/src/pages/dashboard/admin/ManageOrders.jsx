@@ -76,12 +76,12 @@ const ManageOrders = () => {
             <thead className="bg-mainBG text-white">
               <tr>
                 <th>#</th>
-                <th>User</th>
+                <th>Người dùng</th>
                 <th>Transition Id</th>
-                <th>Price</th>
-                <th>Status</th>
-                <th>Confirm Order</th>
-                <th>Delete</th>
+                <th>Giá</th>
+                <th>Trạng thái</th>
+                <th>Xác nhận đơn hàng</th>
+                <th>Xóa</th>
               </tr>
             </thead>
             <tbody>
@@ -127,14 +127,14 @@ const ManageOrders = () => {
           disabled={currentPage === 1}
           className="btn btn-sm mr-2 btn-warning"
         >
-          <FaArrowLeft /> Previous
+          <FaArrowLeft /> Quay lại
         </button>
         <button
           onClick={() => setCurrentPage(currentPage + 1)}
           disabled={indexOfLastItem >= orders.length}
           className="btn btn-sm bg-mainBG text-white"
         >
-          Next  <FaArrowRight />
+          Tiếp tục  <FaArrowRight />
         </button>
       </div>
     </div>

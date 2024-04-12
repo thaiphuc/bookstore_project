@@ -2,12 +2,12 @@ import React from 'react'
 import { useTheme } from '../../hooks/ThemeContext';
 
 const categoryItems = [
-    { id: 1, title: "Political", despriction: "(14 Books)", image: "/images/home/category/img1.png" },
-    { id: 2, title: "Non-fiction", despriction: "(20 Books)", image: "/images/home/category/img2.png" },
-    { id: 3, title: "Languages", despriction: "(24 Books)", image: "/images/home/category/img3.png" },
-    { id: 4, title: "Textbook", despriction: "(21 Books)", image: "/images/home/category/img4.png" },
-    { id: 5, title: "Economic", despriction: "(22 Books)", image: "/images/home/category/img5.png" },
-    { id: 6, title: "Browse All", despriction: "(120 Books)", image: "/images/home/category/img6.png" }
+    { id: 1, title: "Chính trị", despriction: "(14 Sách)", image: "/images/home/category/img1.png" },
+    { id: 2, title: "Non-fiction", despriction: "(20 Sách)", image: "/images/home/category/img2.png" },
+    { id: 3, title: "Ngoại ngữ", despriction: "(24 Sách)", image: "/images/home/category/img3.png" },
+    { id: 4, title: "Sách giáo khoa", despriction: "(21 Sách)", image: "/images/home/category/img4.png" },
+    { id: 5, title: "Kinh tế", despriction: "(22 Sách)", image: "/images/home/category/img5.png" },
+    { id: 6, title: "Tất cả", despriction: "(120 Sách)", image: "/images/home/category/img6.png" }
 
 ]
 
@@ -16,8 +16,8 @@ const Catagories = () => {
     return (
         <div className={`max-w-screen-2xl container mx-auto xl:px-24 px-4 py-16 ${isDarkMode ? 'dark' : ''}`}>
             <div className='text-center'>
-                <p className='subtitle'>Customer Favorites</p>
-                <h2 className='title'>Popular Catagories</h2>
+                <p className='subtitle'>Người dùng yêu thích</p>
+                <h2 className='title'>Thể loại phổ biến</h2>
             </div>
 
             {/* category cards */}

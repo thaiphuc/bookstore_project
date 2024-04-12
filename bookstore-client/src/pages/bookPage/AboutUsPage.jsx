@@ -18,7 +18,7 @@ const AboutUsPage = () => {
                     {/* content */}
                     <div className=" text-center px-4 space-y-7">
                         <h2 className="md:text-5xl text-4xl font-bold md:leading-snug leading-snug">
-                            About <span className="text-mainBG"> Us</span>
+                            Về <span className="text-mainBG">Chúng tôi</span>
                         </h2>
                         <div className="section-container my-16">
 

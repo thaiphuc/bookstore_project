@@ -97,7 +97,7 @@ const RelatedBook = ({ category }) => {
     return (
         <div className="max-w-screen-2xl container mx-auto px-4 mb-20 relative">
             <div className='text-left mt-8'>
-                <p className='subtitle'>Related Books</p>
+                <p className='subtitle'>Sách cùng chủ đề</p>
             </div>
             <div className="md:absolute right-3 top-8 mb-10 md:mr-24">
                 <button onClick={() => slider?.current?.slickPrev()}

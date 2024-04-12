@@ -10,29 +10,29 @@ const Footer = () => {
         <aside>
           <img src="/logo.png" alt="" />
           <p className="my-3 md:w-60 text-center font-bold">
-            Unlock Worlds, One Page at a Time: Explore the Boundless Universe of Books!
+            Mở Khóa Thế Giới, Từng Trang Một: Khám Phá Vũ Trụ Vô Hạn Của Sách!
           </p>
 
         </aside>
         <nav>
-          <header className="footer-title">Company</header>
-          <a className="link link-hover">Policy</a>
-          <a className="link link-hover">Events</a>
+          <header className="footer-title">Trang web</header>
+          <a className="link link-hover">Chính sách</a>
+          <a className="link link-hover">Sự kiện</a>
           <a className="link link-hover">Blogs</a>
           <a className="link link-hover">FAQ</a>
         </nav>
         <nav>
-          <header className="footer-title">Main Book</header>
-          <a className="link link-hover">Home</a>
-          <a className="link link-hover">Offers</a>
-          <a className="link link-hover">Categories</a>
-          <a className="link link-hover">Support</a>
+          <header className="footer-title">Mục lục</header>
+          <a className="link link-hover">Trang chủ</a>
+          <a className="link link-hover">Dịch vụ</a>
+          <a className="link link-hover">Phân loại</a>
+          <a className="link link-hover">Hỗ trợ</a>
         </nav>
         <nav>
-          <header className="footer-title">Contact Us</header>
+          <header className="footer-title">Liên hệ chúng tôi</header>
           <a className="link link-hover">Email: pnqbookstore@gmail.com</a>
-          <a className="link link-hover">Phone: +84 393 434 221</a>
-          <a className="link link-hover">Address: 1 VVN Thu Duc City</a>
+          <a className="link link-hover">Số điện thoại: +84 393 434 221</a>
+          <a className="link link-hover">Địa chỉ: 1 VVN Thu Duc City</a>
         </nav>
       </footer>
       <hr />

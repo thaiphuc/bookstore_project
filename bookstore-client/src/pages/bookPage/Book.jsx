@@ -11,7 +11,7 @@ const Book = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortOption, setSortOption] = useState("default");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(8); // Number of items to display per page
+  const [itemsPerPage] = useState(6); // Number of items to display per page
 
   useEffect(() => {
     // Fetch data from the backend
@@ -91,15 +91,15 @@ const Book = () => {
           {/* content */}
           <div className=" text-center px-4 space-y-7">
             <h2 className="md:text-5xl text-4xl font-bold md:leading-snug leading-snug">
-              For the Lovers of <span className="text-mainBG">Book</span>
+              Dành cho những người đam mê <span className="text-mainBG">Sách</span>
             </h2>
             <p className="text-[#4A4A4A]  text-xl md:w-4/5 mx-auto">
-              Discover the enchanting world of literature at our bookstore, where you can embark on captivating journeys through the pages of fiction and non-fiction alike. Immerse yourself in tales of adventure, knowledge, and inspiration, from timeless classics to contemporary masterpieces.
-              With an array of genres including mystery, romance, business, and more, there is something for every reader to explore. Dive into the pages and let your imagination soar as you uncover the treasures that await within the covers of our beloved books.
+
+              Khám phá thế giới mênh mông của văn học tại cửa hàng sách của chúng tôi, nơi bạn có thể bắt đầu những hành trình quyến rũ qua những trang sách của cả tiểu thuyết và phi tiểu thuyết. Đắm mình trong những câu chuyện phiêu lưu, kiến thức và cảm hứng, từ những tác phẩm kinh điển đến những kiệt tác đương đại.
             </p>
             <Link to="/cart-page">
               <button className="mt-2 bg-mainBG font-semibold btn text-white px-8 py-3 rounded-full">
-                Your cart
+                Giỏ hàng
               </button>
             </Link>
           </div>
@@ -116,7 +116,7 @@ const Book = () => {
               onClick={showAll}
               className={selectedCategory === "all" ? "active" : ""}
             >
-              All
+              Tất cả
             </button>
             <button
               onClick={() => filterItems("Non-fiction")}
@@ -128,44 +128,44 @@ const Book = () => {
               onClick={() => filterItems("Economic")}
               className={selectedCategory === "Economic" ? "active" : ""}
             >
-              Economic
+              Kinh Tế
             </button>
             <button
               onClick={() => filterItems("Literature")}
               className={selectedCategory === "Literature" ? "active" : ""}
             >
-              Literature
+              Ngữ văn
             </button>
             <button
               onClick={() => filterItems("Political")}
               className={selectedCategory === "Political" ? "active" : ""}
             >
-              Political
+              Chính trị
             </button>
             <button
               onClick={() => filterItems("Language")}
               className={selectedCategory === "Language" ? "active" : ""}
             >
-              Language
+              Ngoại ngữ
             </button>
             <button
               onClick={() => filterItems("Self-help")}
               className={selectedCategory === "Self-help" ? "active" : ""}
             >
-              Self-help
+              Phát triển bản thân
             </button>
             <button
               onClick={() => filterItems("TextBook")}
               className={selectedCategory === "TextBook" ? "active" : ""}
             >
-              TextBook
+              Sách giáo khoa
             </button>
-            <button
+            {/* <button
               onClick={() => filterItems("Popular")}
               className={selectedCategory === "Popular" ? "active" : ""}
             >
-              Popular
-            </button>
+              Phổ biến
+            </button> */}
           </div>
 
           {/* filter options */}
@@ -179,17 +179,17 @@ const Book = () => {
               value={sortOption}
               className="bg-black text-white px-2 py-1 rounded-sm"
             >
-              <option value="default"> Default</option>
+              <option value="default"> Mặc định</option>
               <option value="A-Z">A-Z</option>
               <option value="Z-A">Z-A</option>
-              <option value="low-to-high">Low to High</option>
-              <option value="high-to-low">High to Low</option>
+              <option value="low-to-high">Thấp tới cao</option>
+              <option value="high-to-low">Cao tới thấp</option>
             </select>
           </div>
         </div>
 
         {/* product card */}
-        <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4 ">
+        <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4 ">
           {currentItems.map((item, index) => (
             <Cards key={index} item={item} />
           ))}
