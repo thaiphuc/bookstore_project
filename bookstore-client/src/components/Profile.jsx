@@ -47,31 +47,31 @@ const Profile = ({ user }) => {
             <li>
               <Link to={`/update-profile/${user.email}`}>
                 <FontAwesomeIcon icon={faUser} className="mr-2" />
-                Profile
+                Thông tin cá nhân
               </Link>
             </li>
             <li>
               <Link to={`/update-password/${user.email}`}>
                 <FontAwesomeIcon icon={faLock} className="mr-2" />
-                ChangePassword
+                Thay đổi mật khẩu
               </Link>
             </li>
             <li>
               <a href="/order">
                 <FontAwesomeIcon icon={faClipboardList} className="mr-2" />
-                Order
+                Đơn Hàng
               </a>
             </li>
             <li>
               <a href="/dashboard">
                 <FontAwesomeIcon icon={faUserTie} className="mr-2" />
-                Dashboard
+                Trang chủ Admin
               </a>
             </li>
             <li>
               <a onClick={handleLogout}>
                 <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
-                Logout
+                Đăng xuất
               </a>
             </li>
           </ul>

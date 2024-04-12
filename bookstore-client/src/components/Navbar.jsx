@@ -54,47 +54,47 @@ const Navbar = () => {
     <>
       <li>
         <a href="/" className={`text-${isDarkMode ? 'dark' : ''}`}>
-          Home
+          Trang chủ
         </a>
       </li>
       <li tabIndex={0}>
         <details>
-          <summary className={`text-${isDarkMode ? 'dark' : ''}`}>Books</summary>
+          <summary className={`text-${isDarkMode ? 'dark' : ''}`}>Sản phẩm</summary>
           <ul className={`p-2 ${isDarkMode ? 'dark' : ''}`}>
             <li>
               <a href="/book" className={`text-${isDarkMode ? 'dark' : ''}`}>
-                All
+                Tất cả
               </a>
             </li>
-            <li>
+            {/* <li>
               <a className={`text-${isDarkMode ? 'dark' : ''}`}>Category</a>
-            </li>
+            </li> */}
           </ul>
         </details>
       </li>
       <li tabIndex={0}>
         <details>
-          <summary className={`text-${isDarkMode ? 'dark' : ''}`}>Services</summary>
+          <summary className={`text-${isDarkMode ? 'dark' : ''}`}>Dịch vụ</summary>
           <ul className={`p-2 ${isDarkMode ? 'dark' : ''}`}>
             <li>
-              <a className={`text-${isDarkMode ? 'text-white' : 'black'}`}>Our services</a>
+              <a className={`text-${isDarkMode ? 'text-white' : 'black'}`}>Dịch vụ</a>
             </li>
             <li>
-              <a href="/order" className={`text-${isDarkMode ? 'white' : 'black'}`}>Order Tracking</a>
+              <a href="/order" className={`text-${isDarkMode ? 'white' : 'black'}`}>Đơn hàng</a>
             </li>
           </ul>
         </details>
       </li>
       <li tabIndex={0}>
         <details>
-          <summary className={`text-${isDarkMode ? 'dark' : ''}`}>Others</summary>
+          <summary className={`text-${isDarkMode ? 'dark' : ''}`}>Khác</summary>
           <ul className={`p-2 ${isDarkMode ? 'dark' : ''}`}>
             <li>
               <Link
                 to="/contact-page"
                 className={`text-${isDarkMode ? 'text-white' : 'black'}`}
               >
-                Contact
+                Liên hệ
               </Link>
             </li>
             <li>
@@ -102,7 +102,7 @@ const Navbar = () => {
                 to="/about-page"
                 className={`text-${isDarkMode ? 'text-white' : 'black'}`}
               >
-                About us
+                Về chúng tôi
               </Link>
             </li>
 
@@ -159,7 +159,7 @@ const Navbar = () => {
           {/* search-input */}
 
           <div className="form-control">
-            <input type="text" placeholder="Search here..." className="input input-bordered w-16 md:w-auto ml-2 mr-2" />
+            <input type="text" placeholder="Tìm kiếm sách..." className="input input-bordered w-16 md:w-auto ml-2 mr-2" />
           </div>
           {/* <button className="btn btn-ghost btn-circle">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
@@ -204,7 +204,7 @@ const Navbar = () => {
             user ? <>
               <Profile user = {user} />
             </> : <button onClick={() => document.getElementById('my_modal_5').showModal()} className="btn flex items-center gap-2 rounded-full px-6 bg-mainBG text-white">
-              <FaRegUser /> Login
+              <FaRegUser /> Đăng nhập
             </button>
           }
 

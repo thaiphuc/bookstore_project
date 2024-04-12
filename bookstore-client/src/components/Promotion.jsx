@@ -35,34 +35,34 @@ const PromotionCountdown = () => {
 
     return (
         <div className="flex flex-col items-center justify-center">
-            <h2 className="text-center text-3xl font-bold mb-4">GET 30% DISCOUNT WHEN SUBSCRIBING MY CHANNEL ON THIS TIME</h2>
+            <h2 className="text-center text-3xl font-bold mb-4">GIẢM NGAY 30% KHI BẠN GỬI EMAIL CHO CHÚNG TÔI </h2>
             <div className=" grid grid-flow-col gap-5 mt-4 text-center auto-cols-max">
                 <div className="flex flex-col p-2 bg-neutral rounded-box text-neutral-content w-32">
                     <span className="countdown font-mono text-5xl">{timeLeft.days}</span>
-                    <span>days</span>
+                    <span>ngày</span>
                 </div>
                 <div className="flex flex-col p-2 bg-neutral rounded-box text-neutral-content w-32">
                     <span className="countdown font-mono text-5xl">{timeLeft.hours}</span>
-                    <span>hours</span>
+                    <span>giờ</span>
                 </div>
                 <div className="flex flex-col p-2 bg-neutral rounded-box text-neutral-content w-32">
                     <span className="countdown font-mono text-5xl">{timeLeft.minutes}</span>
-                    <span>mins</span>
+                    <span>phút</span>
                 </div>
                 <div className="flex flex-col p-2 bg-neutral rounded-box text-neutral-content w-32">
                     <span className="countdown font-mono text-5xl">{timeLeft.seconds}</span>
-                    <span>secs</span>
+                    <span>giây</span>
                 </div>
             </div>
             <form className="mt-10">
-                <h6 className="footer-title text-center">Type your email below to get discount !!!</h6>
+                <h6 className="footer-title text-center">Nhập email của bạn bên dưới đã nhận giảm giá !!!</h6>
                 <fieldset className="form-control w-80 mx-auto">
                     <label className="label">
-                        <span className="">Enter your email address</span>
+                        <span className="">Nhập địa chỉ email</span>
                     </label>
                     <div className="join flex items-center justify-center">
                         <input type="text" placeholder="username@site.com" className="input input-bordered join-item" />
-                        <button className="btn btn-sub join-item">Subscribe</button>
+                        <button className="btn btn-sub join-item">Gửi</button>
                     </div>
                 </fieldset>
             </form>

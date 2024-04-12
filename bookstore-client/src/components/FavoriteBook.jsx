@@ -94,7 +94,7 @@ const FavoriteBook = () => {
     return (
         <div className="max-w-screen-2xl container mx-auto xl:px-24 px-4 mb-20 relative">
             <div className='text-left'>
-                <p className='subtitle'>Your Favorite Books</p>
+                <p className='subtitle'>Sản phẩm yêu thích</p>
             </div>
             <div className="md:absolute right-3 top-8 mb-10 md:mr-24">
                 <button onClick={() => slider?.current?.slickPrev()}
@@ -116,8 +116,8 @@ const FavoriteBook = () => {
                 ))}
             </Slider>
             ) : ( <div className="text-center mt-20">
-                    <p>Favorite book is empty. Please add book.</p>
-                        <Link to="/book"><button className="btn bg-mainBG text-white mt-3">Back to Book</button></Link>
+                    <p>Chưa có sách. Vui lòng thêm sách vào.</p>
+                        <Link to="/book"><button className="btn bg-mainBG text-white mt-3">Quay lại trang sản phẩm</button></Link>
                 </div>)
           }
             

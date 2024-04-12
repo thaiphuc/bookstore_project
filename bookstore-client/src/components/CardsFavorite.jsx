@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { FaHeart, FaShoppingCart } from "react-icons/fa";
+import { FaCartPlus, FaHeart } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
 import useAxiosSecure from "../hooks/useAxiosSecure";
@@ -12,6 +12,9 @@ const CardsFavorite = ({ item }) => {
     const maxWords = 20;
 
     const shortenDescription = (description, maxWords) => {
+        if (!description || description.length === 0) {
+            return "Không có mô tả";
+        }
         if (description.length > 15) {
             const spaceIndex = description.indexOf(' ', 15);
             const shortenedText = description.substring(0, spaceIndex);
@@ -21,6 +24,7 @@ const CardsFavorite = ({ item }) => {
         }
         return description;
     };
+
     const shortenText = (text, maxWords) => {
         if (text.length > maxWords) {
             const spaceIndex = text.indexOf(' ', maxWords);
@@ -50,7 +54,7 @@ const CardsFavorite = ({ item }) => {
             await Swal.fire({
             position: "center",
             icon: "success",
-            title: `The book has been removed from the wish list.`,
+            title: `Đã xóa khỏi mục yêu thích`,
             showConfirmButton: false,
             timer: 1000,
             });
@@ -75,7 +79,7 @@ const CardsFavorite = ({ item }) => {
                         Swal.fire({
                             position: 'center',
                             icon: 'success',
-                            title: 'Book added on the cart.',
+                            title: 'Đã thêm vào giỏ hàng!',
                             showConfirmButton: false,
                             timer: 1000
                         })
@@ -83,7 +87,7 @@ const CardsFavorite = ({ item }) => {
                 })
                 .catch((error) => {
                     console.log(error.response.data.message);
-                    const errorMessage = error.response.data.message;
+                    const errorMessage = "Sản phẩm đã được thêm vào giỏ hàng";
                     Swal.fire({
                         position: 'center',
                         icon: 'warning',
@@ -95,12 +99,14 @@ const CardsFavorite = ({ item }) => {
         }
         else {
             Swal.fire({
-                title: 'Please login to order the book',
+                title: 'Vui lòng đăng nhập để mua hàng!',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Login now!'
+                confirmButtonText: 'Đăng nhập ngay!',
+                cancelButtonText: 'Hủy'
+
             }).then((result) => {
                 if (result.isConfirmed) {
                     navigate('/login', { state: { from: location } })
@@ -125,12 +131,12 @@ const CardsFavorite = ({ item }) => {
             </Link>
             <div className="card-body">
                 <Link to={`/book/${item._id}`}><h2 className="card-title">{shortName}!</h2></Link>
-                <p style={{ textAlign: 'left' }}>{shortDescription}</p>
+                <p style={{ textAlign: 'left' }}>{shortenDescription(description, maxWords)}</p>
                 <div className="card-actions justify-between items-center mt-2">
                     <h5 className="font-semibold">
                         <span className="text-sm text-red">$ </span> {item.price}
                     </h5>
-                    <button onClick={() => handleAddToCart(item)} className="btn bg-mainBG text-white"><FaShoppingCart /> Add  </button>
+                    <button onClick={() => handleAddToCart(item)} className="btn bg-mainBG text-white"><FaCartPlus /> Thêm </button>
                 </div>
             </div>
         </div>

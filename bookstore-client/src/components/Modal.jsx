@@ -87,7 +87,7 @@ const Modal = () => {
             method="dialog"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <h3 className="font-bold text-lg">Please Login!</h3>
+            <h3 className="font-bold text-lg">Vui lòng đăng nhập!</h3>
 
             {/* email */}
             <div className="form-control">
@@ -105,17 +105,17 @@ const Modal = () => {
             {/* password */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Password</span>
+                <span className="label-text">Mật khẩu</span>
               </label>
               <input
                 type="password"
-                placeholder="password"
+                placeholder="Nhập mật khẩu"
                 className="input input-bordered"
                 {...register("password", { required: true })}
               />
               <label className="label">
                 <a href="#" className="label-text-alt link link-hover mt-2">
-                  Forgot password?
+                  Quên mật khẩu?
                 </a>
               </label>
             </div>
@@ -123,8 +123,8 @@ const Modal = () => {
             {/* show errors */}
             {errorMessage ? (
               <p className="text-red text-xs italic">
-                Provide a correct username & password.
-              </p>
+                Vui lòng đăng nhập email & mật khẩu hợp lệ!              
+                </p>
             ) : (
               ""
             )}
@@ -148,9 +148,9 @@ const Modal = () => {
             </div>
 
             <p className="text-center my-2">
-              Donot have an account?
+              Bạn chưa có tài khoản?
               <Link to="/signup" className="underline text-red ml-1">
-                Signup Now
+                Đăng ký ngay
               </Link>
             </p>
           </form>

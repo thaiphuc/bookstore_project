@@ -332,7 +332,7 @@ const ProductDetails = () => {
                             <span className="font-bold">Price:</span> {book.price} <span className="text-lg font-bold text-red">$ </span>
                         </p>
                         <p className={`text-lg ${isDarkMode ? 'text-white' : 'text-black'}`} style={{ textAlign: 'justify' }}>
-                            <span className="font-bold">Description:</span> {book.description}
+                            <span className="font-bold">Description:</span> {book.description ? book.description : "Không có mô tả"}
                         </p>
 
                     </div>
