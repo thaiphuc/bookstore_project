@@ -19,6 +19,15 @@ const ManageItems = () => {
   const formatPrice = (price) => {
     return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
+
+  // Rút gọn tên sách
+  const shortenName = (name, maxLength) => {
+    if (name.length > maxLength) {
+      return name.substring(0, maxLength) + "...";
+    }
+    return name;
+  };
+
   // delete item
   const handleDeleteItem = (item) => {
     console.log(item._id)
@@ -30,7 +39,7 @@ const ManageItems = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Vâng, tôi đồng ý!",
-      cancelButtonText:"Hủy"
+      cancelButtonText: "Hủy"
     }).then(async (result) => {
       if (result.isConfirmed) {
         const res = await axiosSecure.delete(`/book/${item._id}`);
@@ -51,7 +60,7 @@ const ManageItems = () => {
   return (
     <div className="w-full md:w-[870px] mx-auto px-4 ">
       <h2 className="text-2xl font-semibold my-4">
-          Quản lý <span className="text-mainBG">Sách!</span>
+        Quản lý <span className="text-mainBG">Sách!</span>
       </h2>
 
       {/* book items table  */}
@@ -87,7 +96,7 @@ const ManageItems = () => {
                       </div>
                     </div>
                   </td>
-                  <td>{item.name}</td>
+                  <td>{shortenName(item.name, 30)}</td> {/* Giới hạn độ dài tên sách tối đa là 30 ký tự */}
                   <td>{item.category}</td>
                   <td>{formatPrice(item.price)} ₫</td>
                   <td>{item.quantity}</td>
