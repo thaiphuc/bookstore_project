@@ -30,27 +30,27 @@ const AddBook = () => {
   const onSubmit = async (data) => {
     if (data.publishYear < 0)
     {
-      setPublishYearError("Nam xuat ban khong am!");
+      setPublishYearError("Năm xuất bản không âm!");
       return;
     }
     const value = data.publishYear.toString().replace(/[^0-9]/g, "");
     const year = parseInt(value);
     if (isNaN(year) || value.length !== 4 || year < 0) {
-      setPublishYearError("Publish year must be a valid 4-digit number.");
+      setPublishYearError("Năm phải là giá trị có 4 số");
       return;
     } else {
       setPublishYearError("");
     }
 
     if (parseFloat(data.price) > 1000000000) {
-      setPriceError("Price cannot exceed 1,000,000,000.");
+      setPriceError("Giá không vượt quá 1,000,000,000.");
       return;
     } else {
       setPriceError("");
     }
 
     if (parseFloat(data.price) < 0) {
-      setNegativePriceError("Price cannot be negative.");
+      setNegativePriceError("Giá không là số âm");
       return;
     } else {
       setNegativePriceError("");
@@ -87,7 +87,7 @@ const AddBook = () => {
         Swal.fire({
           position: "center",
           icon: "success",
-          title: `${data.name} is added to the book.`,
+          title: `${data.name} đã thêm thành công!`,
           showConfirmButton: false,
           timer: 1500
         });
@@ -98,20 +98,20 @@ const AddBook = () => {
   return (
     <div className="w-full md:w-[870px] mx-auto px-4">
       <h2 className="text-2xl font-semibold my-4">
-        Upload A New <span className="text-mainBG">Book</span>
+        Thêm <span className="text-mainBG">Sách</span>
       </h2>
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* form1 */}
           <div className="form-control w-full my-2">
             <label className="label">
-              <span className="label-text">Book Title
+              <span className="label-text">Tên sách
                 <span className="text-red">*</span>
               </span>
             </label>
             <input
               type="text"
-              placeholder="Book Name"
+              placeholder="Tên sách"
               {...register("name", { required: true })}
               required
               className="input input-bordered w-full"
@@ -122,7 +122,7 @@ const AddBook = () => {
             {/* category */}
             <div className="form-control w-full my-6">
               <label className="label">
-                <span className="label-text">Category
+                <span className="label-text">Thể loại
                   <span className="text-red">*</span>
                 </span>
               </label>
@@ -135,29 +135,29 @@ const AddBook = () => {
                 className="select select-bordered w-full"
               >
                 <option disabled value="default">
-                  Select a category
+                  Chọn thể loại
                 </option>
                 <option value="Non-fiction">Non-fiction</option>
-                <option value="Economic">Economic</option>
-                <option value="Literature">Literature</option>
-                <option value="Political">Political</option>
-                <option value="Language">Language</option>
-                <option value="TextBook">TextBook</option>
-                <option value="Self-help">Self-Help</option>
-                <option value="Popular">Popular</option>
+                <option value="Economic">Kinh tế</option>
+                <option value="Literature">Ngữ văn</option>
+                <option value="Political">Chính trị</option>
+                <option value="Language">Ngoại ngữ</option>
+                <option value="Self-help">Phát triển bản thân</option>
+                <option value="TextBook">Sách giáo khoa</option>
+                <option value="Popular">Phổ biến</option>
               </select>
             </div>
 
             {/* price */}
             <div className="form-control w-full my-6">
               <label className="label">
-                <span className="label-text">Price
+                <span className="label-text">Giá
                   <span className="text-red">*</span>
                 </span>
               </label>
               <input
                 type="number"
-                placeholder="Price"
+                placeholder="Giá"
                 {...register("price", {
                   required: true,
                 })}
@@ -176,13 +176,13 @@ const AddBook = () => {
             {/* publisher */}
             <div className="form-control w-full my-6">
               <label className="label">
-                <span className="label-text">Publisher
+                <span className="label-text">Nhà xuất bản
                   <span className="text-red">*</span>
                 </span>
               </label>
               <input
                 type="text"
-                placeholder="Publisher name"
+                placeholder="Nhà xuất bản"
                 {...register("publisher", { required: true })}
                 className="input input-bordered w-full"
               />
@@ -191,13 +191,13 @@ const AddBook = () => {
             {/* author */}
             <div className="form-control w-full my-6">
               <label className="label">
-                <span className="label-text">Author
+                <span className="label-text">Tác giả
                   <span className="text-red">*</span>
                 </span>
               </label>
               <input
                 type="text"
-                placeholder="Author name"
+                placeholder="Tác giả"
                 {...register("author", { required: true })}
                 className="input input-bordered w-full"
               />
@@ -208,13 +208,13 @@ const AddBook = () => {
             {/* publish year */}
             <div className="form-control w-full my-6">
               <label className="label">
-                <span className="label-text">Publish year
+                <span className="label-text">Năm sản xuất
                   <span className="text-red">*</span>
                 </span>
               </label>
               <input
                 type="number"
-                placeholder="Publish year"
+                placeholder="Năm sản xuất"
                 {...register("publishYear", { required: true })}
                 className="input input-bordered w-full"
               />
@@ -226,7 +226,7 @@ const AddBook = () => {
             {/* quantity */}
             <div className="form-control w-full my-6">
               <label className="label">
-                <span className="label-text">Quantity</span>
+                <span className="label-text">Số lượng</span>
               </label>
               <div className="flex items-center">
                 <button
@@ -258,12 +258,12 @@ const AddBook = () => {
           {/* description details */}
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Book Details</span>
+              <span className="label-text">Mô tả sách</span>
             </label>
             <textarea
               {...register("description")}
               className="textarea textarea-bordered h-24"
-              placeholder="Type here..."
+              placeholder="Mô tả sách..."
             ></textarea>
           </div>
 
@@ -276,7 +276,7 @@ const AddBook = () => {
           </div>
 
           <button className="btn bg-mainBG text-white px-6">
-            Add Book <FaUpload></FaUpload>
+            Thêm sách <FaUpload></FaUpload>
           </button>
         </form>
       </div>

@@ -31,24 +31,24 @@ const UpdateBook = () => {
   const onSubmit = async (data) => {
     if (data.publishYear < 0)
     {
-      setPublishYearError("Nam xb khong am!");
+      setPublishYearError("Năm xuất bản không âm!");
       return;
     }
     const value = data.publishYear.toString().replace(/[^0-9]/g, "");
     const year = parseInt(value);
     if (isNaN(year) || value.length !== 4) {
-      setPublishYearError("Publish year must be a valid 4-digit number.");
+      setPublishYearError("Năm phải là số có 4 chữ số");
       return;
     } else {
       setPublishYearError("");
     }
 
     if (parseFloat(data.price) > 1000000000) {
-      setPriceError("Price cannot exceed 1,000,000,000.");
+      setPriceError("Giá không vượt quá 1,000,000,000.");
       return;
     }
     if (parseFloat(data.price) < 0) {
-      setNegativePriceError("Price cannot be negative.");
+      setNegativePriceError("Giá không là số âm");
       return;
     }
 
@@ -86,18 +86,18 @@ const UpdateBook = () => {
   return (
     <div className="w-full md:w-[870px] mx-auto px-4">
       <h2 className="text-2xl font-semibold my-4">
-        Update <span className="text-mainBG">Book</span>
+        Cập nhật <span className="text-mainBG">Sách</span>
       </h2>
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-control w-full my-6">
             <label className="label">
-              <span className="label-text">Book Name
+              <span className="label-text">Tên sách
                 <span className="text-red">*</span></span>
             </label>
             <input
               type="text"
-              placeholder="Description Name"
+              placeholder="Tên sách"
               defaultValue={item.name}
               {...register("name", { required: true })}
               required
@@ -108,7 +108,7 @@ const UpdateBook = () => {
           <div className="flex gap-6">
             <div className="form-control w-full my-6">
               <label className="label">
-                <span className="label-text">Category
+                <span className="label-text">Thể loại
                   <span className="text-red">*</span>
                 </span>
               </label>
@@ -118,28 +118,28 @@ const UpdateBook = () => {
                 className="select select-bordered w-full"
               >
                 <option disabled value="default">
-                  Select a category
+                  Chọn thể loại
                 </option>
                 <option value="Non-fiction">Non-fiction</option>
-                <option value="Economic">Economic</option>
-                <option value="Literature">Literature</option>
-                <option value="Political">Political</option>
-                <option value="Language">Language</option>
-                <option value="Self-help">Self-Help</option>
-                <option value="TextBook">TextBook</option>
-                <option value="Popular">Popular</option>
+                <option value="Economic">Kinh tế</option>
+                <option value="Literature">Ngữ văn</option>
+                <option value="Political">Chính trị</option>
+                <option value="Language">Ngoại ngữ</option>
+                <option value="Self-help">Phát triển bản thân</option>
+                <option value="TextBook">Sách giáo khoa</option>
+                <option value="Popular">Phổ biến</option>
               </select>
             </div>
 
             <div className="form-control w-full my-6">
               <label className="label">
-                <span className="label-text">Price
+                <span className="label-text">Giá
                   <span className="text-red">*</span>
                 </span>
               </label>
               <input
                 type="number"
-                placeholder="Price"
+                placeholder="Giá"
                 defaultValue={item.price}
                 {...register("price", {
                   required: true,
@@ -158,13 +158,13 @@ const UpdateBook = () => {
           <div className="flex gap-6">
             <div className="form-control w-full my-6">
               <label className="label">
-                <span className="label-text">Publisher
+                <span className="label-text">Nhà xuất bản
                   <span className="text-red">*</span>
                 </span>
               </label>
               <input
                 type="text"
-                placeholder="Publisher name"
+                placeholder="Nhà xuất bản"
                 defaultValue={item.publisher}
                 {...register("publisher", { required: true })}
                 className="input input-bordered w-full"
@@ -173,13 +173,13 @@ const UpdateBook = () => {
 
             <div className="form-control w-full my-6">
               <label className="label">
-                <span className="label-text">Author
+                <span className="label-text">Tác giả
                   <span className="text-red">*</span>
                 </span>
               </label>
               <input
                 type="text"
-                placeholder="Author name"
+                placeholder="Tác giả"
                 defaultValue={item.author}
                 {...register("author", { required: true })}
                 className="input input-bordered w-full"
@@ -190,13 +190,13 @@ const UpdateBook = () => {
           <div className="flex gap-6">
             <div className="form-control w-full my-6">
               <label className="label">
-                <span className="label-text">Publish year
+                <span className="label-text">Năm sản xuất
                   <span className="text-red">*</span>
                 </span>
               </label>
               <input
                 type="number"
-                placeholder="Publish year"
+                placeholder="Năm sản xuất"
                 defaultValue={item.publishYear}
                 {...register("publishYear", { required: true })}
                 className="input input-bordered w-full"
@@ -208,7 +208,7 @@ const UpdateBook = () => {
 
             <div className="form-control w-full my-6">
               <label className="label">
-                <span className="label-text">Quantity</span>
+                <span className="label-text">Số lượng</span>
               </label>
               <div className="flex items-center">
                 <button
@@ -239,12 +239,12 @@ const UpdateBook = () => {
 
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Description Details</span>
+              <span className="label-text">Mô tả sách</span>
             </label>
             <textarea
               {...register("description")}
               className="textarea textarea-bordered h-24"
-              placeholder="Description details"
+              placeholder="Mô tả sách..."
               defaultValue={item.description}
             ></textarea>
           </div>

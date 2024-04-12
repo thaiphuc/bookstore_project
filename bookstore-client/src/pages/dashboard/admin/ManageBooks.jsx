@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import useBook from "../../../hooks/useBook";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
-import { FaArrowCircleRight, FaArrowLeft, FaArrowRight, FaEdit, FaTrashAlt } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaEdit, FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 
 const ManageItems = () => {
@@ -21,13 +21,14 @@ const ManageItems = () => {
   const handleDeleteItem = (item) => {
     console.log(item._id)
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: "Bạn muốn xóa?",
+      text: "Bạn sẽ không thể hoàn tác!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
+      confirmButtonText: "Vâng, tôi đồng ý!",
+      cancelButtonText:"Hủy"
     }).then(async (result) => {
       if (result.isConfirmed) {
         const res = await axiosSecure.delete(`/book/${item._id}`);
@@ -36,7 +37,7 @@ const ManageItems = () => {
         Swal.fire({
           position: "center",
           icon: "success",
-          title: `${item.name} has been deleted`,
+          title: `${item.name} đã bị xóa`,
           showConfirmButton: false,
           timer: 1500
         });
@@ -48,7 +49,7 @@ const ManageItems = () => {
   return (
     <div className="w-full md:w-[870px] mx-auto px-4 ">
       <h2 className="text-2xl font-semibold my-4">
-        Manage All <span className="text-mainBG">Books!</span>
+          Quản lý <span className="text-mainBG">Sách!</span>
       </h2>
 
       {/* book items table  */}
@@ -59,11 +60,11 @@ const ManageItems = () => {
             <thead className="bg-mainBG text-white">
               <tr>
                 <th>#</th>
-                <th>Image</th>
-                <th>Book Name</th>
-                <th>Price</th>
-                <th>Update</th>
-                <th>Delete</th>
+                <th>Ảnh</th>
+                <th>Tên sách</th>
+                <th>Giá</th>
+                <th>Cập nhật</th>
+                <th>Xóa</th>
               </tr>
             </thead>
             <tbody>
@@ -83,7 +84,7 @@ const ManageItems = () => {
                     </div>
                   </td>
                   <td>{item.name}</td>
-                  <td>${item.price}</td>
+                  <td>{item.price} ₫</td>
                   <td>
                     <Link to={`/dashboard/update-book/${item._id}`}>
                       <button className="btn btn-ghost btn-xs bg-orange-500">
@@ -116,14 +117,14 @@ const ManageItems = () => {
           disabled={currentPage === 1}
           className="btn btn-sm mr-2 btn-warning"
         >
-          <FaArrowLeft /> Previous
+          <FaArrowLeft /> Quay lại
         </button>
         <button
           onClick={() => setCurrentPage(currentPage + 1)}
           disabled={indexOfLastItem >= book.length}
           className="btn btn-sm bg-mainBG text-white"
         >
-          Next  <FaArrowRight />
+          Tiếp tục  <FaArrowRight />
         </button>
       </div>
     </div>
