@@ -35,7 +35,10 @@ const Cards = ({ item }) => {
     }
     return text;
   };
-
+  const formatPrice = (price) => {
+    // Sử dụng hàm toLocaleString để định dạng số với dấu phẩy ngăn cách hàng nghìn
+    return price.toLocaleString('vi-VN');
+  };
   const shortName = shortenText(name, 7);
   const shortDescription = shortenDescription(description, maxWords);
 
@@ -178,7 +181,7 @@ const Cards = ({ item }) => {
         <p>{shortDescription}</p>
         <div className="card-actions justify-between items-center mt-2">
           <h5 className="font-semibold">
-            {item.price} <span className="text-lg text-red"> ₫</span>
+            {price > 1000 ? formatPrice(price) : price} <span className="text-lg text-red"> ₫</span>
           </h5>
           <button onClick={() => handleAddToCart(item)} className="btn bg-mainBG text-white"> <FaCartPlus /> Thêm </button>
         </div>

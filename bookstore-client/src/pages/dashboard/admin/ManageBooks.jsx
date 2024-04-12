@@ -16,7 +16,9 @@ const ManageItems = () => {
   const indexOfLastItem = currentPage * items_Per_Page;
   const indexOfFirstItem = indexOfLastItem - items_Per_Page;
   const currentItems = book.slice(indexOfFirstItem, indexOfLastItem);
-
+  const formatPrice = (price) => {
+    return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
   // delete item
   const handleDeleteItem = (item) => {
     console.log(item._id)
@@ -84,7 +86,7 @@ const ManageItems = () => {
                     </div>
                   </td>
                   <td>{item.name}</td>
-                  <td>{item.price} ₫</td>
+                  <td>{formatPrice(item.price)} ₫</td>
                   <td>
                     <Link to={`/dashboard/update-book/${item._id}`}>
                       <button className="btn btn-ghost btn-xs bg-orange-500">

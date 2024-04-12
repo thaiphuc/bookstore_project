@@ -26,6 +26,7 @@ const CartPage = () => {
   // Calculate the total price for each item in the cart
   const calculateTotalPrice = (item) => {
     return item.price * item.quantity;
+    
   };
 
   // Handle quantity increase
@@ -80,7 +81,10 @@ const CartPage = () => {
   }, []);
 
 
-
+  const formatPrice = (price) => {
+    // Làm tròn tổng tiền và thay .00 thành dấu . ở đơn vị 1000
+    return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
 
   // Handle quantity decrease
   const handleDecrease = async (item) => {
@@ -210,7 +214,7 @@ const CartPage = () => {
                           +
                         </button>
                       </td>
-                      <td>{calculateTotalPrice(item).toFixed(2)} ₫</td>
+                      <td>{formatPrice(calculateTotalPrice(item))} ₫</td>
                       <td>
                         <button
                           className="btn btn-sm border-none text-red bg-transparent"
@@ -245,7 +249,7 @@ const CartPage = () => {
               <p>Số sản phẩm: {totalItems}</p>
               <p>
                 Tổng tiền:{" "}
-                <span id="total-price">{orderTotal.toFixed(2)} ₫</span>
+                <span id="total-price">{formatPrice(orderTotal)} ₫</span>
               </p>
               <Link to="/process-checkout" className="btn btn-md bg-mainBG text-white px-8 py-1">
                 Tiến hành thanh toán

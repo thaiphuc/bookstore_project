@@ -35,6 +35,9 @@ const CardsFavorite = ({ item }) => {
         }
         return text;
     };
+    const formatPrice = (price) => {
+        return price.toLocaleString('vi-VN');
+    };
     const shortName = shortenText(name, 8);
 
     const shortDescription = shortenDescription(description, maxWords);
@@ -134,7 +137,7 @@ const CardsFavorite = ({ item }) => {
                 <p style={{ textAlign: 'left' }}>{shortenDescription(description, maxWords)}</p>
                 <div className="card-actions justify-between items-center mt-2">
                     <h5 className="font-semibold">
-                        {item.price} <span className="text-lg text-red">₫ </span> 
+                        {price > 1000 ? formatPrice(price) : price} <span className="text-lg text-red"> ₫</span>
                     </h5>
                     <button onClick={() => handleAddToCart(item)} className="btn bg-mainBG text-white"><FaCartPlus /> Thêm </button>
                 </div>
