@@ -64,7 +64,9 @@ const ManageItems = () => {
                 <th>#</th>
                 <th>Ảnh</th>
                 <th>Tên sách</th>
+                <th>Thể loại</th>
                 <th>Giá</th>
+                <th>Số lượng</th>
                 <th>Cập nhật</th>
                 <th>Xóa</th>
               </tr>
@@ -86,7 +88,9 @@ const ManageItems = () => {
                     </div>
                   </td>
                   <td>{item.name}</td>
+                  <td>{item.category}</td>
                   <td>{formatPrice(item.price)} ₫</td>
+                  <td>{item.quantity}</td>
                   <td>
                     <Link to={`/dashboard/update-book/${item._id}`}>
                       <button className="btn btn-ghost btn-xs bg-orange-500">
