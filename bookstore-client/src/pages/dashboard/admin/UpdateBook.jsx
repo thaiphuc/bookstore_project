@@ -121,13 +121,13 @@ const UpdateBook = () => {
                   Chọn thể loại
                 </option>
                 <option value="Non-fiction">Non-fiction</option>
-                <option value="Economic">Kinh tế</option>
-                <option value="Literature">Ngữ văn</option>
-                <option value="Political">Chính trị</option>
-                <option value="Language">Ngoại ngữ</option>
-                <option value="Self-help">Phát triển bản thân</option>
-                <option value="TextBook">Sách giáo khoa</option>
-                <option value="Popular">Phổ biến</option>
+                <option value="Kinh tế">Kinh tế</option>
+                <option value="Ngữ văn">Ngữ văn</option>
+                <option value="Chính trị">Chính trị</option>
+                <option value="Ngoại ngữ">Ngoại ngữ</option>
+                <option value="Phát triển bản thân">Phát triển bản thân</option>
+                <option value="Sách giáo khoa">Sách giáo khoa</option>
+                <option value="Phổ biến">Phổ biến</option>
               </select>
             </div>
 

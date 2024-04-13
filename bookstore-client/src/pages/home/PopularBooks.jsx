@@ -41,7 +41,7 @@ const PopularBooks = () => {
     // Fetch data from the backend with category filter
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/book?category=Popular");
+        const response = await fetch("http://localhost:5000/book?category=Phổ biến");
         const data = await response.json();
         setBook(data);
         setFilteredItems(data); // Initially, display books of category 'popular'

@@ -96,7 +96,7 @@ const ManageItems = () => {
                       </div>
                     </div>
                   </td>
-                  <td>{shortenName(item.name, 30)}</td> {/* Giới hạn độ dài tên sách tối đa là 30 ký tự */}
+                  <td>{shortenName(item.name, 20)}</td> {/* Giới hạn độ dài tên sách tối đa là 30 ký tự */}
                   <td>{item.category}</td>
                   <td>{formatPrice(item.price)} ₫</td>
                   <td>{item.quantity}</td>

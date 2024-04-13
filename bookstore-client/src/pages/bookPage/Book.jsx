@@ -125,38 +125,38 @@ const Book = () => {
               Non-fiction
             </button>
             <button
-              onClick={() => filterItems("Economic")}
-              className={selectedCategory === "Economic" ? "active" : ""}
+              onClick={() => filterItems("Kinh tế")}
+              className={selectedCategory === "Kinh tế" ? "active" : ""}
             >
               Kinh Tế
             </button>
             <button
-              onClick={() => filterItems("Literature")}
-              className={selectedCategory === "Literature" ? "active" : ""}
+              onClick={() => filterItems("Ngữ văn")}
+              className={selectedCategory === "Ngữ văn" ? "active" : ""}
             >
               Ngữ văn
             </button>
             <button
-              onClick={() => filterItems("Political")}
-              className={selectedCategory === "Political" ? "active" : ""}
+              onClick={() => filterItems("Chính trị")}
+              className={selectedCategory === "Chính trị" ? "active" : ""}
             >
               Chính trị
             </button>
             <button
-              onClick={() => filterItems("Language")}
-              className={selectedCategory === "Language" ? "active" : ""}
+              onClick={() => filterItems("Ngoại ngữ")}
+              className={selectedCategory === "Ngoại ngữ" ? "active" : ""}
             >
               Ngoại ngữ
             </button>
             <button
-              onClick={() => filterItems("Self-help")}
-              className={selectedCategory === "Self-help" ? "active" : ""}
+              onClick={() => filterItems("Phát triển bản thân")}
+              className={selectedCategory === "Phát triển bản thân" ? "active" : ""}
             >
               Phát triển bản thân
             </button>
             <button
-              onClick={() => filterItems("TextBook")}
-              className={selectedCategory === "TextBook" ? "active" : ""}
+              onClick={() => filterItems("Sách giáo khoa")}
+              className={selectedCategory === "Sách giáo khoa" ? "active" : ""}
             >
               Sách giáo khoa
             </button>
