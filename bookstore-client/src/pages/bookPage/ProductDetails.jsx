@@ -352,7 +352,8 @@ const ProductDetails = () => {
                         <div className="flex items-center mb-2">
                             <FontAwesomeIcon icon={faBook} className="text-mainBG text-xl mr-2 p-0 icon" />
                             <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>Số lượng:</span>
-                            <span className={`ml-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}> {book.quantity} </span>
+                            <span className={`ml-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}> {book.quantity} sản phẩm</span>
+
                         </div>
                         <div className="flex items-center">
                             <FontAwesomeIcon icon={faTruckFast} className="text-mainBG text-xl mr-2 p-0 icon" />

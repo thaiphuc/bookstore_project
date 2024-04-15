@@ -157,8 +157,8 @@ const Navbar = () => {
         </div>
         <div className="navbar-end ">
           {/* search-input */}
-
-          <div className="form-control">
+          <div className="flex">
+          <div className="form-search">
             <input type="text" placeholder="Tìm kiếm sách..." className="input input-bordered w-16 md:w-auto ml-2 mr-2" />
           </div>
           {/* <button className="btn btn-ghost btn-circle">
@@ -210,6 +210,8 @@ const Navbar = () => {
 
           <Modal />
         </div>
+        </div>
+
       </div>
     </header>
   );

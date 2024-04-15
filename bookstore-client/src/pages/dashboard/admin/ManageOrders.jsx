@@ -77,7 +77,7 @@ const ManageOrders = () => {
               <tr>
                 <th>#</th>
                 <th>Người dùng</th>
-                <th>Transition Id</th>
+                <th>Mã vận chuyển</th>
                 <th>Giá</th>
                 <th>Trạng thái</th>
                 <th>Xác nhận đơn hàng</th>

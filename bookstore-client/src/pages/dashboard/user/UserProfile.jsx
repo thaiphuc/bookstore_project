@@ -49,7 +49,7 @@ const UserProfile = () => {
       <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
         <form className="card-body" onSubmit={handleSubmit(onSubmit)}>
           <div className="form-control">
-            <h2 className='text-lg font-bold text-center'>Your Profile</h2>
+            <h2 className='text-lg font-bold text-center'>Thông tin cá nhân</h2>
             <label className="label">
               <span className="label-text">Tên</span>
             </label>

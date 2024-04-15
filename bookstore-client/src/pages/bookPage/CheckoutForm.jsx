@@ -152,7 +152,7 @@ const CheckoutForm = ({ price, cart }) => {
           <button
             type="submit"
 
-            className="btn  btn-sm mt-5 bg-orange-500 text-white"
+            className="btn  btn-sm mt-5 bg-mainBG text-white"
           >
             <FaPaypal /> Pay with Paypal
           </button>

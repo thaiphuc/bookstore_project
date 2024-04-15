@@ -54,7 +54,7 @@ const Order = () => {
                     <tr>
                       <th>#</th>
                       <th>Ngày đặt hàng</th>
-                      <th>transitionId</th>
+                      <th>Mã vận chuyển</th>
                       <th>Giá</th>
                       <th>Trạng thái</th>
                       <th>Thao tác</th>
