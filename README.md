@@ -5,7 +5,7 @@
 
 ### Đối với Frontend
 
-Run cd bookstore-client
+- run cd bookstore-client
 
 ```sh
 $ npm install
