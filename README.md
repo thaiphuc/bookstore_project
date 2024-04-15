@@ -52,8 +52,10 @@ ACCESS_TOKEN_SECRET = jwt_secret_token
 PAYMENT_SECRET_KEY = stripe_secret_key
 ```
 
-```
+```sh
 #Link figma thiết kế UI cho website
+```
 https://www.figma.com/file/fbULvrHFPQaXp6RbWI77Dt/pnqbookstore_website?type=design&node-id=0-1&mode=design&t=BdTmNwwLHPO1w6AJ-0
+```sh
 
 
