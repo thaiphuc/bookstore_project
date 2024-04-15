@@ -44,7 +44,7 @@ $ npm start
 
 ```sh
 $ ở server thêm file .env sau đó copy 4 dòng code và điền thông tin của bạn vào
-
+```
 ```
 DB_USER = mongodb_username
 DB_PASS = mongodb_password
