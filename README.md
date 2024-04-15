@@ -5,7 +5,7 @@
 
 ### Đối với Frontend
 
-- run cd bookstore-client
+- Run cd bookstore-client
 
 ```sh
 $ npm install
@@ -16,7 +16,7 @@ $ npm run dev
 ```
 
 ```sh
-$ ở server thêm file .env.local sau đó copy 4 dòng code và điền thông tin của bạn vào
+$ ở server thêm file .env.local sau đó copy các dòng code và điền thông tin của bạn vào
 
 ```
 ```
