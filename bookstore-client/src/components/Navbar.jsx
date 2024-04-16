@@ -98,7 +98,10 @@ const Navbar = () => {
           </summary>
           <ul className={`p-2 ${isDarkMode ? "dark" : ""}`}>
             <li>
-              <a className={`text-${isDarkMode ? "text-white" : "black"}`}>
+              <a
+                href="/service-page"
+                className={`text-${isDarkMode ? "white" : "black"}`}
+              >
                 Dịch vụ
               </a>
             </li>
@@ -206,15 +209,16 @@ const Navbar = () => {
                 {searchResults.length > 0 ? (
                   <>
                     {searchResults.map((result) => (
-                      <Link to={`/book/${result._id}`}>
-                        <div key={result.id} className="search-result">
+                      <a key={result.id} href={`/book/${result._id}`}>
+                        <div className="search-result">
                           <img src={result.image} alt={result.name} />
                           <div className="title-result">
                             <p>{result.name.length > 25 ? result.name.substring(0, 25) + "..." : result.name}</p>
                           </div>
                         </div>
-                      </Link>
+                      </a>
                     ))}
+
                   </>
                 ) : (
                   <p className="text-center">Không tìm thấy kết quả</p>
