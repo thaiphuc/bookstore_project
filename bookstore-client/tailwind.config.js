@@ -16,6 +16,7 @@ export default {
         "light-purple": "#9999FF",
         "light-purple-200": "#CCCCFF",
         "light-pink": "#FF99CC",
+        pink:"#FF6699",
         cl1: "#FFC7BA",
         cl2: "#FB9EC4",
         cl3: "#A2DCEE",

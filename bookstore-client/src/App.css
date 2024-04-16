@@ -218,7 +218,66 @@ padding: 20px;
   z-index: 1;
 }
 .form-search{
-  width:52% ;
+  width:50% ;
   display: flex;
   flex-direction: column;
 }
+/* search */
+.search-wrap {
+  position: relative;
+  width: 50%;
+
+}
+div.navbar.xl:px-24 {
+  padding-left: 6rem;
+  padding-right: 5rem;
+}
+.search-results {
+  /* display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 20px; */
+  position: absolute;
+  z-index: 220;
+  top: 100%;
+}
+
+.search-result {
+  margin-top: 5px;
+  display: inline-flex;
+  padding: 5px;
+  width: 100%;
+  margin-bottom: 5px;
+  background: #fff;
+  color: #000;
+}
+
+.search-result-container {
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 188px;
+  margin-left: 12px;
+  background: #fff;
+  color: #000;
+  max-height: 200px;
+    /* Thiết lập chiều cao tối đa cho kết quả tìm kiếm */
+    overflow-y: auto;
+    /* Tạo thanh cuộn khi cần thiết */
+}
+.search-result img {
+  width: 15%;
+  border-radius: 8px;
+}
+
+.search-result p {
+  margin: 0;
+  font-size: 13px;
+  margin-left: 10px;
+}
+.title-result {
+  display: flex;
+  align-items: center;
+  /* Đảm bảo chiều cao của .title-result bằng chiều cao của .search-result */
+}
+
