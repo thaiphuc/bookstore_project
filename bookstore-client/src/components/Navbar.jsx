@@ -206,12 +206,14 @@ const Navbar = () => {
                 {searchResults.length > 0 ? (
                   <>
                     {searchResults.map((result) => (
-                      <div key={result.id} className="search-result">
-                        <img src={result.image} alt={result.name} />
-                        <div className="title-result">
-                          <p>{result.name.length > 25 ? result.name.substring(0, 25) + "..." : result.name}</p>
+                      <Link to={`/book/${result._id}`}>
+                        <div key={result.id} className="search-result">
+                          <img src={result.image} alt={result.name} />
+                          <div className="title-result">
+                            <p>{result.name.length > 25 ? result.name.substring(0, 25) + "..." : result.name}</p>
+                          </div>
                         </div>
-                      </div>
+                      </Link>
                     ))}
                   </>
                 ) : (
