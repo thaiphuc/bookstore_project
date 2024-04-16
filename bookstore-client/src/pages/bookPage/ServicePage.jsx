@@ -43,7 +43,7 @@ const ServicePage = () => {
                                     </div>
                                     <div className="timeline-start md:text-end mb-10">
                                         <time className="font-mono italic">Tầm nhìn</time>
-                                        <div className="text-lg font-black">(Vision)</div>
+                                        <div className="text-lg font-black text-cl2">(Vision)</div>
                                         Tạo nên một không gian trực tuyến đẳng cấp, nơi mọi người có thể khám phá và tìm kiếm những cuốn sách phong phú và đa dạng từ mọi thể loại và tác giả trên toàn thế giới.                                    </div>
                                     <hr />
                                 </li>
@@ -54,7 +54,7 @@ const ServicePage = () => {
                                     </div>
                                     <div className="timeline-end md:text-start mb-10">
                                         <time className="font-mono italic">Mục tiêu</time>
-                                        <div className="text-lg font-black">(Mission)</div>
+                                        <div className="text-lg font-black text-cl3">(Mission)</div>
                                         Xây dựng một nền tảng thân thiện và thuận tiện, giúp người dùng dễ dàng tìm kiếm, mua sắm và tương tác với sách một cách linh hoạt và tiện lợi nhất.
                                     </div>
                                     <hr />
@@ -66,7 +66,7 @@ const ServicePage = () => {
                                     </div>
                                     <div className="timeline-start md:text-end mb-10">
                                         <time className="font-mono italic">Chiến Lược</time>
-                                        <div className="text-lg font-black">(Strategy)</div>
+                                        <div className="text-lg font-black text-purple-500">(Strategy)</div>
                                         Phát triển một trải nghiệm mua sắm trực tuyến độc đáo và tinh tế, kết hợp cùng các tính năng đặc biệt như đánh giá và nhận xét từ cộng đồng, gợi ý sách dựa trên sở thích cá nhân, và các chương trình khuyến mãi hấp dẫn để tạo ra sự kích thích và hứng thú cho người dùng.
                                     </div>
                                     <hr />
@@ -78,7 +78,7 @@ const ServicePage = () => {
                                     </div>
                                     <div className="timeline-end md:text-start mb-10">
                                         <time className="font-mono italic">Thành tựu</time>
-                                        <div className="text-lg font-black">(Achievement)</div>
+                                        <div className="text-lg font-black text-mainBG">(Achievement)</div>
                                         Trở thành điểm đến hàng đầu cho người đam mê sách trên mọi lứa tuổi, với một cộng đồng lớn mạnh và sự tin cậy từ khách hàng. Đồng thời, đóng góp vào việc tăng cường văn hóa đọc và kiến thức trong cộng đồng.
                                     </div>
                                     <hr />
