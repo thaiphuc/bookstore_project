@@ -250,7 +250,7 @@ const UpdateBook = () => {
           </div>
 
           <button className="btn bg-mainBG text-white px-6 mt-8">
-            Update Book <FaUpload></FaUpload>
+            Cập nhật <FaUpload></FaUpload>
           </button>
         </form>
       </div>

@@ -15,9 +15,9 @@ const Navbar = () => {
   const [cart, refetch] = useCart();
   const { isDarkMode } = useTheme();
   const [isBookOpen, setIsBookOpen] = useState(false);
-  const [totalItems, setTotalItems] = useState(0); // State to hold total quantity of items
-  const [searchTerm, setSearchTerm] = useState(""); // State to hold search term
-  const [searchResults, setSearchResults] = useState([]); // State to hold search results
+  const [totalItems, setTotalItems] = useState(0); 
+  const [searchTerm, setSearchTerm] = useState(""); 
+  const [searchResults, setSearchResults] = useState([]); 
 
   const toggleBook = () => {
     setIsBookOpen((prev) => !prev);
@@ -56,7 +56,7 @@ const Navbar = () => {
   }, [cart]);
 
   useEffect(() => {
-    // Filter search results when search term changes
+    // lọc theo từ khóa
     const results = fakeData.filter((item) =>
       item.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
