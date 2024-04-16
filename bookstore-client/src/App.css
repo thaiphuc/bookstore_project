@@ -267,6 +267,7 @@ div.navbar.xl:px-24 {
 }
 .search-result img {
   width: 15%;
+  height: 35px;
   border-radius: 8px;
 }
 

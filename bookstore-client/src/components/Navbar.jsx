@@ -201,7 +201,7 @@ const Navbar = () => {
               />
             </div>
             {/* search-results */}
-            <div className="search-results">
+            <div className="search-results" style={{ display: searchTerm ? 'block' : 'none' }}>
               <div className="search-result-container">
                 {searchResults.length > 0 ? (
                   <>
@@ -209,7 +209,7 @@ const Navbar = () => {
                       <div key={result.id} className="search-result">
                         <img src={result.image} alt={result.name} />
                         <div className="title-result">
-                          <p>{result.name.length > 35 ? result.name.substring(0, 35) + "..." : result.name}</p>
+                          <p>{result.name.length > 25 ? result.name.substring(0, 25) + "..." : result.name}</p>
                         </div>
                       </div>
                     ))}
@@ -217,9 +217,9 @@ const Navbar = () => {
                 ) : (
                   <p className="text-center">Không tìm thấy kết quả</p>
                 )}
-
               </div>
             </div>
+
           </div>
 
           {/* wishlist */}
@@ -274,33 +274,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-const fakeData = [
-  {
-    id: 1,
-    name: "Tôi tìm mình giữa đại dương xanh ngáttttttttttt",
-    image: "/book1.jpg",
-  },
-  {
-    id: 2,
-    name: "Tôi tìm mình giữa nhà ngáttttttttttt",
-    image: "/book1.jpg",
-  },
-  {
-    id: 3,
-    name: "bít gì đâu trời",
-    image: "/book1.jpg",
-  },
-  {
-    id: 4,
-    name: "đời mà không gì là dễ",
-    image: "/book1.jpg",
-  }, 
-  {
-    id: 5,
-    name: "bạn của tôi là quỹ",
-    image: "/book1.jpg",
-  },
-  
-];
 
