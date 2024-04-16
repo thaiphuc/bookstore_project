@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTheme } from '../../hooks/ThemeContext';
 
-const FavoritePage = () => {
+const ContactPage = () => {
     const { isDarkMode } = useTheme();
     const serviceLists = [
         { id: 1, title: "Email", des: "Gửi qua email: pnqbookstore@gmail.com", img: "/images/home/contacts/icon1.png" },
@@ -16,7 +16,7 @@ const FavoritePage = () => {
                 <div className="py-28 flex flex-col items-center justify-center">
                     {/* content */}
                     <div className=" text-center px-4 space-y-7">
-                        <h2 className="md:text-5xl text-4xl font-bold md:leading-snug leading-snug">
+                        <h2 className="mb-10 md:text-5xl text-4xl font-bold md:leading-snug leading-snug">
                             Liên hệ <span className="text-mainBG"> Chúng tôi</span>
                         </h2>
                         <div className="section-container my-16">
@@ -35,6 +35,7 @@ const FavoritePage = () => {
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
@@ -42,4 +43,4 @@ const FavoritePage = () => {
 
     )
 }
-export default FavoritePage
+export default ContactPage

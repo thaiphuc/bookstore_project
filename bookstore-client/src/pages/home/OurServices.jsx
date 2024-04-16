@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const serviceLists = [
   { id: 1, title: "Chăm sóc khách hàng", des: "Chúng tôi có nhân viên hỗ trợ sẵn sàng giúp bạn 24/7 với bất kỳ câu hỏi nào.", img: "/images/home/services/icon1.png" },
@@ -20,10 +21,11 @@ const OurServices = () => {
               xuất sắc, kết hợp bảo vệ những kho báu văn học với sự chuyên nghiệp nồng nhiệt.
             </p>
 
-
+            <Link to="/service-page">
             <button className="bg-mainBG font-semibold btn text-white px-8 py-3 rounded-full">
               Khám phá
             </button>
+            </Link>
           </div>
         </div>
         <div className="md:w-1/2">
