@@ -65,7 +65,7 @@ const ManageOrders = () => {
   return (
     <div className="w-full md:w-[870px] mx-auto px-4 ">
       <h2 className="text-2xl font-semibold my-4">
-        Manage All <span className="text-mainBG">Orders!</span>
+        Quản lý <span className="text-mainBG">đơn hàng!</span>
       </h2>
 
       {/* book items table  */}
