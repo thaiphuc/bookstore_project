@@ -155,8 +155,6 @@ const Signup = () => {
               {...register("confirmPassword", { required: true })}
             />
             {passwordMismatch && <p className="text-red italic text-sm">Mật khẩu không trùng khớp!</p>}
-            {errors.password && <p className="text-red italic text-sm"> Vui lòng xác nhận mật khẩu !</p>}
-
           </div>
 
           {/* submit btn */}
