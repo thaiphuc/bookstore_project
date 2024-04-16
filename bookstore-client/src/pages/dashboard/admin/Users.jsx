@@ -60,7 +60,7 @@ const Users = () => {
   return (
     <div>
       <div className="flex justify-between mx-4 my-4">
-        <h2 className="text-2xl">Người dùng</h2>
+        <h2 className="text-2xl font-semibold">Quản lý <span className="text-mainBG">Người dùng!</span></h2>
         <h2 className="text-2xl mr-4">Tổng số người dùng: {users.length}</h2>
       </div>
 
