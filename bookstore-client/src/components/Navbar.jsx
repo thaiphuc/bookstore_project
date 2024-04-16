@@ -6,6 +6,7 @@ import { AuthContext } from "../contexts/AuthProvider";
 import Profile from "./Profile";
 import { Link } from "react-router-dom";
 import useCart from "../hooks/useCart";
+import useBook from "../hooks/useBook";
 import { useTheme } from "../hooks/ThemeContext";
 import { FaHeart } from "react-icons/fa";
 
@@ -13,11 +14,14 @@ const Navbar = () => {
   const [isSticky, setSticky] = useState(false);
   const { user, loading } = useContext(AuthContext);
   const [cart, refetch] = useCart();
+  const [book, , refetchBooks] = useBook();
   const { isDarkMode } = useTheme();
   const [isBookOpen, setIsBookOpen] = useState(false);
   const [totalItems, setTotalItems] = useState(0); 
   const [searchTerm, setSearchTerm] = useState(""); 
   const [searchResults, setSearchResults] = useState([]); 
+  
+
 
   const toggleBook = () => {
     setIsBookOpen((prev) => !prev);
@@ -57,7 +61,7 @@ const Navbar = () => {
 
   useEffect(() => {
     // lọc theo từ khóa
-    const results = fakeData.filter((item) =>
+    const results = book.filter((item) =>
       item.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setSearchResults(results);
