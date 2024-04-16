@@ -284,12 +284,12 @@ const fakeData = [
   },
   {
     id: 3,
-    name: "Tôi tìm mình giữa đại dương xanh ngát",
+    name: "bít gì đâu trời",
     image: "/book1.jpg",
   },
   {
     id: 4,
-    name: "Tôi tìm mình giữa đại dương xanh ngát",
+    name: "đời mà không gì là dễ",
     image: "/book1.jpg",
   }, 
   {
