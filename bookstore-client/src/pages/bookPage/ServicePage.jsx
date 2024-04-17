@@ -1,5 +1,8 @@
 import React from 'react'
 import { useTheme } from '../../hooks/ThemeContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { faTruck } from '@fortawesome/free-solid-svg-icons';
 
 const ServicePage = () => {
     const { isDarkMode } = useTheme();
@@ -93,27 +96,25 @@ const ServicePage = () => {
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-8 h-8 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                                     </div>
                                     <div className="stat-title">Lượt thích trang</div>
-                                    <div className="stat-value text-primary">25.6K</div>
-                                    <div className="stat-desc">Khách hàng đánh giá cao dịch vụ</div>
+                                    <div className="stat-value text-primary">20.24K</div>
+                                    <div className="stat-desc text-secondary">Khách hàng đánh giá cao dịch vụ</div>
                                 </div>
                                 <div className="stat">
-                                    <div className="stat-figure text-secondary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-8 h-8 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                    <div className="stat-figure text-pink">
+                                        <FontAwesomeIcon icon={faThumbsUp} className="inline-block w-8 h-8" />
                                     </div>
                                     <div className="stat-title">Hỗ trợ khách hàng trực tuyến</div>
-                                    <div className="stat-value text-secondary">26.8K</div>
-                                    <div className="stat-desc">Hài lòng với phục vụ</div>
+                                    <div className="stat-value text-pink">10.2K</div>
+                                    <div className="stat-desc text-secondary">Hài lòng với phục vụ</div>
                                 </div>
                                 <div className="stat">
                                     <div className="stat-figure text-secondary">
-                                        <div className="avatar online">
-                                            <div className="w-16 rounded-full">
-                                                <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" alt="" />
-                                            </div>
+                                        <div className="stat-figure text-mainBG">
+                                            <FontAwesomeIcon icon={faTruck} className="inline-block w-8 h-8" />
                                         </div>
                                     </div>
-                                    <div className="stat-value">86%</div>
                                     <div className="stat-title">Tỉ lệ giao hàng</div>
+                                    <div className="stat-value text-mainBG">96%</div>
                                     <div className="stat-desc text-secondary">Giao hàng thành công và đúng hẹn</div>
                                 </div>
                             </div>

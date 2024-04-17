@@ -76,7 +76,7 @@ const UpdatePassword = () => {
                             >
                                 {otpSent ? `Gửi lại OTP (${countdown}s)` : 'Gửi OTP'}
                             </button>
-                            <input type="text" {...register("name")} placeholder="OTP" className="input input-bordered w-full " required />
+                            <input type="text" {...register("name")} placeholder="OTP" className="input input-bordered w-full " disabled />
                         </div>
                     </div>
                     <div className="form-control">

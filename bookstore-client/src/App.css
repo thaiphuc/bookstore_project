@@ -19,7 +19,10 @@ body{
   padding-top: 5rem;
   padding-bottom: 1rem;
 }
-
+.py-6 {
+  padding-top: 1.5rem;
+  padding-bottom: 1rem;
+}
 .py-24 {
   padding-top: 6rem;
   padding-bottom: 2rem;
