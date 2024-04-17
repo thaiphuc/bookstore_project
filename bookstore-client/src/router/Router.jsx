@@ -23,6 +23,7 @@ import AboutUsPage from "../pages/bookPage/AboutUsPage";
 import ManageComment from "../pages/dashboard/admin/ManageComment";
 import UpdatePassword from "../pages/dashboard/user/UpdatePassword";
 import ServicePage from "../pages/bookPage/ServicePage";
+import CheckoutPage from "../pages/bookPage/CheckoutPage";
 
 const router = createBrowserRouter([
   {
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
       {
         path: "/service-page",
         element: <ServicePage/>,
+      },
+      {
+        path: "/checkout-page",
+        element: <CheckoutPage />,
       },
     ]
   },

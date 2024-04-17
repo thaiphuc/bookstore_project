@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { FaPaypal } from "react-icons/fa";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
@@ -8,154 +7,123 @@ import { useTheme } from "../../hooks/ThemeContext";
 
 const CheckoutForm = ({ price, cart }) => {
   const { isDarkMode } = useTheme();
-  const stripe = useStripe();
-  const elements = useElements();
-  const [cardError, setcardError] = useState('');
-  const [clientSecret, setClientSecret] = useState("");
-
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const navigate = useNavigate();
-
-  console.log(user.email)
+  const [checkoutError, setCheckoutError] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState('COD'); // Default payment method to COD
 
   useEffect(() => {
     if (typeof price !== 'number' || price < 1) {
       console.error('Invalid price value. Must be a number greater than or equal to 1.');
       return;
     }
+  }, [price]);
 
-    axiosSecure.post('/create-payment-intent', { price })
-      .then(res => {
-        console.log(res.data.clientSecret);
-        console.log(price);
-        setClientSecret(res.data.clientSecret);
-      })
-  }, [price, axiosSecure]);
-
-  // handleSubmit btn click
-  const handleSubmit = async (event) => {
-    // Block native form submission.
-    event.preventDefault();
-
-    if (!stripe || !elements) {
-      // Stripe.js has not loaded yet. Make sure to disable
-      return;
+  const handleCheckout = () => {
+    if (paymentMethod === 'COD') {
+      handleCODCheckout();
+    } else if (paymentMethod === 'card') {
+      // Handle card payment
     }
-
-    const card = elements.getElement(CardElement);
-
-    if (card == null) {
-      return;
-    }
-
-    // console.log('card: ', card)
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: 'card',
-      card,
-    });
-
-    if (error) {
-      console.log('[error]', error);
-      setcardError(error.message);
-    } else {
-      // setcardError('Success!');
-      // console.log('[PaymentMethod]', paymentMethod);
-    }
-
-    const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
-      clientSecret,
-      {
-        payment_method: {
-          card: card,
-          billing_details: {
-            name: user?.displayName || 'anonymous',
-            email: user?.email || 'unknown'
-          },
-        },
-      },
-    );
-
-    if (confirmError) {
-      console.log(confirmError)
-    }
-
-    console.log('paymentIntent', paymentIntent)
-
-    if (paymentIntent.status === "succeeded") {
-      const transitionId = paymentIntent.id;
-      setcardError(`Your transitionId is: ${transitionId}`)
-
-      // save payment info to server
-      const paymentInfo = {
-        email: user.email, transitionId: paymentIntent.id, price, quantity: cart.length,
-        status: "order pending", itemsName: cart.map(item => item.name), cartItems: cart.map(item => item._id), bookItems: cart.map(item => item.bookItemId)
-      }
-
-      // send payment info
-      axiosSecure.post('/payments', paymentInfo)
-        .then(res => {
-          console.log(res.data)
-          if (res.data) {
-            alert('Payment info sent successfully!')
-            navigate('/order')
-          }
-        })
-    }
-
-
   };
+
+  const handleCODCheckout = () => {
+    // Save order info to server
+    const orderInfo = {
+      email: user.email,
+      price,
+      quantity: cart.length,
+      status: "order pending",
+      itemsName: cart.map(item => item.name),
+      cartItems: cart.map(item => item._id),
+      bookItems: cart.map(item => item.bookItemId)
+    };
+
+    axiosSecure.post('/orders', orderInfo)
+      .then(res => {
+        console.log(res.data);
+        if (res.data) {
+          alert('Your order has been placed successfully!');
+          navigate('/order');
+        }
+      })
+      .catch(err => {
+        console.error('Error placing order:', err);
+        setCheckoutError('Error placing order. Please try again.');
+      });
+  };
+
   return (
-    <div className="flex flex-col sm:flex-row justify-start items-start gap-8">
-      <div className="md:w-1/2 space-y-3">
-        <h4 className="text-lg font-semibold">Tóm tắt đơn hàng</h4>
-        <p>Thành tiền: ${price}</p>
-        <p>Số sản phẩm: {cart.length}</p>
-        <p>Tên: {user?.displayName || 'Anonymous'}</p>
-        <p>Email: {user?.email}</p>
-        <p>Địa chỉ: TPHCM </p>
-        <p>Số điện thoại: +84-222-121-763 </p>
-      </div>
-
-      <div className={`md:w-1/3 w-full border space-y-5  card shrink-0 max-w-sm shadow-2xl bg-base-100 px-4 py-8 ${isDarkMode ? 'dark' : ''}`}>
-        <h4 className="text-lg font-semibold">Tiến hành thanh toán!</h4>
-        <h5 className="font-medium">Credit/Debit Card</h5>
-        <form onSubmit={handleSubmit}>
-          <CardElement
-            options={{
-              style: {
-                base: {
-                  fontSize: "16px",
-                  color: "#424770",
-                  "::placeholder": {
-                    color: "#aab7c4",
-                  },
-                },
-                invalid: {
-                  color: "#9e2146",
-                },
-              },
-            }}
-          />
-          <button
-            type="submit"
-            disabled={!stripe || !clientSecret}
-            className="btn btn-primary btn-sm mt-5 w-full"
-          >
-            Pay
-          </button>
-        </form>
-        {cardError ? <p className="text-red text-xs italic">{cardError}</p> : ''}
-
-        <div className="mt-5 text-center">
-          <hr />
-          <button
-            type="submit"
-
-            className="btn  btn-sm mt-5 bg-mainBG text-white"
-          >
-            <FaPaypal /> Pay with Paypal
-          </button>
+    <div className={`max-w-screen-2xl container mx-auto xl:px-24 bg-gradient-to-r from-0% from-[#FAFAFA] to-[#FCFCFC] to-100% ${isDarkMode ? 'dark' : ''}`}>
+      <h2 className="mb-20 md:text-5xl text-center text-4xl font-bold md:leading-snug leading-snug">
+        Hãy thanh toán đơn hàng  <span className="text-mainBG">tại đây!</span>
+      </h2>
+      <div className="flex flex-col sm:flex-row justify-start items-start gap-8">
+        <div className="checkoutform md:w-1/2">
+          <h4 className="text-lg font-semibold text-center ">Tóm tắt đơn hàng</h4>
+          <table className="table w-full">
+            <tbody>
+              <tr>
+                <td className="font-semibold">Thành tiền:</td>
+                <td>${price}</td>
+              </tr>
+              <tr>
+                <td className="font-semibold">Số sản phẩm:</td>
+                <td>{cart.length}</td>
+              </tr>
+              <tr>
+                <td className="font-semibold">Tên:</td>
+                <td>{user?.displayName || 'Anonymous'}</td>
+              </tr>
+              <tr>
+                <td className="font-semibold">Email:</td>
+                <td>{user?.email}</td>
+              </tr>
+              <tr>
+                <td className="font-semibold">Địa chỉ:</td>
+                <td>TPHCM</td>
+              </tr>
+              <tr>
+                <td className="font-semibold">Số điện thoại:</td>
+                <td>+84-222-121-763</td>
+              </tr>
+            </tbody>
+          </table>        </div>
+        <div className={`md:w-1/3 w-full border space-y-5  card shrink-0 max-w-sm shadow-2xl bg-base-100 px-4 py-8 ${isDarkMode ? 'dark' : ''}`}>
+          <h4 className="text-lg font-semibold">Chọn phương thức thanh toán</h4>
+          <div className="flex flex-col mt-4">
+            <label className="inline-flex items-center">
+              <input
+                type="radio"
+                value="COD"
+                checked={paymentMethod === 'COD'}
+                onChange={() => setPaymentMethod('COD')}
+                className="form-radio"
+              />
+              <span className="ml-2">COD (tiền mặt)</span>
+            </label>
+            <label className="inline-flex items-center mt-2">
+              <input
+                type="radio"
+                value="card"
+                checked={paymentMethod === 'card'}
+                onChange={() => setPaymentMethod('card')}
+                className="form-radio"
+              />
+              <span className="ml-2">Credit/Debit Card</span>
+            </label>
+          </div>
+          <div className="mt-5 text-center">
+            <hr />
+            <button
+              onClick={handleCheckout}
+              className="btn btn-sm mt-5 bg-mainBG text-white"
+            >
+              Thanh toán ngay
+            </button>
+            {checkoutError && <p className="text-red text-xs italic">{checkoutError}</p>}
+          </div>
         </div>
       </div>
     </div>
