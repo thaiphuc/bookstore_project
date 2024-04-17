@@ -56,10 +56,7 @@ const CheckoutPage = ({ price, cart }) => {
 
     return (
         <div className="checkout">
-            <header className="header-checkout">
-                <h1 className='mt-5 text-2xl text-black'>Thông tin thanh toán</h1>
-            </header>
-
+    
             <form className="form-checkout-page" >
                 <div>
                     <h2 className='mb-2 mt-4 text-lg text-black'>Thông tin khách hàng</h2>
@@ -86,7 +83,7 @@ const CheckoutPage = ({ price, cart }) => {
                                 <svg className="icon">
                                     <use xlinkHref="#icon-visa" />
                                 </svg>
-                                Thanh toán cod
+                                COD (Tiền mặt)
                             </label>
                             <input checked id="visa" name='payment-method' className="payment-method" type="radio" />
                         </div>
@@ -96,7 +93,7 @@ const CheckoutPage = ({ price, cart }) => {
                                 <svg className="icon">
                                     <use xlinkHref="#icon-paypal" />    
                                 </svg>
-                                Thanh toán credit card
+                                Credit/Debit card
                             </label>
                             <input  id="paypal" name='payment-method' className="payment-method" type="radio" />
                         </div>     
@@ -118,13 +115,13 @@ const CheckoutPage = ({ price, cart }) => {
                             </tr>
                             <tr>
                                 <td>Tổng tiền</td>
-                                <td align="right">${price}</td>
+                                <td align="right">{price} ₫</td>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr className='text-black'>
                                 <td >Thành tiền</td>
-                                <td align="right">${price}</td>
+                                <td align="right">{price} ₫</td>
                             </tr>
                         </tfoot>
                     </table>

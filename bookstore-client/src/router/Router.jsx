@@ -78,10 +78,6 @@ const router = createBrowserRouter([
         path: "/service-page",
         element: <ServicePage/>,
       },
-      {
-        path: "/checkout-page",
-        element: <CheckoutPage />,
-      },
     ]
   },
   {

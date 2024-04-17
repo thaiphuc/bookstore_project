@@ -6,6 +6,7 @@ import { FaTrash } from "react-icons/fa";
 import { Link } from 'react-router-dom'
 import axios from "axios";
 import { useTheme } from "../../hooks/ThemeContext";
+import CheckoutPage from "./CheckoutPage";
 
 const CartPage = () => {
   const { isDarkMode } = useTheme();
@@ -26,7 +27,6 @@ const CartPage = () => {
   // Calculate the total price for each item in the cart
   const calculateTotalPrice = (item) => {
     return item.price * item.quantity;
-    
   };
 
   // Handle quantity increase
@@ -51,7 +51,6 @@ const CartPage = () => {
   };
 
   const fetchUserInfo = async () => {
-
     const token = localStorage.getItem('access_token');
     if (!token) {
       console.error('Token not found');
@@ -60,10 +59,10 @@ const CartPage = () => {
 
     try {
       const response = await fetch(`http://localhost:5000/users/info?email=${user.email}`, {
-        method: 'GET', // Phương thức HTTP
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` // Đính kèm token vào header
+          'Authorization': `Bearer ${token}`
         }
       });
       if (!response.ok) {
@@ -71,18 +70,16 @@ const CartPage = () => {
       }
       const data = await response.json();
       setUser(data);
-
     } catch (error) {
       console.error('Error fetching user data:', error);
     }
   };
+
   useEffect(() => {
     fetchUserInfo();
   }, []);
 
-
   const formatPrice = (price) => {
-    // Làm tròn tổng tiền và thay .00 thành dấu . ở đơn vị 1000
     return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
@@ -161,13 +158,13 @@ const CartPage = () => {
         </div>
       </div>
 
-      {/* cart table */}
-
-      {
-        (cart.length > 0) ? <div>
-          <div>
-            <div className="overflow-x-auto">
-              <table className="table">
+      {/* cart table and checkout */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-7 mt-4">
+        <div className="md:col-span-2">
+          {/* cart table */}
+          {cart.length > 0 ? (
+            <div className="overflow-x-auto w-full">
+              <table className="table-cart w-full">
                 {/* head */}
                 <thead className="bg-mainBG text-white rounded-sm">
                   <tr>
@@ -194,7 +191,7 @@ const CartPage = () => {
                         </div>
                       </td>
                       <td className="font-medium">{item.name}</td>
-                      <td >
+                      <td>
                         <button
                           className="btn btn-xs"
                           onClick={() => handleDecrease(item)}
@@ -229,39 +226,24 @@ const CartPage = () => {
                 {/* foot */}
               </table>
             </div>
-          </div>
-          <hr />
-          <div className="flex flex-col md:flex-row justify-between items-start my-12 gap-8">
-            <div className="md:w-1/2 space-y-3">
-              <h3 className="text-lg font-semibold">Thông tin người mua hàng</h3>
-              {info && (
-                <>
-                  <p>Tên: {info.name}</p>
-                  <p>Email: {info.email}</p>
-                  <p>Địa chỉ: {info.address}</p>
-                  <p>Số điện thoại: {info.phone}</p>
-                </>
-              )}
-            </div>
-
-            <div className="md:w-1/2 space-y-3">
-              <h3 className="text-lg font-semibold">Thông tin mua sắm</h3>
-              <p>Số sản phẩm: {totalItems}</p>
-              <p>
-                Tổng tiền:{" "}
-                <span id="total-price">{formatPrice(orderTotal)} ₫</span>
-              </p>
-              <Link to="/process-checkout" className="btn btn-md bg-mainBG text-white px-8 py-1">
-                Tiến hành thanh toán
+          ) : (
+            <div className="text-center mt-20">
+              <p>Giỏ hàng trống. Vui lòng thêm sản phẩm.</p>
+              <Link to="/book">
+                <button className="btn bg-mainBG text-white mt-3">Quay về trang sản phẩm</button>
               </Link>
             </div>
-          </div>
-        </div> : <div className="text-center mt-20">
-          <p>Giỏ hàng trống. Vui lòng thêm sản phẩm.</p>
-          <Link to="/book"><button className="btn bg-mainBG text-white mt-3">Quay về trang sản phẩm</button></Link>
+          )}
         </div>
-      }
-
+        <div className="md:col-span-1">
+          {/* checkout */}
+          <CheckoutPage
+            info={info}
+            totalItems={totalItems}
+            orderTotal={orderTotal}
+          />
+        </div>
+      </div>
     </div>
   );
 };

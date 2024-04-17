@@ -29,7 +29,10 @@ body{
   padding-top: 6rem;
   padding-bottom: 2rem;
 }
-
+.py-28 {
+  padding-top: 7rem;
+  padding-bottom: 2rem;
+}
 .py-16 {
   padding-top: 4rem;
   /* padding-bottom: 4rem; */
@@ -444,12 +447,22 @@ div.navbar.xl:px-24 {
   background-image: linear-gradient(to bottom, #fbf6f7, #fff);
   border-radius: 2em;
   box-shadow: 0 0 1em rgba(0, 0, 0, 0.0625);
-  width: 375px;
-  padding: 2em;
-  margin: auto;
+  width: 350px;
+  padding: 1em;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow: auto;
   min-block-size: 100vh;
+  font-size: 14px;
+}
+.table-cart :where(th, td) {
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  vertical-align: middle;
+}
+.table-cart{
+  font-size: 13px;
 }
