@@ -178,7 +178,7 @@ const CartPage = () => {
                 </thead>
                 <tbody>
                   {cart.map((item, index) => (
-                    <tr key={index}>
+                    <tr  key={index}>
                       <td>{index + 1}</td>
                       <td>
                         <div className="avatar">
@@ -212,9 +212,9 @@ const CartPage = () => {
                         </button>
                       </td>
                       <td>{formatPrice(calculateTotalPrice(item))} ₫</td>
-                      <td>
+                      <td >
                         <button
-                          className="btn btn-sm border-none text-red bg-transparent"
+                          className="btn btn-sm border-none ml-4 text-red bg-transparent"
                           onClick={() => handleDelete(item)}
                         >
                           <FaTrash />

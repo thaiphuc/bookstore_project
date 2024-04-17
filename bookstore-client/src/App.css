@@ -403,10 +403,11 @@ div.navbar.xl:px-24 {
 
 .form-checkout-page {
   display: grid;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .form__radios {
+  margin-top: 5px;
   display: grid;
   gap: 1em;
 }
@@ -425,6 +426,7 @@ div.navbar.xl:px-24 {
   display: flex;
   flex: 1;
   gap: 1em;
+  margin-left: 3em;
 }
 
 .header-checkout {

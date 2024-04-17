@@ -4,6 +4,7 @@ import { FaPaypal } from "react-icons/fa";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
 import { useTheme } from "../../hooks/ThemeContext";
+import { FaMoneyBillWave, FaCreditCard } from "react-icons/fa";
 
 const CheckoutPage = ({ price, cart }) => {
     const { isDarkMode } = useTheme();
@@ -63,37 +64,31 @@ const CheckoutPage = ({ price, cart }) => {
 
                     <div className="card-checkout">
                         <address>
-                            Tên: {user?.displayName || 'Anonymous'}<br>
+                            <span className="font-bold"> Tên: </span> {user?.displayName || 'Anonymous'}<br>
                            </br>
-                            Email: {user?.email}<br>
+                            <span className="font-bold"> Email: </span> {user?.email}<br>
                            </br>
-                           Số điện thoại: +84.212.123.123<br>
+                            <span className="font-bold"> Di động: </span> +84.212.123.123<br>
                            </br>
-                           Địa chỉ: thu duc hcm city
+                            <span className="font-bold"> Địa chỉ: </span> 1 vo van ngan linh chieu thu duc hcm city
                         </address>
                     </div>
-                </div>
+                </div> 
 
                 <fieldset>
-                    <legend className='text-black'>Phương thức thanh toán</legend>
+                    <legend className=' text-black'>Phương thức thanh toán</legend>
 
                     <div className="form__radios text-black">
                         <div className="form__radio">
                             <label htmlFor="visa">
-                                <svg className="icon">
-                                    <use xlinkHref="#icon-visa" />
-                                </svg>
-                                COD (Tiền mặt)
+                                <FaMoneyBillWave /> COD (Tiền mặt)
                             </label>
                             <input checked id="visa" name='payment-method' className="payment-method" type="radio" />
                         </div>
 
                         <div className="form__radio">
                             <label htmlFor="paypal">
-                                <svg className="icon">
-                                    <use xlinkHref="#icon-paypal" />    
-                                </svg>
-                                Credit/Debit card
+                                <FaCreditCard /> Credit/Debit card
                             </label>
                             <input  id="paypal" name='payment-method' className="payment-method" type="radio" />
                         </div>     
@@ -127,7 +122,7 @@ const CheckoutPage = ({ price, cart }) => {
                     </table>
                 </div>
                 <div>
-                    <button className="button-checkout bg-mainBG text-white">
+                    <button className="button-checkout font-bold bg-mainBG text-white">
                         Thanh toán
                     </button>
                 </div>
