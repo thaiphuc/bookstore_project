@@ -178,7 +178,7 @@ const CartPage = () => {
                 </thead>
                 <tbody>
                   {cart.map((item, index) => (
-                    <tr key={index}>
+                    <tr  key={index}>
                       <td>{index + 1}</td>
                       <td>
                         <div className="avatar">
@@ -212,9 +212,9 @@ const CartPage = () => {
                         </button>
                       </td>
                       <td>{formatPrice(calculateTotalPrice(item))} ₫</td>
-                      <td>
+                      <td >
                         <button
-                          className="btn btn-sm border-none text-red bg-transparent"
+                          className="btn btn-sm border-none ml-4 text-red bg-transparent"
                           onClick={() => handleDelete(item)}
                         >
                           <FaTrash />
@@ -225,6 +225,7 @@ const CartPage = () => {
                 </tbody>
                 {/* foot */}
               </table>
+              <h2 className="mt-4 font-bold">Tổng số sản phẩm: {totalItems}</h2>
             </div>
           ) : (
             <div className="text-center mt-20">

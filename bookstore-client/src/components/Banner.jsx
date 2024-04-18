@@ -36,7 +36,7 @@ const Banner = () => {
 
   return (
         <div className={`max-w-screen-2xl container mx-auto xl:px-24 bg-gradient-to-r from-0% from-[#FAFAFA] to-[#FCFCFC] to-100% ${isDarkMode ? " dark" : ""}`}>
-      <div className={`py-24 relative flex flex-col md:flex-row-reverse items-center justify-between gap-8`}>
+      <div className={`py-24 relative flex flex-col md:flex-row-reverse items-center justify-between `}>
         <div className="md:w-2/3">
           <Slider {...settings}>
             {banners.map((banner, index) => (
