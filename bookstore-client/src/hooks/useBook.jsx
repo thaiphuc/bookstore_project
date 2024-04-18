@@ -9,7 +9,6 @@ const useBook = () => {
         queryKey: ['book'], 
         queryFn: async() =>{
             const res = await axiosPublic.get('/book');
-            console.log(res)
             return res.data;
         }
     })

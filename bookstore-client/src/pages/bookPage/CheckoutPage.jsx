@@ -1,26 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import useAuth from "../../hooks/useAuth";
 import { useTheme } from "../../hooks/ThemeContext";
 import { FaMoneyBillWave, FaCreditCard } from "react-icons/fa";
+import Swal from "sweetalert2";
+import useCart from "../../hooks/useCart";
 
-const CheckoutPage = ({ price, cart }) => {
+const CheckoutPage = ({ info, totalItems, orderTotal }) => {
     const { isDarkMode } = useTheme();
     const axiosSecure = useAxiosSecure();
-    const { user } = useAuth();
     const navigate = useNavigate();
-    const [checkoutError, setCheckoutError] = useState('');
+    const [cart, refetch] = useCart();
     const [paymentMethod, setPaymentMethod] = useState('COD'); // Default payment method to COD
 
-    useEffect(() => {
-        if (typeof price !== 'number' || price < 1) {
-            console.error('Invalid price value. Must be a number greater than or equal to 1.');
-            return;
-        }
-    }, [price]);
 
-    const handleCheckout = () => {
+    const handlePaymentMethodChange = (event) => {
+        setPaymentMethod(event.target.value);
+    };
+    const products = cart.map(item => ({
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price,
+        image: item.image
+      }));
+    const formatPrice = (price) => {
+        return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      };
+
+    // useEffect(() => {
+    //     if ( orderTotal !== 'number' || orderTotal < 1) {
+    //         console.error('Invalid price value. Must be a number greater than or equal to 1.');
+    //         return;
+    //     }
+    // }, [orderTotal]);
+
+    const handleCheckout = async() => {
+        event.preventDefault();
         if (paymentMethod === 'COD') {
             handleCODCheckout();
         } else if (paymentMethod === 'card') {
@@ -28,32 +43,49 @@ const CheckoutPage = ({ price, cart }) => {
         }
     };
 
-    const handleCODCheckout = () => {
-        // Save order info to server
+    const clearCart = async () => {
+        try {
+            const response = await axiosSecure.delete(`/carts/clear?email=${info.email}`);
+            if (response.status === 200) {
+                refetch();
+            }
+        } catch (error) {
+            console.error('Failed to clear cart:', error);
+        }
+    }
+
+    const handleCODCheckout = async () => {
         const orderInfo = {
-            email: user.email,
-            price,
-            quantity: cart.length,
-            status: "order pending",
-            itemsName: cart.map(item => item.name),
-            cartItems: cart.map(item => item._id),
-            bookItems: cart.map(item => item.bookItemId)
+            userEmail: info.email,
+            userName: info.name,
+            items: products,
+            status: "Chờ thanh toán",
+            totalPrice: orderTotal
         };
-
-        axiosSecure.post('/orders', orderInfo)
-            .then(res => {
-                console.log(res.data);
-                if (res.data) {
-                    alert('Your order has been placed successfully!');
-                    navigate('/order');
-                }
-            })
-            .catch(err => {
-                console.error('Error placing order:', err);
-                setCheckoutError('Error placing order. Please try again.');
+        try {
+            const orderRes = await axiosSecure.post('/orders', orderInfo);
+            if (orderRes.status === 200) {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: `Đặt hàng thành công!`,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                await clearCart();  
+                navigate("/order");  
+            }
+        } catch (error) {
+            console.error('Error placing order:', error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: `Đã xảy ra lỗi khi đặt hàng. Xin thử lại sau.`,
+                showConfirmButton: false,
+                timer: 1500
             });
+        }
     };
-
     return (
         <div className="checkout">
     
@@ -63,13 +95,13 @@ const CheckoutPage = ({ price, cart }) => {
 
                     <div className="card-checkout">
                         <address>
-                            <span className="font-bold"> Tên: </span> {user?.displayName || 'Anonymous'}<br>
+                            <span className="font-bold"> Tên: </span> {info?.name || 'Anonymous'}<br>
                            </br>
-                            <span className="font-bold"> Email: </span> {user?.email}<br>
+                            <span className="font-bold"> Email: </span> {info?.email}<br>
                            </br>
-                            <span className="font-bold"> Di động: </span> +84.212.123.123<br>
+                            <span className="font-bold"> Di động: </span> {info?.phone}<br>
                            </br>
-                            <span className="font-bold"> Địa chỉ: </span> 1 vo van ngan linh chieu thu duc hcm city
+                            <span className="font-bold"> Địa chỉ: </span> {info?.address}
                         </address>
                     </div>
                 </div> 
@@ -79,17 +111,33 @@ const CheckoutPage = ({ price, cart }) => {
 
                     <div className="form__radios text-black">
                         <div className="form__radio">
-                            <label htmlFor="visa">
+                            <label htmlFor="cod">
                                 <FaMoneyBillWave /> COD (Tiền mặt)
                             </label>
-                            <input checked id="visa" name='payment-method' className="payment-method" type="radio" />
+                            <input 
+                                id="cod" 
+                                name='payment-method' 
+                                className="payment-method" 
+                                type="radio" 
+                                value="COD" 
+                                checked={paymentMethod === 'COD'}
+                                onChange={handlePaymentMethodChange} 
+                            />
                         </div>
 
                         <div className="form__radio">
-                            <label htmlFor="paypal">
+                            <label htmlFor="card">
                                 <FaCreditCard /> Credit/Debit card
                             </label>
-                            <input  id="paypal" name='payment-method' className="payment-method" type="radio" />
+                            <input  
+                                id="card" 
+                                name='payment-method' 
+                                className="payment-method" 
+                                type="radio" 
+                                value="card"
+                                checked={paymentMethod === 'card'}
+                                onChange={handlePaymentMethodChange}
+                            />
                         </div>     
                     </div>
                 </fieldset>
@@ -105,23 +153,23 @@ const CheckoutPage = ({ price, cart }) => {
                             </tr>
                             <tr>
                                 <td>Số lượng sản phẩm</td>
-                                <td align="right">120</td>
+                                <td align="right">{totalItems}</td>
                             </tr>
                             <tr>
                                 <td>Tổng tiền</td>
-                                <td align="right">{price} ₫</td>
+                                <td align="right"> {formatPrice(orderTotal)} ₫</td>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr className='text-black text-lg'>
                                 <td >Thành tiền</td>
-                                <td align="right">12000000₫</td>
+                                <td align="right"> {formatPrice(orderTotal)} ₫</td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
                 <div>
-                    <button className="button-checkout font-bold bg-mainBG text-white">
+                    <button className="button-checkout font-bold bg-mainBG text-white" onClick={handleCheckout}>
                         Thanh toán
                     </button>
                 </div>

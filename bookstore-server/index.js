@@ -35,39 +35,39 @@ app.post("/jwt", async (req, res) => {
 const bookRoutes = require("./api/routes/bookRoutes");
 const cartsRoutes = require("./api/routes/cartRoutes");
 const usersRoutes = require("./api/routes/userRoutes");
-const paymentRoutes = require("./api/routes/paymentRoutes");
 const adminStats = require("./api/routes/adminStats");
 const orderStats = require("./api/routes/orderStats");
 const commentRoutes = require("./api/routes/commentRoutes");
+const orderRoutes = require("./api/routes/oderRoutes");
 
 app.use("/book", bookRoutes);
 app.use("/carts", cartsRoutes);
 app.use("/users", usersRoutes);
-app.use("/payments", paymentRoutes);
 app.use("/admin-stats", adminStats);
 app.use("/order-stats", orderStats);
 app.use("/cmt", commentRoutes);
+app.use("/orders", orderRoutes)
 
 
 // payment methods routes
 const verifyToken = require("./api/middlewares/verifyToken");
 
-app.post("/create-payment-intent", verifyToken, async (req, res) => {
-  const { price } = req.body;
-  const amount = price * 100;
-  // console.log(amount);
+// app.post("/create-payment-intent", verifyToken, async (req, res) => {
+//   const { price } = req.body;
+//   const amount = price * 100;
+//   // console.log(amount);
 
-  // Create a PaymentIntent
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: amount,
-    currency: "usd",
-    payment_method_types: ["card"],
-  });
+//   // Create a PaymentIntent
+//   const paymentIntent = await stripe.paymentIntents.create({
+//     amount: amount,
+//     currency: "usd",
+//     payment_method_types: ["card"],
+//   });
 
-  res.send({
-    clientSecret: paymentIntent.client_secret,
-  });
-});
+//   res.send({
+//     clientSecret: paymentIntent.client_secret,
+//   });
+// });
 
 app.get("/", (req, res) => {
   res.send("BookStore Server is Running!");

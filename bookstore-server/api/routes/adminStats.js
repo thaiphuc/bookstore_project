@@ -3,7 +3,7 @@ const router = express.Router();
 // Import your middleware
 const User = require('../models/User');
 const Book = require('../models/Book');
-const Payment = require('../models/Payments'); 
+const Order = require('../models/Orders'); 
 
 // middleware
 const verifyToken = require('../middlewares/verifyToken')
@@ -13,9 +13,9 @@ router.get('/', verifyToken, verifyAdmin, async (req, res) => {
   try {
     const users = await User.countDocuments();
     const bookItems = await Book.countDocuments();
-    const orders = await Payment.countDocuments();
+    const orders = await Order.countDocuments();
 
-    const result = await Payment.aggregate([
+    const result = await Order.aggregate([
       {
         $group: {
           _id: null,

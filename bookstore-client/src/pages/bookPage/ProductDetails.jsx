@@ -5,7 +5,6 @@ import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faTruckFast, faUser, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from "../../contexts/AuthProvider";
-import avatar from "../../../public/th.jpg"
 import RelatedBook from '../../components/RelatedBook';
 import axios from 'axios';
 import { Link } from 'react-router-dom';

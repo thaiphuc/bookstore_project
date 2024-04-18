@@ -3,7 +3,7 @@ const router = express.Router();
 // Import your middleware
 const User = require('../models/User');
 const Book = require('../models/Book');
-const Payment = require('../models/Payments'); // Corrected import statement
+const Order = require('../models/Orders'); // Corrected import statement
 
 // middleware
 const verifyToken = require('../middlewares/verifyToken');
@@ -11,7 +11,7 @@ const verifyAdmin = require('../middlewares/verifyAdmin');
 
 router.get('/', async (req, res) => {
   try {
-    const result = await Payment.aggregate([
+    const result = await Order.aggregate([
         {
           $unwind: '$bookItems'
         },
