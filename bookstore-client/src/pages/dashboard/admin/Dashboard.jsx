@@ -32,6 +32,7 @@ const Dashboard = () => {
     queryKey: ["admin-stats"],
     queryFn: async () => {
       const res = await axiosSecure.get("/admin-stats");
+      
       return res.data;
     },
   });
@@ -41,6 +42,7 @@ const Dashboard = () => {
     queryKey: ["order-stats"],
     queryFn: async () => {
       const res = await axiosSecure.get("/order-stats");
+      console.log(res.data);
       return res.data;
     },
   });
