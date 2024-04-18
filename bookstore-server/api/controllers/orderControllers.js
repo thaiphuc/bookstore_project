@@ -14,13 +14,14 @@ const postOrder = async (req, res) => {
 const getAllOrders = async (req, res) => {
   const userEmail = req.query.email;
 
-  // Kiểm tra xem email có được cung cấp không
-  if (!userEmail) {
-    return res.status(400).send({ message: "Email parameter is required" });
-  }
-
   try {
-      // Giả định rằng trường trong database là userEmail, không phải email
+      // Nếu không có email được cung cấp, lấy tất cả các đơn hàng
+      if (!userEmail) {
+          const allOrders = await Order.find({});
+          return res.json(allOrders);
+      }
+
+      // Ngược lại, tìm các đơn hàng theo email được cung cấp
       const orders = await Order.find({ userEmail: userEmail });
       if (orders.length === 0) {
           return res.status(404).send({ message: "No orders found for this email" });
@@ -31,8 +32,24 @@ const getAllOrders = async (req, res) => {
   }
 };
 
+const deleteOrder = async (req, res) => {
+  const orderId = req.params.id;
+  try {
+    const deletedOrder = await Order.findByIdAndDelete(orderId);
+
+    if (!deletedOrder) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    res.status(200).json({ message: "Order Deleted Successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 
 module.exports = {
   postOrder,
-  getAllOrders
+  getAllOrders,
+  deleteOrder
 };
