@@ -1,33 +1,59 @@
-import React, { useState } from "react";
-import useBook from "../../../hooks/useBook";
+import React, { useState, useEffect } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { Link } from "react-router-dom";
 import { FaArrowCircleRight, FaArrowLeft, FaArrowRight, FaEdit, FaTrashAlt, FaUsers } from "react-icons/fa";
 import { GiConfirmed } from "react-icons/gi";
 import Swal from "sweetalert2";
-import useAuth from "../../../hooks/useAuth";
-import { useQuery } from "@tanstack/react-query";
+import { format } from 'date-fns';
 
 const ManageOrders = () => {
-  const { user, loading } = useAuth();
-  const token = localStorage.getItem("access_token");
-  const { refetch, data: orders = [] } = useQuery({
-    queryKey: ["orders", user?.email],
-    enabled: !loading,
-    queryFn: async () => {
-      const res = await fetch(
-        `http://localhost:5000/payments/all`,
-        {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      return res.json();
-    },
-  });
-  //   console.log(book)
   const axiosSecure = useAxiosSecure();
+  const [orders, setOrders] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const response = await axiosSecure.get(`orders`);
+            setOrders(response.data);
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+        }
+    };
+    fetchData();
+}, []);
+
+const handleDeleteOrder = async (orderId) => {
+  Swal.fire({
+      title: "Bạn muốn xóa?",
+      text: "Bạn sẽ không thể hoàn tác",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Vâng, tôi đồng ý!",
+      cancelButtonText: "Hủy"
+    }).then(async (result) => {
+      try {
+          await axiosSecure.delete(`/orders/${orderId}`);
+          setOrders(orders.filter(orders => orders._id !== orderId));
+          Swal.fire({
+              title: "Deleted!",
+              text: "Đã xóa bình luận thành công!",
+              icon: "success",
+          });
+      } catch (error) {
+          console.error('Error deleting comment:', error);
+          Swal.fire({
+              title: "Error",
+              text: "Không thể xóa! Hãy thử lại.",
+              icon: "error",
+          });
+      }
+    });
+  
+};
+
+  const formatPrice = (price) => {
+    return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
 
   //   pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,31 +61,10 @@ const ManageOrders = () => {
   const indexOfLastItem = currentPage * items_Per_Page;
   const indexOfFirstItem = indexOfLastItem - items_Per_Page;
   const currentItems = orders.slice(indexOfFirstItem, indexOfLastItem);
+  
 
+  console.log(currentItems);
   // delete item
-  const handleDeleteItem = (item) => {
-    console.log(item._id)
-  }
-
-  // confirm order
-  const confiremedOrder = async (item) => {
-    console.log(item)
-    await axiosSecure.patch(`/payments/${item._id}`)
-      .then(res => {
-        console.log(res.data)
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: `Order Confirmed Now!`,
-          showConfirmButton: false,
-          timer: 1500
-        });
-        refetch();
-      })
-
-  }
-
-  console.log(orders)
 
 
   return (
@@ -77,10 +82,10 @@ const ManageOrders = () => {
               <tr>
                 <th>#</th>
                 <th>Người dùng</th>
-                <th>Mã vận chuyển</th>
+                <th>Mã vận đơn</th>
                 <th>Giá</th>
-                <th>Trạng thái</th>
-                <th>Xác nhận đơn hàng</th>
+                <th>Trạng thái thanh toán</th>
+                {/* <th>Xác nhận đơn hàng</th> */}
                 <th>Xóa</th>
               </tr>
             </thead>
@@ -89,15 +94,12 @@ const ManageOrders = () => {
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>
-                    {item.email}
+                    {item.userEmail}
                   </td>
-                  <td>{item.transitionId}</td>
-                  <td>${item.price}</td>
-                  <td>
-                    {item.status}
-                  </td>
+                  <td>{item._id}</td>
+                  <td>{formatPrice(item.totalPrice)}đ</td>
                   <td className="text-center">
-                    {item.status === "confirmed" ? "done" : <button
+                    {item.status === "Đã thanh toán" ? "Hoàn thành" : <button
                       className="btn bg-mainBG text-white btn-xs text-center"
                       onClick={() => confiremedOrder(item)}
                     >
@@ -107,7 +109,7 @@ const ManageOrders = () => {
                   </td>
                   <td>
                     <button
-                      onClick={() => handleDeleteItem(item)}
+                      onClick={() => handleDeleteOrder(item._id)}
                       className="btn btn-ghost btn-xs"
                     >
                       <FaTrashAlt className="text-red"></FaTrashAlt>
