@@ -73,6 +73,18 @@ const deleteCart = async (req, res) => {
   }
 };
 
+
+const clearCart = async (req, res) => {
+  const userEmail = req.query.email;
+  try {
+      await Carts.deleteMany({ email: userEmail }); 
+      res.status(200).send('Cart cleared successfully');
+  } catch (error) {
+      console.error('Failed to clear cart:', error);
+      res.status(500).send('Error clearing cart');
+  }
+};
+
 // update cart quantity
 const updateCart = async (req, res) => {
   const cartId = req.params.id;
@@ -118,4 +130,5 @@ module.exports = {
   deleteCart,
   updateCart,
   getSingleCart,
+  clearCart
 };

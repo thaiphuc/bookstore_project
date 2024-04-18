@@ -6,9 +6,13 @@ const orderSchema = new Schema({
         type: String,
         required: true
     },
+  userName:{
+    type: String,
+    required: true
+    },
   items: [
     {
-      product: {
+      name: {
         type: String,
         required: true
       },
@@ -19,6 +23,9 @@ const orderSchema = new Schema({
       price: {
         type: Number,
         required: true
+      },
+      image: {
+        type: String
       }
     }
   ],
@@ -40,11 +47,11 @@ const orderSchema = new Schema({
   }
 });
 
-// Method để cập nhật tổng giá trị đơn hàng
-orderSchema.methods.updateTotalPrice = function() {
-  this.totalPrice = this.items.reduce((total, item) => total + item.price * item.quantity, 0);
-  return this.totalPrice;
-};
+// // Method để cập nhật tổng giá trị đơn hàng
+// orderSchema.methods.updateTotalPrice = function() {
+//   this.totalPrice = this.items.reduce((total, item) => total + item.price * item.quantity, 0);
+//   return this.totalPrice;
+// };
 
 const Order = mongoose.model('Order', orderSchema);
 

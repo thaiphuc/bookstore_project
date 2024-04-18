@@ -14,7 +14,6 @@ import Users from "../pages/dashboard/admin/Users";
 import AddBook from "../pages/dashboard/admin/AddBook";
 import ManageItems from "../pages/dashboard/admin/ManageBooks";
 import UpdateBook from "../pages/dashboard/admin/UpdateBook";
-import Payment from "../pages/bookPage/Payment";
 import ManageOrders from "../pages/dashboard/admin/ManageOrders";
 import FavoritePage from "../pages/bookPage/FavoritePage";
 import ProductDetails from "../pages/bookPage/ProductDetails";
@@ -53,10 +52,6 @@ const router = createBrowserRouter([
       {
         path: "/cart-page",
         element: <CartPage />
-      },
-      {
-        path: "/process-checkout",
-        element: <Payment />
       },
       {
         path: "/favorite-page",

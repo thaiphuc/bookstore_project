@@ -198,7 +198,7 @@ const Navbar = () => {
               <input
                 type="text"
                 placeholder="Tìm kiếm sách..."
-                className="input input-bordered w-16 md:w-auto ml-2 mr-2"
+                className="text-black input input-bordered w-16 md:w-auto ml-2 mr-2"
                 value={searchTerm}
                 onChange={handleSearch}
               />

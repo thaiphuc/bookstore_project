@@ -1,5 +1,4 @@
 const Comment = require("../models/Comment");
-const Book = require("../models/Book");
 
 
 // delete a Comment

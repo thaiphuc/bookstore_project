@@ -80,7 +80,6 @@ const AddBook = () => {
       }
 
       const bookRes = await axiosSecure.post('/book', bookItem);
-      console.log(bookRes)
       if (bookRes.status === 200) {
         setQuantity(0);
         reset();

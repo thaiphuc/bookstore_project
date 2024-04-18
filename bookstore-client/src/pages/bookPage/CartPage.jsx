@@ -242,6 +242,7 @@ const CartPage = () => {
             info={info}
             totalItems={totalItems}
             orderTotal={orderTotal}
+            cart={cart}
           />
         </div>
       </div>

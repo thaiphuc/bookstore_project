@@ -1,33 +1,30 @@
-import { useQuery } from "@tanstack/react-query";
-import useAuth from "../../../hooks/useAuth";
-import { Link } from "react-router-dom";
+import { AuthContext } from "../../../contexts/AuthProvider";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import React, { useState, useEffect, useContext } from 'react';
+import { format } from 'date-fns';
 
 const Order = () => {
-  const { user, loading } = useAuth();
-  const token = localStorage.getItem("access_token");
-  const { refetch, data: orders = [] } = useQuery({
-    queryKey: ["orders", user?.email],
-    enabled: !loading,
-    queryFn: async () => {
-      const res = await fetch(
-        `http://localhost:5000/payments?email=${user?.email}`,
-        {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
+  const { user } = useContext(AuthContext);
+  const [orders, setOrders] = useState([]);
+  const axiosSecure = useAxiosSecure();
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const response = await axiosSecure.get(`orders?email=${user.email}`);
+            setOrders(response.data);
+        } catch (error) {
+            console.error('Error fetching orders:', error);
         }
-      );
-      return res.json();
-    },
-  });
+    };
+    fetchData();
+}, []);
 
-  // console.log(orders)
-
-  // date format
-  const formatDate = (createdAt) => {
-    const createdAtDate = new Date(createdAt);
-    return createdAtDate.toLocaleDateString(); // 
+  console.log(orders)
+  const formatPrice = (price) => {
+    return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
+
+
   return (
     <div className="max-w-screen-2xl container mx-auto xl:px-24 px-4">
       {/* banner */}
@@ -36,7 +33,7 @@ const Order = () => {
           {/* content */}
           <div className=" text-center px-4 space-y-7">
             <h2 className="md:text-5xl text-4xl font-bold md:leading-snug leading-snug">
-              Theo dõi<span className="text-mainBG"> đơn hàng</span>
+              Theo dõi<span className="text-mainBG"> Đơn hàng</span>
             </h2>
           </div>
         </div>
@@ -54,8 +51,8 @@ const Order = () => {
                     <tr>
                       <th>#</th>
                       <th>Ngày đặt hàng</th>
-                      <th>Mã vận chuyển</th>
-                      <th>Giá</th>
+                      <th>Mã vận đơn</th>
+                      <th>Tổng tiền</th>
                       <th>Trạng thái</th>
                       <th>Thao tác</th>
                     </tr>
@@ -64,9 +61,9 @@ const Order = () => {
                     {orders.map((item, index) => (
                       <tr key={index}>
                         <td>{index + 1}</td>
-                        <td>{formatDate(item.createdAt)}</td>
-                        <td className="font-medium">{item.transitionId}</td>
-                        <td>${item.price}</td>
+                        <td>{format(new Date(item.createdAt), 'PPpp')}</td>
+                        <td className="font-medium">{item._id}</td>
+                        <td>{formatPrice(item.totalPrice)}đ</td>
                         <td>{item.status}</td>
                         <td>
                           <button className="btn btn-sm border-none text-orange-400 bg-transparent">
