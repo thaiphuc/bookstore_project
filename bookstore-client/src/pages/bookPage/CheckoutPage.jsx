@@ -39,7 +39,7 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
         if (paymentMethod === 'COD') {
             handleCODCheckout();
         } else if (paymentMethod === 'card') {
-            // Handle card payment
+            handleCardCheckout();
         }
     };
 
@@ -51,6 +51,39 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
             }
         } catch (error) {
             console.error('Failed to clear cart:', error);
+        }
+    }
+
+    const handleCardCheckout = async () => {
+        const orderInfo = {
+            userEmail: info.email,
+            userName: info.name,
+            items: products,
+            status: "Đã thanh toán",
+            totalPrice: orderTotal
+        };
+        try {
+            const orderRes = await axiosSecure.post('/orders', orderInfo);
+            if (orderRes.status === 200) {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: `Đặt hàng thành công!`,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                await clearCart();  
+                navigate("/order");  
+            }
+        } catch (error) {
+            console.error('Error placing order:', error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: `Đã xảy ra lỗi khi đặt hàng. Xin thử lại sau.`,
+                showConfirmButton: false,
+                timer: 1500
+            });
         }
     }
 
