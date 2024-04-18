@@ -114,9 +114,9 @@ const CheckoutPage = ({ price, cart }) => {
                             </tr>
                         </tbody>
                         <tfoot>
-                            <tr className='text-black'>
+                            <tr className='text-black text-lg'>
                                 <td >Thành tiền</td>
-                                <td align="right">{price} ₫</td>
+                                <td align="right">12000000₫</td>
                             </tr>
                         </tfoot>
                     </table>

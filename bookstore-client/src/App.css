@@ -358,7 +358,7 @@ div.navbar.xl:px-24 {
 }
 
 .checkout tbody {
-  color: #b4b4b4;
+  color: #969696;
 }
 
 .checkout td {
@@ -378,6 +378,7 @@ div.navbar.xl:px-24 {
   color: #fff;
   display: flex;
   gap: 0.5em;
+  margin-top: 10px;
   justify-content: center;
   padding-block: 0.75em;
   padding-inline: 1em;
@@ -445,10 +446,10 @@ div.navbar.xl:px-24 {
 }
 
 .checkout {
-  background-color: #fbf6f7;
-  background-image: linear-gradient(to bottom, #fbf6f7, #fff);
+  background-color: #e6e6e6;
+  background-image: linear-gradient(to bottom, #ccf8f9,#f5f5f5 ,#e4fffa);
   border-radius: 2em;
-  box-shadow: 0 0 1em rgba(0, 0, 0, 0.0625);
+  box-shadow: 0 0 1rem #00000010;
   width: 350px;
   padding: 1em;
   display: flex;

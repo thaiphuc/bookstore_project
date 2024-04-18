@@ -225,6 +225,7 @@ const CartPage = () => {
                 </tbody>
                 {/* foot */}
               </table>
+              <h2 className="mt-4 font-bold">Tổng số sản phẩm: {totalItems}</h2>
             </div>
           ) : (
             <div className="text-center mt-20">
