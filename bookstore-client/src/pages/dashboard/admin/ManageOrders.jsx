@@ -87,10 +87,13 @@ const ManageOrders = () => {
 
   return (
     <div className="w-full md:w-[870px] mx-auto px-4 ">
-      <h2 className="text-2xl font-semibold my-4">
-        Quản lý <span className="text-mainBG">Đơn hàng!</span>
+      <div className="flex justify-between mx-4 my-4">
+      <h2 className="text-2xl font-semibold my-4 ">
+        Quản lý <span className="text-mainBG">Đơn hàng!
+        </span>
       </h2>
-
+        <h2 className="text-2xl flex align-middle">Tổng số đơn hàng: {orders.length}</h2>
+      </div>
       {/* book items table  */}
       <div>
         <div className="overflow-x-auto lg:overflow-x-visible">
@@ -117,12 +120,7 @@ const ManageOrders = () => {
                   <td>{item._id}</td>
                   <td>{formatPrice(item.totalPrice)}đ</td>
                   <td className="text-center">
-                    {item.status === "Đã thanh toán" ? "Hoàn thành" : <button
-                      className="btn bg-mainBG text-white btn-xs text-center"
-                      // onClick={() => confiremedOrder(item)}
-                      >
-                      <GiConfirmed />
-                    </button>}
+                    {item.status === "Đã thanh toán" ? "Đã thanh toán" : "Chờ thanh toán"}
                   </td>
                   <td>
                     <button
