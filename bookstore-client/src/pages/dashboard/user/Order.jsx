@@ -29,12 +29,8 @@ const Order = () => {
     
   const showOrderInfo = async (order) => {
     setSelectedOrder(order);
-    try {
-      const response = await axiosSecure.get(`order/${order._id}/products`);
-      setOrderProducts(response.data);
-    } catch (error) {
-      console.error('Error fetching order products:', error);
-    }
+    setOrderProducts(order.items);
+    
   };
 
   const hideOrderInfo = () => {
@@ -108,22 +104,21 @@ const Order = () => {
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>Tên sản phẩm</th>
                     <th>Hình ảnh</th>
-                    <th>Giá</th>
+                    <th>Tên sản phẩm</th>
                     <th>Số lượng</th>
+                    <th>Giá</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {orders.map((order, index) => {
-                    const product = order.items; 
+                  {orderProducts.map((product, index) => {
                     return (
                       <tr key={index}>
                         <td>{index + 1}</td>
-                        <td>{product.name}</td>
                         <td><img src={product.image} alt={product.name} className="h-16 w-auto" /></td>
-                        <td>{formatPrice(product.price)}đ</td>
+                        <td>{product.name}</td>
                         <td>{product.quantity}</td>
+                        <td>{formatPrice(product.price)}đ</td>
                       </tr>
                     );
                   })}
