@@ -144,7 +144,7 @@ const Navbar = () => {
 
   return (
     <header
-      className={`max-w-screen-2xl container mx-auto fixed top-0 left-0 right-0 transition-all duration-300 ease-in-out ${isDarkMode ? "dark" : ""
+      className={`  max-w-screen-2xl container mx-auto fixed top-0 left-0 right-0 transition-all duration-300 ease-in-out ${isDarkMode ? "dark" : ""
         }`}
     >
       <div
@@ -188,7 +188,7 @@ const Navbar = () => {
             <img src={logo} alt="" />
           </Link>
         </div>
-        <div className="navbar-center hidden lg:flex">
+        <div className=" navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-4">{navItems}</ul>
         </div>
         <div className="navbar-end">

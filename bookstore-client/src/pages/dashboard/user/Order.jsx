@@ -26,11 +26,11 @@ const Order = () => {
   const formatPrice = (price) => {
     return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
-    
+
   const showOrderInfo = async (order) => {
     setSelectedOrder(order);
     setOrderProducts(order.items);
-    
+
   };
 
   const hideOrderInfo = () => {
@@ -91,15 +91,18 @@ const Order = () => {
 
       {/* Display order detail */}
       {selectedOrder && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-8 rounded-lg">
+        <div className="fixed top-12 left-0  w-full h-full  flex justify-center items-center z-50">
+          <div className="bg-white p-8 rounded-lg" style={{
+            border: '1px solid #f2f2f2', /* Màu và độ dày của viền */
+            boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)', /* Độ đổ bóng và màu của box-shadow */
+          }}>
             <h2 className="text-xl font-bold mb-4 text-center">Thông tin đơn hàng</h2>
             <p><strong>Ngày đặt hàng:</strong> {format(new Date(selectedOrder.createdAt), 'PPpp')}</p>
             <p><strong>Mã vận đơn:</strong> {selectedOrder._id}</p>
             <p><strong>Tổng tiền:</strong> {formatPrice(selectedOrder.totalPrice)}đ</p>
             <p ><strong>Trạng thái:</strong> {selectedOrder.status}</p>
             <h3 className="text-lg font-bold my-4">Chi tiết đơn hàng:</h3>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto max-h-72">
               <table className="table">
                 <thead>
                   <tr>
@@ -115,18 +118,21 @@ const Order = () => {
                     return (
                       <tr key={index}>
                         <td>{index + 1}</td>
-                        <td><img src={product.image} alt={product.name} className="h-16 w-auto" /></td>
+                        <td><img src={product.image} alt={product.name} className="h-16 w-12 rounded-lg" /></td>
                         <td>{product.name}</td>
-                        <td>{product.quantity}</td>
+                        <td >{product.quantity}</td>
                         <td>{formatPrice(product.price)}đ</td>
                       </tr>
                     );
                   })}
                 </tbody>
-
               </table>
             </div>
-            <button className="btn bg-orange-500 text-white mt-4" onClick={hideOrderInfo}>Đóng</button>
+            <div className="flex justify-center">
+              <button className="btn w-40 bg-orange-500 text-white mt-4" onClick={hideOrderInfo}>
+                Đóng
+              </button>
+            </div>
           </div>
         </div>
       )}
