@@ -30,28 +30,33 @@ const ManageComment = () => {
             cancelButtonColor: "#d33",
             confirmButtonText: "Vâng, tôi đồng ý!",
             cancelButtonText: "Hủy"
-          }).then(async (result) => {
-            try {
-                // Send delete request to API
-                await axiosSecure.delete(`/cmt/${commentId}`);
-                // Remove deleted comment from state
-                setComments(comments.filter(comment => comment._id !== commentId));
-                Swal.fire({
-                    title: "Deleted!",
-                    text: "Đã xóa bình luận thành công!",
-                    icon: "success",
-                });
-            } catch (error) {
-                console.error('Error deleting comment:', error);
-                Swal.fire({
-                    title: "Error",
-                    text: "Không thể xóa! Hãy thử lại.",
-                    icon: "error",
-                });
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    // Send delete request to API
+                    await axiosSecure.delete(`/cmt/${commentId}`);
+                    // Remove deleted comment from state
+                    setComments(comments.filter(comment => comment._id !== commentId));
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Đã xóa bình luận thành công!",
+                        icon: "success",
+                    });
+                } catch (error) {
+                    console.error('Error deleting comment:', error);
+                    Swal.fire({
+                        title: "Error",
+                        text: "Không thể xóa! Hãy thử lại.",
+                        icon: "error",
+                    });
+                }
+            } else {
+                // Đóng hộp thoại xác nhận mà không thực hiện bất kỳ hành động nào
+                Swal.close();
             }
-          });
-        
+        });
     };
+
 
     const handleViewComment = (comment) => {
         const formattedDate = format(new Date(comment.createdAt), 'PPpp'); 

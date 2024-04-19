@@ -20,8 +20,8 @@ const ManageOrders = () => {
     fetchData();
 }, []);
 
-const handleDeleteOrder = async (orderId) => {
-  Swal.fire({
+  const handleDeleteOrder = async (orderId) => {
+    Swal.fire({
       title: "Bạn muốn xóa?",
       text: "Bạn sẽ không thể hoàn tác",
       icon: "warning",
@@ -31,25 +31,29 @@ const handleDeleteOrder = async (orderId) => {
       confirmButtonText: "Vâng, tôi đồng ý!",
       cancelButtonText: "Hủy"
     }).then(async (result) => {
-      try {
+      if (result.isConfirmed) {
+        try {
           await axiosSecure.delete(`/orders/${orderId}`);
-          setOrders(orders.filter(orders => orders._id !== orderId));
+          setOrders(orders.filter(order => order._id !== orderId));
           Swal.fire({
-              title: "Deleted!",
-              text: "Đã xóa bình luận thành công!",
-              icon: "success",
+            title: "Deleted!",
+            text: "Đã xóa đơn hàng thành công!",
+            icon: "success",
           });
-      } catch (error) {
-          console.error('Error deleting comment:', error);
+        } catch (error) {
+          console.error('Error deleting order:', error);
           Swal.fire({
-              title: "Error",
-              text: "Không thể xóa! Hãy thử lại.",
-              icon: "error",
+            title: "Error",
+            text: "Không thể xóa! Hãy thử lại.",
+            icon: "error",
           });
+        }
+      } else {
+        Swal.close();
       }
     });
-  
-};
+  };
+
 
   const formatPrice = (price) => {
     return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -84,7 +88,7 @@ const handleDeleteOrder = async (orderId) => {
                 <th>Người dùng</th>
                 <th>Mã vận đơn</th>
                 <th>Giá</th>
-                <th>Trạng thái thanh toán</th>
+                <th>Trạng thái đơn hàng</th>
                 {/* <th>Xác nhận đơn hàng</th> */}
                 <th>Xóa</th>
               </tr>
@@ -101,7 +105,7 @@ const handleDeleteOrder = async (orderId) => {
                   <td className="text-center">
                     {item.status === "Đã thanh toán" ? "Hoàn thành" : <button
                       className="btn bg-mainBG text-white btn-xs text-center"
-                      onClick={() => confiremedOrder(item)}
+                      // onClick={() => confiremedOrder(item)}
                     >
                       <GiConfirmed />
                     </button>}
