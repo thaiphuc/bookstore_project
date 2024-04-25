@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { FaEye } from "react-icons/fa";
 import { AuthContext } from "../../../contexts/AuthProvider";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Swal from 'sweetalert2';
 
 const Order = () => {
   const { user } = useContext(AuthContext);
@@ -10,6 +11,27 @@ const Order = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orderProducts, setOrderProducts] = useState([]);
   const axiosSecure = useAxiosSecure();
+const cancelOrder = () => {
+  Swal.fire({
+    title: 'Bạn có muốn hủy đơn hàng không?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Có',
+    cancelButtonText: 'Không'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Xử lý hủy đơn hàng ở đây, có thể gọi một hàm xử lý việc hủy đơn hàng
+      // Ví dụ: handleCancelOrder(selectedOrder._id);
+      Swal.fire(
+        'Đã hủy!',
+        'Đơn hàng của bạn đã được hủy.',
+        'success'
+      );
+    }
+  });
+};
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,6 +85,7 @@ const Order = () => {
                 <th>Mã vận đơn</th>
                 <th>Tổng tiền</th>
                 <th>Trạng thái</th>
+                <th>Xem</th>
                 <th>Thao tác</th>
               </tr>
             </thead>
@@ -81,6 +104,12 @@ const Order = () => {
                     >
                       <FaEye className="text-white" />
                     </button>
+                  </td>
+                  <td>
+                    <button className='text-red hover:text-gray-500 font-medium' onClick={cancelOrder}>
+                      Hủy đơn hàng
+                    </button>
+
                   </td>
                 </tr>
               ))}
