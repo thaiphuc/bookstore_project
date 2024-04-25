@@ -19,6 +19,17 @@ const ManageComment = () => {
         };
         fetchComments();
     }, []);
+    const shortComment = (comment, maxWords) => {
+        if (!comment || comment.length === 0) {
+            return "Không có bình luận";
+        }
+        if (comment.length > maxWords) {
+            const spaceIndex = comment.indexOf(' ', maxWords);
+            const shortenedComment = comment.substring(15, spaceIndex);
+            return `${shortenedComment}...`;
+        }
+        return comment;
+    };
 
     const handleDeleteComment = async (commentId) => {
         Swal.fire({
@@ -97,7 +108,7 @@ const ManageComment = () => {
                             <tr key={comment._id}>
                                 <th>{index + 1}</th>
                                 <td>{comment.username}</td>
-                                <td className="comment">{comment.comment}</td>
+                                <td className="comment">{shortComment(comment.comment, 40)}</td>
                                 <td className="text-left">{format(new Date(comment.createdAt), 'PPpp')}</td>
                                 <td>
                                     <button

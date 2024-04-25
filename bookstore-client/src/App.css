@@ -469,3 +469,8 @@ div.navbar.xl:px-24 {
 .table-cart{
   font-size: 13px;
 }
+.comment-text {
+  max-width: 400px;
+  word-wrap: break-word;
+  /* Đảm bảo các từ dài tự động xuống dòng */
+}

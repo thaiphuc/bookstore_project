@@ -11,11 +11,13 @@ import { Link } from 'react-router-dom';
 import { FaHeart, FaShoppingCart } from 'react-icons/fa';
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { formatDistanceToNow } from 'date-fns';
+import { FaComment, FaReply } from 'react-icons/fa6';
 
 const CommentSection = () => {
     const [listcomments, setComment] = useState([]);
     const { id } = useParams();
     const axiosSecure = useAxiosSecure();
+    const [replyInputVisible, setReplyInputVisible] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -35,6 +37,9 @@ const CommentSection = () => {
     const toggleExpansion = () => {
         setIsExpanded(!isExpanded);
     };
+    const handleReplyClick = () => {
+        setReplyInputVisible(true);
+    };
 
     const { isDarkMode } = useTheme();
 
@@ -49,7 +54,7 @@ const CommentSection = () => {
                 {/* Render only the first three comments if not expanded */}
                 {listcomments.slice(0, isExpanded ? listcomments.length : MAX_LINES).map(comment => (
                     <div key={comment._id} className="comment"> {/* Sử dụng _id làm key */}
-                        <div className="avatar-details-container flex">
+                        <div className="avatar-details-container flex mb-2">
                             {comment.avatar && (
                                 <div className="avatar-container w-24 rounded-full ring ring-mainBG ring-offset-base-100 ring-offset-2 flex items-center justify-center">
                                     <img src={comment.avatar} alt="Avatar" />
@@ -63,8 +68,37 @@ const CommentSection = () => {
                                     </span>
                                 </div>
                                 <p className={`comment-text ${isDarkMode ? 'text-white' : 'text-black'}`}>{comment.comment}</p>
+                                {!replyInputVisible && (
+                                    <button
+                                        onClick={handleReplyClick}
+                                        className="mt-2 flex items-center text-mainBG hover:text-gray-500"
+                                    >
+                                        <FaReply style={{ fontSize: '1.2rem' }} />
+                                        <span className="ml-2 text-sm font-semibold">Phản hồi</span>
+                                    </button>
+                                )}
+                                {replyInputVisible && (
+                                    <div>
+                                        <textarea
+                                            type="text"
+                                            placeholder={ 'Nhập phản hồi...'}
+                                            className={`mt-3 input-field ${isDarkMode ? 'dark' : ''}`}
+                                            style={{ width: '100%', height: '50px', border: '2px solid', marginRight: '10px', padding: '10px' }}
+                                        />
+                                        <div className="flex justify-end">
+                                            <div className="flex items-center mr-4">
+                                            </div>
+                                            <button  className="bg-mainBG hover:bg-gray-300 text-white font-bold py-2 px-4 rounded">
+                                                Gửi 
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+
+                                
                             </div>
                         </div>
+
                     </div>
                 ))}
                 <div className="flex justify-center">
@@ -89,6 +123,7 @@ const CommentSection = () => {
 const CommentInput = () => {
     const [comment, setComment] = useState('');
     const [inputFocused, setInputFocused] = useState(false);
+    const [charCount, setCharCount] = useState(0); // State để đếm số ký tự
     const { isDarkMode } = useTheme();
     const { user } = useContext(AuthContext);
     const { id } = useParams();
@@ -96,26 +131,21 @@ const CommentInput = () => {
     const axiosSecure = useAxiosSecure();
     const location = useLocation();
 
-
     const handleCommentChange = (e) => {
-        setComment(e.target.value);
+        const inputComment = e.target.value;
+        setComment(inputComment);
+        setCharCount(inputComment.length); // Cập nhật số ký tự
     };
 
     const handleCommentSubmit = async () => {
-        if (!user || !user.email) { // Kiểm tra xem người dùng đã đăng nhập chưa
-            // Nếu chưa đăng nhập, hiển thị cảnh báo
+        // Kiểm tra nếu số ký tự vượt quá 500
+        if (charCount > 500) {
+            // Hiển thị thông báo không cho phép nhập
             Swal.fire({
-                title: 'Vui lòng đăng nhập để đánh giá',
+                title: 'Không thể gửi đánh giá',
+                text: 'Vui lòng nhập dưới 500 ký tự',
                 icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Đăng nhập ngay',
-                cancelButtonText:"Hủy"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    navigate('/login', { state: { from: location } })
-                }
+                confirmButtonText: 'OK'
             });
             return;
         }
@@ -166,15 +196,17 @@ const CommentInput = () => {
                 className={`input-field ${isDarkMode ? 'dark' : ''}`}
                 style={{ width: '100%', height: '200px', border: '2px solid', marginRight: '10px', padding: '10px' }}
             />
-            <div className='flex justify-end'>
-            <button onClick={handleCommentSubmit} className="  bg-mainBG hover:bg-gray-300 text-white font-bold py-2 px-4 rounded">
-                Gửi đánh giá
-            </button>
+            <div className="flex justify-end">
+                <div className="flex items-center mr-4">
+                    <span>{charCount}/500</span> {/* Hiển thị số ký tự đếm */}
+                </div>
+                <button onClick={handleCommentSubmit} className="bg-mainBG hover:bg-gray-300 text-white font-bold py-2 px-4 rounded">
+                    Gửi đánh giá
+                </button>
             </div>
         </div>
     );
 };
-
 
 const ProductDetails = () => {
     const { isDarkMode } = useTheme();
