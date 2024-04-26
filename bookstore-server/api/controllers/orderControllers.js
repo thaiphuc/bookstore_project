@@ -4,6 +4,7 @@ const Order = require("../models/Orders");
 const postOrder = async (req, res) => {
   const newOrder = req.body;
   try {
+
     const result = await Order.create(newOrder);
     res.status(200).json(result);
   } catch (error) {

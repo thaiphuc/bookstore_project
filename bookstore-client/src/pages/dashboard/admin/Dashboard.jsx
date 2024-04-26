@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
@@ -27,22 +27,29 @@ const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 const Dashboard = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-
+  const formatPrice = (price) => {
+    if (!price)
+    {
+      return '';
+    }
+    else 
+    {
+      return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+  };
+  
   const { data: stats = {} } = useQuery({
     queryKey: ["admin-stats"],
     queryFn: async () => {
       const res = await axiosSecure.get("/admin-stats");
-      
       return res.data;
     },
   });
 
-  console.log(stats);
   const { data: chartData = [] } = useQuery({
     queryKey: ["order-stats"],
     queryFn: async () => {
       const res = await axiosSecure.get("/order-stats");
-      console.log(res.data);
       return res.data;
     },
   });
@@ -91,7 +98,7 @@ const Dashboard = () => {
   };
 
   const pieChartData = chartData.map((data) => {
-    return { name: data.category, value: data.revenue };
+    return { name: data.book, value: data.revenue };
   });
 
   return (
@@ -103,11 +110,10 @@ const Dashboard = () => {
       <div className="stats shadow flex flex-col md:flex-row">
         <div className="stat bg-cl1">
           <div className="stat-figure text-secondary">
-            <FaDollarSign className="text-3xl"></FaDollarSign>
           </div>
           <div className="stat-title">Doanh thu</div>
-          <div className="stat-value">{stats.revenue} ₫</div>
-          <div className="stat-desc">Jan 1st - Feb 1st</div>
+          <div className="stat-value">{formatPrice(stats.revenue)} ₫</div>
+          {/* <div className="stat-desc">Jan 1st - Feb 1st</div> */}
         </div>
 
         <div className="stat bg-cl2">
@@ -116,7 +122,7 @@ const Dashboard = () => {
           </div>
           <div className="stat-title">Người dùng</div>
           <div className="stat-value">{stats.users}</div>
-          <div className="stat-desc">↗︎ 400 (22%)</div>
+          {/* <div className="stat-desc">↗︎ 400 (22%)</div> */}
         </div>
 
         <div className="stat bg-cl3">
@@ -125,7 +131,7 @@ const Dashboard = () => {
           </div>
           <div className="stat-title">Sách</div>
           <div className="stat-value">{stats.bookItems}</div>
-          <div className="stat-desc">↗︎ 400 (22%)</div>
+          {/* <div className="stat-desc">↗︎ 400 (22%)</div> */}
         </div>
 
         <div className="stat bg-cl4">
@@ -134,7 +140,7 @@ const Dashboard = () => {
           </div>
           <div className="stat-title">Đơn hàng</div>
           <div className="stat-value">{stats.orders}</div>
-          <div className="stat-desc">↘︎ 90 (14%)</div>
+          {/* <div className="stat-desc">↘︎ 90 (14%)</div> */}
         </div>
       </div>
 
@@ -154,7 +160,7 @@ const Dashboard = () => {
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="category" />
+                <XAxis dataKey="book" />
                 <YAxis />
                 <Tooltip />
                 <Area

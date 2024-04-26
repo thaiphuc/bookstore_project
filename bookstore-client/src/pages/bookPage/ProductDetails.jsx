@@ -153,6 +153,7 @@ const CommentInput = () => {
             username: user.displayName,
             avatar: user.photoURL,
             comment: comment,
+            parentId: null,
             bookId: id
         }
 

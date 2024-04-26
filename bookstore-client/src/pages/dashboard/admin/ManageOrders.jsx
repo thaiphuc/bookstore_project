@@ -106,6 +106,7 @@ const ManageOrders = () => {
                 <th>Mã vận đơn</th>
                 <th>Giá</th>
                 <th>Trạng thái đơn hàng</th>
+                <th>Trạng thái thanh toán</th>
                 <th>Xem</th>
                 <th>Xóa</th>
               </tr>
@@ -119,6 +120,9 @@ const ManageOrders = () => {
                   </td>
                   <td>{item._id}</td>
                   <td>{formatPrice(item.totalPrice)}đ</td>
+                  <td className="text-center">
+                    {item.status === "Đã duyệt" ? "Đã duyệt" : "Chờ duyệt"}
+                  </td>
                   <td className="text-center">
                     {item.status === "Đã thanh toán" ? "Đã thanh toán" : "Chờ thanh toán"}
                   </td>
