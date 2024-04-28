@@ -12,6 +12,17 @@ const Order = () => {
   const [orderProducts, setOrderProducts] = useState([]);
   const axiosSecure = useAxiosSecure();
 
+  const fetchData = async () => {
+    try {
+      const response = await axiosSecure.get(`orders?email=${user.email}`);
+      setOrders(response.data);
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  },);
   const cancelOrder = async (order) => {
     Swal.fire({
       title: 'Bạn có muốn hủy đơn hàng không?',
@@ -50,7 +61,7 @@ const Order = () => {
   const updateStatus = async (id) => {
     const status = { status: "Đã hủy" };
     try{
-      const response = await axiosSecure.patch(`/orders/${id}`, status);
+      const response = await axiosSecure.patch(`orders/${id}`, status);
       if (response.status === 200){
         Swal.fire({
           title: "Hủy đơn",
@@ -60,20 +71,16 @@ const Order = () => {
         fetchData();
       }
     }
-    catch {}   
+    catch {
+      Swal.fire({
+        title: "Hủy đơn",
+        text: "Lỗi hủy đơn!",
+        icon: "error",
+      });
+    }   
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axiosSecure.get(`orders?email=${user.email}`);
-        setOrders(response.data);
-      } catch (error) {
-        console.error('Error fetching orders:', error);
-      }
-    };
-    fetchData();
-  },);
+ 
 
   const formatPrice = (price) => {
     return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");

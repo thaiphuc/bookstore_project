@@ -1,28 +1,31 @@
 import React, { useState, useEffect } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { FaArrowCircleRight, FaArrowLeft, FaArrowRight, FaEdit, FaTrashAlt, FaUsers } from "react-icons/fa";
+import { FaArrowCircleRight, FaArrowLeft, FaArrowRight, FaEdit, FaTrashAlt, FaUsers} from "react-icons/fa";
 import { GiConfirmed } from "react-icons/gi";
 import Swal from "sweetalert2";
 import { format } from 'date-fns';
 import { FaEye } from "react-icons/fa";
+import useBook from "../../../hooks/useBook";
 
 const ManageOrders = () => {
   const axiosSecure = useAxiosSecure();
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orderProducts, setOrderProducts] = useState([]);
+  const [bookList, , refetchBook] = useBook();
 
+  const fetchData = async () => {
+    try {
+        const response = await axiosSecure.get(`orders`);
+        setOrders(response.data);
+    } catch (error) {
+        console.error('Error fetching orders:', error);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-        try {
-            const response = await axiosSecure.get(`orders`);
-            setOrders(response.data);
-        } catch (error) {
-            console.error('Error fetching orders:', error);
-        }
-    };
     fetchData();
-}, []);
+  }, []);
+
   const showOrderInfo = async (order) => {
     setSelectedOrder(order);
     setOrderProducts(order.items);
@@ -33,6 +36,147 @@ const ManageOrders = () => {
     setSelectedOrder(null);
     setOrderProducts([]);
   };
+
+
+  
+  const handelPayment = async (orderId) => {
+    Swal.fire({
+      title: 'Bạn xác nhận cập nhật trạng thái thanh toán?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Có',
+      cancelButtonText: 'Không'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        updatePaymentStatus(orderId);
+      }
+    });
+  };
+  const updatePaymentStatus= async (orderId) => {
+    const paymentStatus = { paymentStatus: "Đã thanh toán" };
+    try{
+      const response = await axiosSecure.patch(`orders/${orderId}`, paymentStatus);
+      if (response.status === 200){
+        Swal.fire({
+          title: "Cập nhật trạng thái thanh toán",
+          text: "Cập nhật thành công.",
+          icon: "success",
+        });
+        fetchData();
+      }
+    }
+    catch {
+      Swal.fire({
+        title: "Cập nhật trạng thái thanh toán",
+        text: "Lỗi cập nhật!!!",
+        icon: "error",
+      });
+    }   
+  }
+  const handelApprove = async (order) => {
+    Swal.fire({
+      title: 'Bạn xác nhận cập nhật trạng thái thanh toán?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Có',
+      cancelButtonText: 'Không'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        
+        for (const item of order.items) {
+          const product = bookList.find(book => book._id === item.id);
+          if (item.quantity > product.quantity)
+          {
+            Swal.fire({
+              title: "Cập nhật trạng thái đơn hàng",
+              text: `Duyệt đơn thất bại do không đủ số lượng sách. Sách "${product.name}" chỉ còn "${product.quantity} quyển".`,
+              icon: "error",
+            });
+            return;
+          }
+          else {
+            approveOrder(order._id); 
+             refetchBook();
+          }
+        }
+      }
+    });
+  };
+  const updateBookQuantity = async (orderId) => {
+    try {
+        await axiosSecure.patch(`orders/quantity/${orderId}`);
+        refetchBook();
+    }
+    catch {
+      console.error("Failed to update quantity");
+    }
+  }
+  const approveOrder = async (orderId) => {
+    const status = { status: "Đã duyệt" };
+    try{
+      const response = await axiosSecure.patch(`orders/${orderId}`, status);
+      if (response.status === 200){
+        Swal.fire({
+          title: "Cập nhật trạng thái đơn hàng",
+          text: "Đã duyệt đơn hàng.",
+          icon: "success",
+        });
+        fetchData();
+        updateBookQuantity(orderId);
+        await refetchBook();
+      }
+    }
+    catch {
+      Swal.fire({
+        title: "Cập nhật trạng thái đơn hàng",
+        text: "Lỗi cập nhật!!!",
+        icon: "error",
+      });
+    }
+  }
+
+
+  
+  const handelCancel = async (orderId) => {
+    Swal.fire({
+      title: 'Bạn xác nhận cập nhật trạng thái thanh toán?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Có',
+      cancelButtonText: 'Không'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        cancelOrder(orderId);
+      }
+    });
+  };
+  const cancelOrder = async (orderId) => {
+    const status = { status: "Đã hủy" };
+    try{
+      const response = await axiosSecure.patch(`orders/${orderId}`, status);
+      if (response.status === 200){
+        Swal.fire({
+          title: "Cập nhật trạng thái đơn hàng",
+          text: "Đã hủy đơn hàng.",
+          icon: "success",
+        });
+        fetchData();
+      }
+    }
+    catch {
+      Swal.fire({
+        title: "Cập nhật trạng thái đơn hàng",
+        text: "Lỗi cập nhật!!!",
+        icon: "error",
+      });
+    }
+  }
 
   const handleDeleteOrder = async (orderId) => {
     Swal.fire({
@@ -48,7 +192,7 @@ const ManageOrders = () => {
       if (result.isConfirmed) {
         try {
           await axiosSecure.delete(`/orders/${orderId}`);
-          setOrders(orders.filter(order => order._id !== orderId));
+          fetchData();
           Swal.fire({
             title: "Deleted!",
             text: "Đã xóa đơn hàng thành công!",
@@ -79,12 +223,6 @@ const ManageOrders = () => {
   const indexOfLastItem = currentPage * items_Per_Page;
   const indexOfFirstItem = indexOfLastItem - items_Per_Page;
   const currentItems = orders.slice(indexOfFirstItem, indexOfLastItem);
-  
-
-  console.log(currentItems);
-  // delete item
-
-
   return (
     <div className="w-full md:w-[870px] mx-auto px-4 ">
       <div className="flex justify-between mx-4 my-4">
@@ -121,10 +259,36 @@ const ManageOrders = () => {
                   <td>{item._id}</td>
                   <td>{formatPrice(item.totalPrice)}đ</td>
                   <td className="text-center">
-                    {item.status === "Đã duyệt" ? "Đã duyệt" : "Chờ duyệt"}
+                    {item.status === "Chờ duyệt" ? (
+                       <div>
+                       <span
+                         className="cursor-pointer mr-2"
+                         onClick={() => handelApprove(item)}
+                       >
+                         Duyệt
+                       </span>
+                       <span
+                         className="cursor-pointer"
+                         onClick={() => handelCancel(item._id)}
+                       >
+                         Hủy
+                       </span>
+                     </div>
+                    ) : (
+                      item.status
+                    )}
                   </td>
                   <td className="text-center">
-                    {item.status === "Đã thanh toán" ? "Đã thanh toán" : "Chờ thanh toán"}
+                    {item.paymentStatus === "Chờ thanh toán" ? (
+                      <span
+                        className="text-primary cursor-pointer"
+                        onClick={() => handelPayment(item._id)}
+                      >
+                        Chờ thanh toán
+                      </span>
+                    ) : (
+                      item.paymentStatus
+                    )}
                   </td>
                   <td>
                     <button
@@ -157,6 +321,7 @@ const ManageOrders = () => {
             <p><strong>Mã vận đơn:</strong> {selectedOrder._id}</p>
             <p><strong>Tổng tiền:</strong> {formatPrice(selectedOrder.totalPrice)}đ</p>
             <p ><strong>Trạng thái:</strong> {selectedOrder.status}</p>
+            <p ><strong>Thanh toán:</strong> {selectedOrder.paymentStatus}</p>
             <h3 className="text-lg font-bold my-4">Chi tiết đơn hàng:</h3>
             <div className="overflow-x-auto max-h-72">
               <table className="table">
@@ -213,4 +378,4 @@ const ManageOrders = () => {
   )
 }
 
-export default ManageOrders
+export default ManageOrders;
