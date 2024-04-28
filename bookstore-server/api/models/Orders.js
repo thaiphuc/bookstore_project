@@ -12,6 +12,10 @@ const orderSchema = new Schema({
     },
   items: [
     {
+      id: {
+        type: String,
+        required: true
+      },
       name: {
         type: String,
         required: true
@@ -29,9 +33,13 @@ const orderSchema = new Schema({
       }
     }
   ],
-  status: {
+  paymentStatus: {
     type: String,
     enum: ['Đã thanh toán', 'Chờ thanh toán'],
+  },
+  status: {
+    type: String,
+    enum: ['Chờ duyệt', 'Đã duyệt', 'Đã hủy'],
   },
   totalPrice: {
     type: Number,
@@ -47,11 +55,7 @@ const orderSchema = new Schema({
   }
 });
 
-// // Method để cập nhật tổng giá trị đơn hàng
-// orderSchema.methods.updateTotalPrice = function() {
-//   this.totalPrice = this.items.reduce((total, item) => total + item.price * item.quantity, 0);
-//   return this.totalPrice;
-// };
+
 
 const Order = mongoose.model('Order', orderSchema);
 

@@ -13,11 +13,11 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
     const [cart, refetch] = useCart();
     const [paymentMethod, setPaymentMethod] = useState('COD'); // Default payment method to COD
 
-
     const handlePaymentMethodChange = (event) => {
         setPaymentMethod(event.target.value);
     };
     const products = cart.map(item => ({
+        id: item.bookItemId,
         name: item.name,
         quantity: item.quantity,
         price: item.price,
@@ -26,13 +26,6 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
     const formatPrice = (price) => {
         return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
       };
-
-    // useEffect(() => {
-    //     if ( orderTotal !== 'number' || orderTotal < 1) {
-    //         console.error('Invalid price value. Must be a number greater than or equal to 1.');
-    //         return;
-    //     }
-    // }, [orderTotal]);
 
     const handleCheckout = async() => {
         event.preventDefault();
@@ -59,7 +52,8 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
             userEmail: info.email,
             userName: info.name,
             items: products,
-            status: "Đã thanh toán",
+            paymentStatus: "Đã thanh toán",
+            status: "Đã duyệt",
             totalPrice: orderTotal
         };
         try {
@@ -92,7 +86,8 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
             userEmail: info.email,
             userName: info.name,
             items: products,
-            status: "Chờ thanh toán",
+            paymentStatus: "Chờ thanh toán",
+            status: "Chờ duyệt",
             totalPrice: orderTotal
         };
         try {
@@ -203,7 +198,7 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
                 </div>
                 <div>
                     <button className="button-checkout font-bold bg-mainBG text-white" onClick={handleCheckout}>
-                        Thanh toán
+                        Đặt hàng
                     </button>
                 </div>
             </form>

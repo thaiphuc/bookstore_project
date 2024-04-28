@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import useCart from "../../hooks/useCart";
+import useBook from "../../hooks/useBook";
 import { AuthContext } from "../../contexts/AuthProvider";
 import Swal from "sweetalert2";
 import { FaTrash } from "react-icons/fa";
@@ -12,6 +13,7 @@ const CartPage = () => {
   const { isDarkMode } = useTheme();
   const { user } = useContext(AuthContext);
   const [cart, refetch] = useCart();
+  const [bookList, , refetchBook] = useBook();
   const [info, setUser] = useState();
   const [totalItems, setTotalItems] = useState(0); // State to hold total quantity of items
 
@@ -31,23 +33,39 @@ const CartPage = () => {
 
   // Handle quantity increase
   const handleIncrease = async (item) => {
-    try {
-      const response = await fetch(`http://localhost:5000/carts/${item._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ quantity: item.quantity + 1 }),
-      });
-
-      if (response.ok) {
-        await refetch();
-      } else {
-        console.error("Failed to update quantity");
+    const product = bookList.find(book => book._id === item.bookItemId);
+    // console.log(product);
+    // console.log(item);
+    if (product.quantity > item.quantity)
+    {
+      try {
+        const response = await fetch(`http://localhost:5000/carts/${item._id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ quantity: item.quantity + 1 }),
+        });
+  
+        if (response.ok) {
+          await refetch();
+        } else {
+          console.error("Failed to update quantity");
+        }
+      } catch (error) {
+        console.error("Error updating quantity:", error);
       }
-    } catch (error) {
-      console.error("Error updating quantity:", error);
     }
+    else {
+      Swal.fire({
+        position: "center",
+        title: `Không thể tăng thêm!!!`,
+        icon: "error",
+        text: `Số lượng sách "${product.name}" chỉ còn "${product.quantity} quyển". `,
+        showConfirmButton: true,
+      });
+    }
+    
   };
 
   const fetchUserInfo = async () => {
