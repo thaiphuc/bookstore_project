@@ -164,6 +164,7 @@ const Order = () => {
             <p><strong>Mã vận đơn:</strong> {selectedOrder._id}</p>
             <p><strong>Tổng tiền:</strong> {formatPrice(selectedOrder.totalPrice)}đ</p>
             <p ><strong>Trạng thái:</strong> {selectedOrder.status}</p>
+            <p ><strong>Thanh toán:</strong> {selectedOrder.paymentStatus}</p>
             <h3 className="text-lg font-bold my-4">Chi tiết đơn hàng:</h3>
             <div className="overflow-x-auto max-h-72">
               <table className="table">
