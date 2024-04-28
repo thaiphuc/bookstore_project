@@ -13,4 +13,6 @@ router.get("/", verifyToken, orderController.getAllOrders);
 
 router.delete("/:id", verifyToken, verifyAdmin, orderController.deleteOrder);
 
+router.patch("/:id", verifyToken, orderController.updateStatus);
+
 module.exports = router;

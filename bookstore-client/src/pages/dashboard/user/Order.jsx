@@ -11,27 +11,57 @@ const Order = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orderProducts, setOrderProducts] = useState([]);
   const axiosSecure = useAxiosSecure();
-const cancelOrder = () => {
-  Swal.fire({
-    title: 'Bạn có muốn hủy đơn hàng không?',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Có',
-    cancelButtonText: 'Không'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      // Xử lý hủy đơn hàng ở đây, có thể gọi một hàm xử lý việc hủy đơn hàng
-      // Ví dụ: handleCancelOrder(selectedOrder._id);
-      Swal.fire(
-        'Đã hủy!',
-        'Đơn hàng của bạn đã được hủy.',
-        'success'
-      );
+
+  const cancelOrder = async (order) => {
+    Swal.fire({
+      title: 'Bạn có muốn hủy đơn hàng không?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Có',
+      cancelButtonText: 'Không'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (order.status === "Đã duyệt")
+        {
+          Swal.fire({
+            title: "Hủy đơn",
+            text: "Đơn đã được duyệt không thể hủy đơn hàng!!!",
+            icon: "error",
+          });
+        }
+        if (order.status === "Đã hủy")
+        {
+          Swal.fire({
+            title: "Hủy đơn",
+            text: "Đơn đã được hủy trước đó!!!",
+            icon: "error",
+          });
+        }
+        if (order.status === "Chờ duyệt")
+        {
+          updateStatus(order._id);
+        }
+      }
+    });
+  };
+
+  const updateStatus = async (id) => {
+    const status = { status: "Đã hủy" };
+    try{
+      const response = await axiosSecure.patch(`/orders/${id}`, status);
+      if (response.status === 200){
+        Swal.fire({
+          title: "Hủy đơn",
+          text: "Đã hủy đơn hàng!",
+          icon: "success",
+        });
+        fetchData();
+      }
     }
-  });
-};
+    catch {}   
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,7 +73,7 @@ const cancelOrder = () => {
       }
     };
     fetchData();
-  }, [axiosSecure, user.email]);
+  },);
 
   const formatPrice = (price) => {
     return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -85,6 +115,7 @@ const cancelOrder = () => {
                 <th>Mã vận đơn</th>
                 <th>Tổng tiền</th>
                 <th>Trạng thái</th>
+                <th>Thanh toán</th>
                 <th>Xem</th>
                 <th>Thao tác</th>
               </tr>
@@ -97,6 +128,7 @@ const cancelOrder = () => {
                   <td className="font-medium">{item._id}</td>
                   <td>{formatPrice(item.totalPrice)}đ</td>
                   <td className="font-medium">{item.status}</td>
+                  <td className="font-medium">{item.paymentStatus}</td>
                   <td>
                     <button
                       className="btn bg-orange-500 btn-xs"
@@ -106,7 +138,9 @@ const cancelOrder = () => {
                     </button>
                   </td>
                   <td>
-                    <button className='text-red hover:text-gray-500 font-medium' onClick={cancelOrder}>
+                    <button 
+                      className='text-red hover:text-gray-500 font-medium' 
+                      onClick={() => cancelOrder(item)}>
                       Hủy đơn hàng
                     </button>
 

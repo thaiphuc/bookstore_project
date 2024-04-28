@@ -39,7 +39,7 @@ const orderSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ['Chờ duyệt đơn', 'Đã duyệt', 'Đã hủy'],
+    enum: ['Chờ duyệt', 'Đã duyệt', 'Đã hủy'],
   },
   totalPrice: {
     type: Number,
