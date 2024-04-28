@@ -11,8 +11,15 @@ router.post("/", verifyToken, orderController.postOrder);
 
 router.get("/", verifyToken, orderController.getAllOrders);
 
+// router.get("/:id", verifyToken, orderController.getSingleOrder);
+
 router.delete("/:id", verifyToken, verifyAdmin, orderController.deleteOrder);
 
+router.patch("/quantity/:id", verifyToken, orderController.updateQuantityBook);
+
 router.patch("/:id", verifyToken, orderController.updateStatus);
+
+
+
 
 module.exports = router;
