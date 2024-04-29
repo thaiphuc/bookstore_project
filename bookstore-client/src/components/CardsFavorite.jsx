@@ -8,7 +8,7 @@ import useCart from "../hooks/useCart";
 import axios from 'axios';
 
 const CardsFavorite = ({ item }) => {
-    const { name, image, price, description, _id } = item;
+    const { name, image, price, description, quantity, _id } = item;
     const maxWords = 20;
 
     const shortenDescription = (description, maxWords) => {
@@ -69,52 +69,63 @@ const CardsFavorite = ({ item }) => {
     };
 
     // add to cart handler
-    const handleAddToCart = () => {
-        // console.log(item);
-        if (user && user.email) {
-            const cartItem = { menuItemId: _id, name, quantity: 1, image, price, email: user.email }
+    const handleAddToCart = (item) => {
+        if (item.quantity < 1)
+        {
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'Không thể thêm vào giỏ hàng!!',
+            text: "Sản phẩm đã hết hàng, quý khách vui lòng chọn sản phẩm khác. Xin cảm ơn quý khách!",
+            showConfirmButton: true,
+          })
+        }
+        else {
+            if (user && user.email) {
+                const cartItem = { bookItemId: _id, name, quantity: 1, image, price, email: user.email }
 
-            axios.post('http://localhost:5000/carts', cartItem)
-                .then((response) => {
-                    console.log(response);
-                    if (response) {
-                        refetch(); // refetch cart
+                axios.post('http://localhost:5000/carts', cartItem)
+                    .then((response) => {
+                        console.log(response);
+                        if (response) {
+                            refetch(); // refetch cart
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Đã thêm vào giỏ hàng!',
+                                showConfirmButton: false,
+                                timer: 1000
+                            })
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error.response.data.message);
+                        const errorMessage = "Sản phẩm đã được thêm vào giỏ hàng";
                         Swal.fire({
                             position: 'center',
-                            icon: 'success',
-                            title: 'Đã thêm vào giỏ hàng!',
+                            icon: 'warning',
+                            title: `${errorMessage}`,
                             showConfirmButton: false,
                             timer: 1000
                         })
+                    });
+            }
+            else {
+                Swal.fire({
+                    title: 'Vui lòng đăng nhập để mua hàng!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Đăng nhập ngay!',
+                    cancelButtonText: 'Hủy'
+
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        navigate('/login', { state: { from: location } })
                     }
                 })
-                .catch((error) => {
-                    console.log(error.response.data.message);
-                    const errorMessage = "Sản phẩm đã được thêm vào giỏ hàng";
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'warning',
-                        title: `${errorMessage}`,
-                        showConfirmButton: false,
-                        timer: 1000
-                    })
-                });
-        }
-        else {
-            Swal.fire({
-                title: 'Vui lòng đăng nhập để mua hàng!',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Đăng nhập ngay!',
-                cancelButtonText: 'Hủy'
-
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    navigate('/login', { state: { from: location } })
-                }
-            })
+            }
         }
     }
 

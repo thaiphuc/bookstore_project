@@ -114,50 +114,62 @@ const Cards = ({ item }) => {
   };
 
   const handleAddToCart = () => {
-    if (user && user.email) {
-      const cartItem = { bookItemId: _id, name, quantity: 1, image, price, email: user.email }
-
-      axios.post('http://localhost:5000/carts', cartItem)
-        .then((response) => {
-          console.log(response);
-          if (response) {
-            refetch();
+    if (item.quantity < 1)
+    {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Không thể thêm vào giỏ hàng!!',
+        text: "Sản phẩm đã hết hàng, quý khách vui lòng chọn sản phẩm khác. Xin cảm ơn quý khách!",
+        showConfirmButton: true,
+      })
+    }
+    else{
+      if (user && user.email) {
+        const cartItem = { bookItemId: _id, name, quantity: 1, image, price, email: user.email }
+  
+        axios.post('http://localhost:5000/carts', cartItem)
+          .then((response) => {
+            console.log(response);
+            if (response) {
+              refetch();
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Đã thêm vào giỏ hàng',
+                showConfirmButton: false,
+                timer: 1500
+              })
+            }
+          })
+          .catch((error) => {
+            console.log(error.response.data.message);
+            const errorMessage = "Sản phẩm đã được thêm vào giỏ hàng";
             Swal.fire({
               position: 'center',
-              icon: 'success',
-              title: 'Đã thêm vào giỏ hàng',
+              icon: 'warning',
+              title: `${errorMessage}`,
               showConfirmButton: false,
               timer: 1500
             })
+          });
+      }
+      else {
+        Swal.fire({
+          title: 'Vui lòng đăng nhập để mua hàng!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Đăng nhập ngay!',
+          cancelButtonText: 'Hủy'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate('/login', { state: { from: location } })
           }
         })
-        .catch((error) => {
-          console.log(error.response.data.message);
-          const errorMessage = "Sản phẩm đã được thêm vào giỏ hàng";
-          Swal.fire({
-            position: 'center',
-            icon: 'warning',
-            title: `${errorMessage}`,
-            showConfirmButton: false,
-            timer: 1500
-          })
-        });
-    }
-    else {
-      Swal.fire({
-        title: 'Vui lòng đăng nhập để mua hàng!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Đăng nhập ngay!',
-        cancelButtonText: 'Hủy'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate('/login', { state: { from: location } })
-        }
-      })
-    }
+      }
+    } 
   }
 
   return (
