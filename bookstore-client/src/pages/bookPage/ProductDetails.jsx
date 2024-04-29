@@ -276,55 +276,68 @@ const ProductDetails = () => {
     };
 
     const handleAddToCart = () => {
-        if (user && user.email && book) { // Giả sử `user` được quản lý ở đâu đó trong context hoặc state
-            const cartItem = {
-                bookItemId: book._id,
-                name: book.name,
-                quantity: 1,
-                image: book.image,
-                price: book.price,
-                email: user.email
-            }
+        if (book.quantity < 1)
+        {
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'Không thể thêm vào giỏ hàng!!',
+            text: "Sản phẩm đã hết hàng, quý khách vui lòng chọn sản phẩm khác. Xin cảm ơn quý khách!",
+            showConfirmButton: true,
+          })
+        }
+        else{
 
-            axios.post('http://localhost:5000/carts', cartItem)
-                .then((response) => {
-                    console.log(response);
-                    if (response.data) {
-                        // refetch cart logic here
+            if (user && user.email && book) { // Giả sử `user` được quản lý ở đâu đó trong context hoặc state
+                const cartItem = {
+                    bookItemId: book._id,
+                    name: book.name,
+                    quantity: 1,
+                    image: book.image,
+                    price: book.price,
+                    email: user.email
+                }
+    
+                axios.post('http://localhost:5000/carts', cartItem)
+                    .then((response) => {
+                        console.log(response);
+                        if (response.data) {
+                            // refetch cart logic here
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Đã thêm sách vào giỏ hàng',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error.response.data.message);
+                        const errorMessage = error.response.data.message;
                         Swal.fire({
                             position: 'center',
-                            icon: 'success',
-                            title: 'Đã thêm sách vào giỏ hàng',
+                            icon: 'error',
+                            title: `${errorMessage}`,
                             showConfirmButton: false,
                             timer: 1500
                         })
+                    });
+            }
+            else {
+                Swal.fire({
+                    title: 'Vui lòng đăng nhập',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Đăng nhập ngay!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        navigate('/login', { state: { from: location } })
                     }
                 })
-                .catch((error) => {
-                    console.log(error.response.data.message);
-                    const errorMessage = error.response.data.message;
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'error',
-                        title: `${errorMessage}`,
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-                });
-        }
-        else {
-            Swal.fire({
-                title: 'Vui lòng đăng nhập',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Đăng nhập ngay!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    navigate('/login', { state: { from: location } })
-                }
-            })
+            }
         }
     }
     // Rút gọn tên tác giả nếu quá dài
