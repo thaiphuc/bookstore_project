@@ -6,6 +6,8 @@ import Swal from "sweetalert2";
 import { format } from 'date-fns';
 import { FaEye } from "react-icons/fa";
 import useBook from "../../../hooks/useBook";
+import { FaCheck } from 'react-icons/fa';
+import { MdCancel } from 'react-icons/md';
 
 const ManageOrders = () => {
   const axiosSecure = useAxiosSecure();
@@ -224,13 +226,13 @@ const ManageOrders = () => {
   const indexOfFirstItem = indexOfLastItem - items_Per_Page;
   const currentItems = orders.slice(indexOfFirstItem, indexOfLastItem);
   return (
-    <div className="w-full md:w-[870px] mx-auto px-4 ">
+    <div className="w-full md:w-[1100px] mx-auto px-4 ">
       <div className="flex justify-between mx-4 my-4">
       <h2 className="text-2xl font-semibold my-4 ">
         Quản lý <span className="text-mainBG">Đơn hàng!
         </span>
       </h2>
-        <h2 className="text-2xl flex align-middle">Tổng số đơn hàng: {orders.length}</h2>
+        <h2 className="text-2xl flex title-status">Tổng số đơn hàng: {orders.length}</h2>
       </div>
       {/* book items table  */}
       <div>
@@ -260,20 +262,20 @@ const ManageOrders = () => {
                   <td>{formatPrice(item.totalPrice)}đ</td>
                   <td className="text-center">
                     {item.status === "Chờ duyệt" ? (
-                       <div>
-                       <span
-                         className="cursor-pointer mr-2"
-                         onClick={() => handelApprove(item)}
-                       >
-                         Duyệt
-                       </span>
-                       <span
-                         className="cursor-pointer"
-                         onClick={() => handelCancel(item._id)}
-                       >
-                         Hủy
-                       </span>
-                     </div>
+                      <div>
+                        <span
+                          className="cursor-pointer mr-2 icon" // Thêm lớp 'icon' vào đây
+                          onClick={() => handelApprove(item)}
+                        >
+                          <FaCheck style={{ color: 'green' }} />
+                        </span>
+                        <span
+                          className="cursor-pointer icon" // Thêm lớp 'icon' vào đây
+                          onClick={() => handelCancel(item._id)}
+                        >
+                          <MdCancel style={{ color: 'red' }} />
+                        </span>
+                      </div>
                     ) : (
                       item.status
                     )}

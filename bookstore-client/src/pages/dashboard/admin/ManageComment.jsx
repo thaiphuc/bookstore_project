@@ -86,12 +86,12 @@ const ManageComment = () => {
 
     return (
         <div>
-            <div className="flex justify-between mx-4 my-4">
+            <div className="flex  justify-between mx-4 my-4">
                 <h2 className="text-2xl font-semibold">Quản lý <span className="text-mainBG">Bình luận!</span></h2>
                 <h2 className="text-2xl mr-4">Số lượt bình luận: {comments.length}</h2>
             </div>
 
-            <div className="overflow-x-auto w-full">
+            <div className="overflow-x-auto  w-full">
                 <table className="table table-zebra w-full">
                     <thead className="bg-mainBG text-white">
                         <tr>

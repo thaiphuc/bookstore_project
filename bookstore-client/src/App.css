@@ -9,6 +9,10 @@ body{
 .primaryBG {
  background: #FCFCFC;
 }
+.icon {
+  font-size: 1.2em;
+  /* Kích thước biểu tượng */
+}
 
 .dark {
   background: black;
@@ -473,4 +477,8 @@ div.navbar.xl:px-24 {
   max-width: 400px;
   word-wrap: break-word;
   /* Đảm bảo các từ dài tự động xuống dòng */
+}
+.title-status{
+  display: flex;
+  align-items: center;
 }
