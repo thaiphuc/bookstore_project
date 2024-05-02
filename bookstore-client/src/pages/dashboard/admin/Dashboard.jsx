@@ -52,7 +52,6 @@ const Dashboard = () => {
       return res.data;
     },
   });
-console.log(chartData)
   // custom shape for the bar chart
   const getPath = (x, y, width, height) => {
     return `M${x},${y + height}C${x + width / 3},${y + height} ${x + width / 2
@@ -146,8 +145,8 @@ console.log(chartData)
 
       {/* bar & pie chart */}
       {/* <div className="mt-16 flex flex-col sm:flex-row"> */}
-        {/* bar chart */}
-        {/* <div className="sm:w-1/2 w-full">
+      {/* bar chart */}
+      {/* <div className="sm:w-1/2 w-full">
           <div style={{ width: "100%", height: 300 }}>
             <ResponsiveContainer>
               <AreaChart
@@ -174,8 +173,8 @@ console.log(chartData)
           </div>
         </div> */}
 
-        {/* pie chart */}
-        {/* <div className="sm:w-1/2 w-full">
+      {/* pie chart */}
+      {/* <div className="sm:w-1/2 w-full">
           <div style={{ width: '100%', height: 300 }}>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart width={400} height={400}>
@@ -223,7 +222,7 @@ console.log(chartData)
                   <td className="border border-gray-300 px-4 py-2 text-center">{data.quantity}</td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{formatPrice(data.revenue)}₫</td>
                 </tr>
-              ))} 
+              ))}
           </tbody>
         </table>
       </div>
