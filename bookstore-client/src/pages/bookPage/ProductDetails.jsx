@@ -74,7 +74,7 @@ const CommentSection = () => {
                                         className="mt-2 flex items-center text-mainBG hover:text-gray-500"
                                     >
                                         <FaReply style={{ fontSize: '1.2rem' }} />
-                                        <span className="ml-2 text-sm font-semibold">Phản hồi</span>
+                                        <span className="ml-2 text-sm font-semibold">Phản hồi  (3)</span>
                                     </button>
                                 )}
                                 {replyInputVisible && (
