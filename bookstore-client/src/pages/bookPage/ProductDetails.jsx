@@ -94,7 +94,27 @@ const CommentSection = () => {
                                         </div>
                                     </div>
                                 )}
+                                    {/* person reply */}
+                                <div key={comment._id} className="comment"> {/* Sử dụng _id làm key */}
+                                    <div className="avatar-details-container flex mb-2">
+                                        {comment.avatar && (
+                                            <div className="avatar-container w-24 rounded-full ring ring-mainBG ring-offset-base-100 ring-offset-2 flex items-center justify-center">
+                                                <img src={comment.avatar} alt="Avatar" />
+                                            </div>
+                                        )}
+                                        <div className="details ml-2">
+                                            <div className="user-info flex items-center">
+                                                <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>{comment.username}</span>
+                                                <span className="ml-1 text-sm italic text-gray-500">
+                                                    {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
+                                                </span>
+                                            </div>
+                                            <p className={`comment-text ${isDarkMode ? 'text-white' : 'text-black'}`}>{comment.comment}</p>
+                                
+                                        </div>
+                                    </div>
 
+                                </div>
                                 
                             </div>
                         </div>
