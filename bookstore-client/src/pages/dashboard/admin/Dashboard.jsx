@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
-import { FaBook, FaDollarSign, FaShoppingBag, FaUsers } from "react-icons/fa";
+import { FaBook, FaShoppingBag, FaUsers } from "react-icons/fa";
 import {
   BarChart,
   Bar,
@@ -28,16 +28,14 @@ const Dashboard = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const formatPrice = (price) => {
-    if (!price)
-    {
+    if (!price) {
       return '';
     }
-    else 
-    {
+    else {
       return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
   };
-  
+
   const { data: stats = {} } = useQuery({
     queryKey: ["admin-stats"],
     queryFn: async () => {
@@ -51,9 +49,11 @@ const Dashboard = () => {
     queryFn: async () => {
       const res = await axiosSecure.get("/order-stats");
       return res.data;
+      
     },
+    
   });
-
+console.log(chartData)
   // custom shape for the bar chart
   const getPath = (x, y, width, height) => {
     return `M${x},${y + height}C${x + width / 3},${y + height} ${x + width / 2
@@ -144,6 +144,7 @@ const Dashboard = () => {
         </div>
       </div>
 
+
       {/* bar & pie chart */}
       <div className="mt-16 flex flex-col sm:flex-row">
         {/* bar chart */}
@@ -199,6 +200,35 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      {/* revenue stats table */}
+      <div className="mt-8 mb-8">
+        <h3 className="text-xl font-semibold mb-4 text-center">Bảng thống kê doanh thu sách</h3>
+        <table className="w-full border-collapse border border-gray-300">
+          <thead>
+            <tr className="bg-mainBG">
+              <th className="border border-gray-300 px-4 py-2 text-white text-center">STT</th>
+              <th className="border border-gray-300 px-4 py-2 text-white text-center">Tên sách</th>
+              <th className="border border-gray-300 px-4 py-2 text-white text-center">Số lượng</th>
+              <th className="border border-gray-300 px-4 py-2 text-white text-center">Doanh thu</th>
+            </tr>
+          </thead>
+          <tbody>
+            {chartData
+              .slice() // create a copy of the original array
+              .sort((a, b) => b.revenue - a.revenue) // sort in descending order based on revenue
+              .map((data, index) => (
+                <tr key={index} className={(index % 2 === 0) ? "bg-gray-100" : ""}>
+                  <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
+                  <td className="border border-gray-300 px-4 py-2">{data.book}</td>
+                  {/* <td className="border border-gray-300 px-4 py-2">{data.book.length > 20 ? `${data.book.substring(0, 20)}...` : data.book}</td> */}
+                  <td className="border border-gray-300 px-4 py-2 text-center">{data.quantity}</td>
+                  <td className="border border-gray-300 px-4 py-2 text-center">{formatPrice(data.revenue * data.quantity)}₫</td>
+                </tr>
+              ))} 
+          </tbody>
+        </table>
+      </div>
+
     </div>
   );
 };
