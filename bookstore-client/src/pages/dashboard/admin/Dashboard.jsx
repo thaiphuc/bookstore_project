@@ -48,10 +48,9 @@ const Dashboard = () => {
     queryKey: ["order-stats"],
     queryFn: async () => {
       const res = await axiosSecure.get("/order-stats");
+      console.log(res.data);
       return res.data;
-      
     },
-    
   });
 console.log(chartData)
   // custom shape for the bar chart
@@ -146,9 +145,9 @@ console.log(chartData)
 
 
       {/* bar & pie chart */}
-      <div className="mt-16 flex flex-col sm:flex-row">
+      {/* <div className="mt-16 flex flex-col sm:flex-row"> */}
         {/* bar chart */}
-        <div className="sm:w-1/2 w-full">
+        {/* <div className="sm:w-1/2 w-full">
           <div style={{ width: "100%", height: 300 }}>
             <ResponsiveContainer>
               <AreaChart
@@ -173,10 +172,10 @@ console.log(chartData)
               </AreaChart>
             </ResponsiveContainer>
           </div>
-        </div>
+        </div> */}
 
         {/* pie chart */}
-        <div className="sm:w-1/2 w-full">
+        {/* <div className="sm:w-1/2 w-full">
           <div style={{ width: '100%', height: 300 }}>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart width={400} height={400}>
@@ -199,7 +198,7 @@ console.log(chartData)
             </ResponsiveContainer>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* revenue stats table */}
       <div className="mt-8 mb-8">
         <h3 className="text-xl font-semibold mb-4 text-center">Bảng thống kê doanh thu sách</h3>
@@ -222,7 +221,7 @@ console.log(chartData)
                   <td className="border border-gray-300 px-4 py-2">{data.book}</td>
                   {/* <td className="border border-gray-300 px-4 py-2">{data.book.length > 20 ? `${data.book.substring(0, 20)}...` : data.book}</td> */}
                   <td className="border border-gray-300 px-4 py-2 text-center">{data.quantity}</td>
-                  <td className="border border-gray-300 px-4 py-2 text-center">{formatPrice(data.revenue * data.quantity)}₫</td>
+                  <td className="border border-gray-300 px-4 py-2 text-center">{formatPrice(data.revenue)}₫</td>
                 </tr>
               ))} 
           </tbody>

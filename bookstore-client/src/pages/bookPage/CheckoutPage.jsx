@@ -11,8 +11,8 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
     const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
     const [cart, refetch] = useCart();
-    const [paymentMethod, setPaymentMethod] = useState('COD'); // Default payment method to COD
 
+    const [paymentMethod, setPaymentMethod] = useState('COD'); // Default payment method to COD
     const handlePaymentMethodChange = (event) => {
         setPaymentMethod(event.target.value);
     };
@@ -20,7 +20,7 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
         id: item.bookItemId,
         name: item.name,
         quantity: item.quantity,
-        price: item.price,
+        price: item.price*item.quantity,
         image: item.image
       }));
     const formatPrice = (price) => {
