@@ -60,7 +60,7 @@ const CommentSection = () => {
                                     <img src={comment.avatar} alt="Avatar" />
                                 </div>
                             )}
-                            <div className="details ml-2">
+                            <div className="details ml-2 ">
                                 <div className="user-info flex items-center">
                                     <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>{comment.username}</span>
                                     <span className="ml-1 text-sm italic text-gray-500">
@@ -94,7 +94,7 @@ const CommentSection = () => {
                                         </div>
                                     </div>
                                 )}
-                                    {/* person reply */}
+                                {/* person reply */}
                                 <div key={comment._id} className="comment"> {/* Sử dụng _id làm key */}
                                     <div className="avatar-details-container flex mb-2">
                                         {comment.avatar && (
@@ -110,18 +110,19 @@ const CommentSection = () => {
                                                     {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
                                                 </span>
                                             </div>
-                                            <p className={`comment-text ${isDarkMode ? 'text-white' : 'text-black'}`}>{comment.comment}</p>
-                                
+                                            <p className={`comment-text  ${isDarkMode ? 'text-white' : 'text-black'}`}>{comment.comment}</p>
+
                                         </div>
                                     </div>
 
-                                </div>
-                                
+                                </div>   
                             </div>
                         </div>
-
+                              
                     </div>
+                    
                 ))}
+                
                 <div className="flex justify-center">
                     {/* Show the 'Show more' button if comments exceed MAX_LINES */}
                     {!isExpanded && commentCount > MAX_LINES && (
@@ -442,10 +443,10 @@ const ProductDetails = () => {
             <RelatedBook category={book.category} />
             {/* Phần đánh giá khách hàng */}
             <div className="mt-8 flex flex-col md:flex-row">
-                <div className="md:w-1/2">
+                <div className="md:w-2/3">
                     <CommentSection />
                 </div>
-                <div className="md:w-1/2">
+                <div className="md:w-full">
                     <CommentInput />
                 </div>
             </div>
