@@ -105,6 +105,7 @@ const CommentSection = () => {
                                         <div className="details ml-2">
                                             <div className="user-info flex items-center">
                                                 <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>{comment.username}</span>
+                                                <span className="ml-1 text-lg italic text-red font-bold">- Quản trị viên</span>
                                                 <span className="ml-1 text-sm italic text-gray-500">
                                                     {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
                                                 </span>
