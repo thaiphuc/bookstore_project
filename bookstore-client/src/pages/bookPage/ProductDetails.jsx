@@ -443,7 +443,7 @@ const ProductDetails = () => {
             <RelatedBook category={book.category} />
             {/* Phần đánh giá khách hàng */}
             <div className="mt-8 flex flex-col md:flex-row">
-                <div className="md:w-2/3">
+                <div className="md:w-2/3 ">
                     <CommentSection />
                 </div>
                 <div className="md:w-full">
