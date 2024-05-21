@@ -67,7 +67,7 @@ const UpdatePassword = () => {
             <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                 <form className="card-body" onSubmit={handleSubmit(onSubmit)}>
                     <div className="form-control">
-                        <h2 className='text-lg font-bold text-center'>Đổi mật khẩu</h2>
+                        <h2 className='text-lg font-bold text-center text-black '>Đổi mật khẩu</h2>
                         <div className='flex mt-5'>
                             <button
                                 className={`btn bg-mainBG w-1/3 mr-5 text-white ${otpSent ? 'pointer-events-none' : ''}`}
