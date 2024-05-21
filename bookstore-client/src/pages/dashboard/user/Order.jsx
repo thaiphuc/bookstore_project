@@ -4,10 +4,12 @@ import { FaEye } from "react-icons/fa";
 import { AuthContext } from "../../../contexts/AuthProvider";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from 'sweetalert2';
+import { useTheme } from "../../../hooks/ThemeContext"; 
 
 const Order = () => {
+  const { isDarkMode } = useTheme();
   const { user } = useContext(AuthContext);
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState([]); 
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orderProducts, setOrderProducts] = useState([]);
   const axiosSecure = useAxiosSecure();
@@ -100,7 +102,7 @@ const Order = () => {
   return (
     <div className="max-w-screen-2xl container mx-auto xl:px-24 px-4">
       {/* Banner */}
-      <div className="bg-gradient-to-r from-0% from-[#FAFAFA] to-[#FCFCFC] to-100%">
+      <div className={`bg-gradient-to-r from-0% from-[#FAFAFA] to-[#FCFCFC] to-100% ${isDarkMode ? "dark" : ""}`}>
         <div className="py-28 flex flex-col items-center justify-center">
           <div className=" text-center px-4 space-y-7">
             <h2 className="md:text-5xl text-4xl font-bold md:leading-snug leading-snug">
