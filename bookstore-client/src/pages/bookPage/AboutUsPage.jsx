@@ -8,7 +8,7 @@ const AboutUsPage = () => {
             id: 1, title: "Thái Hoàng Phúc- Front End Developer", des: "Transforming Ideas into Captivating Digital Destinations: Your Vision, Our Expertise.", img: "/images/home/avatar/avatarphuc.jpg"
         },
         {
-            id: 2, title: "Phạm Nguyễn Phú Quí - Back End Developer", des: "Architecting Tomorrow's Solutions, One Line of Code at a Time.", img:"/images/home/avatar/avatarphuc.jpg"
+            id: 2, title: "Phạm Nguyễn Phú Quí - Back End Developer", des: "Architecting Tomorrow's Solutions, One Line of Code at a Time.", img:"/images/home/avatar/avatarqui.jpg"
         },
     ]
     return (
