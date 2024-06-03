@@ -1,5 +1,9 @@
 {
   "projects": {
-    "default": "bookstore-client"
-  }
+    "default": "bookstore-client-deploy",
+    "bookstore": "bookstore-client-deploy"
+  },
+  "targets": {},
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
 }
