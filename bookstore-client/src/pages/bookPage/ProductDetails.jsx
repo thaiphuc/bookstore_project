@@ -95,7 +95,7 @@ const CommentSection = () => {
                                     </div>
                                 )}
                                 {/* person reply */}
-                                <div key={comment._id} className="comment"> {/* Sử dụng _id làm key */}
+                                {/* <div key={comment._id} className="comment"> 
                                     <div className="avatar-details-container flex mb-2">
                                         {comment.avatar && (
                                             <div className="avatar-container w-24 rounded-full ring ring-mainBG ring-offset-base-100 ring-offset-2 flex items-center justify-center">
@@ -115,7 +115,7 @@ const CommentSection = () => {
                                         </div>
                                     </div>
 
-                                </div>   
+                                </div>    */}
                             </div>
                         </div>
                               
