@@ -48,7 +48,7 @@ const Users = () => {
             console.log(res)
             Swal.fire({
               title: "Deleted!",
-              text: "Your file has been deleted.",
+              text: "Xóa người dùng thành công!",
               icon: "success"
             });
           })
