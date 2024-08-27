@@ -8,7 +8,7 @@ import { FaUpload } from "react-icons/fa";
 
 const UpdateBook = () => {
   const item = useLoaderData();
-  const { register, handleSubmit, reset} = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
@@ -29,8 +29,7 @@ const UpdateBook = () => {
 
 
   const onSubmit = async (data) => {
-    if (data.publishYear < 0)
-    {
+    if (data.publishYear < 0) {
       setPublishYearError("Năm xuất bản không âm!");
       return;
     }
@@ -55,7 +54,7 @@ const UpdateBook = () => {
 
     const authorArray = data.author.split(",").map((item) => item.trim());
     const publisherArray = data.publisher.split(",").map((item) => item.trim());
-      data.quantity = quantity;
+    data.quantity = quantity;
     const bookItem = {
       name: data?.name,
       description: data.description,
@@ -248,7 +247,13 @@ const UpdateBook = () => {
               defaultValue={item.description}
             ></textarea>
           </div>
-
+          <div className="form-control w-full my-6">
+            <input
+              {...register("image", { required: true })}
+              type="file"
+              className="file-input w-full max-w-xs"
+            />
+          </div>
           <button className="btn bg-mainBG text-white px-6 mt-8">
             Cập nhật <FaUpload></FaUpload>
           </button>

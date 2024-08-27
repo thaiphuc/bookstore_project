@@ -81,15 +81,15 @@ const CommentSection = () => {
                                     <div>
                                         <textarea
                                             type="text"
-                                            placeholder={ 'Nhập phản hồi...'}
+                                            placeholder={'Nhập phản hồi...'}
                                             className={`mt-3 input-field ${isDarkMode ? 'dark' : ''}`}
                                             style={{ width: '100%', height: '50px', border: '2px solid', marginRight: '10px', padding: '10px' }}
                                         />
                                         <div className="flex justify-end">
                                             <div className="flex items-center mr-4">
                                             </div>
-                                            <button  className="bg-mainBG hover:bg-gray-300 text-white font-bold py-2 px-4 rounded">
-                                                Gửi 
+                                            <button className="bg-mainBG hover:bg-gray-300 text-white font-bold py-2 px-4 rounded">
+                                                Gửi
                                             </button>
                                         </div>
                                     </div>
@@ -118,11 +118,11 @@ const CommentSection = () => {
                                 </div>    */}
                             </div>
                         </div>
-                              
+
                     </div>
-                    
+
                 ))}
-                
+
                 <div className="flex justify-center">
                     {/* Show the 'Show more' button if comments exceed MAX_LINES */}
                     {!isExpanded && commentCount > MAX_LINES && (
@@ -298,17 +298,16 @@ const ProductDetails = () => {
     };
 
     const handleAddToCart = () => {
-        if (book.quantity < 1)
-        {
-          Swal.fire({
-            position: 'center',
-            icon: 'error',
-            title: 'Không thể thêm vào giỏ hàng!!',
-            text: "Sản phẩm đã hết hàng, quý khách vui lòng chọn sản phẩm khác. Xin cảm ơn quý khách!",
-            showConfirmButton: true,
-          })
+        if (book.quantity < 1) {
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Không thể thêm vào giỏ hàng!!',
+                text: "Sản phẩm đã hết hàng, quý khách vui lòng chọn sản phẩm khác. Xin cảm ơn quý khách!",
+                showConfirmButton: true,
+            })
         }
-        else{
+        else {
 
             if (user && user.email && book) { // Giả sử `user` được quản lý ở đâu đó trong context hoặc state
                 const cartItem = {
@@ -319,7 +318,7 @@ const ProductDetails = () => {
                     price: book.price,
                     email: user.email
                 }
-    
+
                 axios.post('http://localhost:5000/carts', cartItem)
                     .then((response) => {
                         console.log(response);
@@ -397,8 +396,9 @@ const ProductDetails = () => {
                             <span className="font-bold">Lượt thích:</span> 12,3k người
                         </p>
                         <p className={`mb-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}>
-                            <span className="font-bold">Giá sản phẩm:</span> {book.price} <span className="text-xl font-bold text-red">₫</span>
+                            <span className="font-bold">Giá sản phẩm:</span> {book.price.toLocaleString('vi-VN')} <span className="text-xl font-bold text-red">₫</span>
                         </p>
+
                         <p className={`text-lg ${isDarkMode ? 'text-white' : 'text-black'}`} style={{ textAlign: 'justify' }}>
                             <span className="font-bold">Mô tả:</span> {book.description ? book.description : "Không có mô tả"}
                         </p>
