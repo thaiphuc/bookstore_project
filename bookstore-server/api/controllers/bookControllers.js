@@ -68,13 +68,13 @@ const singleBookItem = async (req, res) => {
 const updateBookItem = async (req, res) => {
   const bookId = req.params.id;
   console.log(bookId);
-  const { _id, name, description, category, author, publisher, price, quantity, publishYear, createdAt } =
+  const { _id, name, description, category, author, publisher, price, quantity, publishYear, image, createdAt } =
     req.body;
   // console.log(req.body)
   try {
     const updatedBook = await Book.findByIdAndUpdate(
       bookId,
-      { name, description, category, author, publisher, price, quantity, publishYear },
+      { name, description, category, author, publisher, price, quantity, publishYear, image },
       { new: true, runValidators: true }
     );
 

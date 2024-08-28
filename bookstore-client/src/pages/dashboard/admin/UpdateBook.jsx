@@ -8,7 +8,7 @@ import { FaUpload } from "react-icons/fa";
 
 const UpdateBook = () => {
   const item = useLoaderData();
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset} = useForm();
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
@@ -16,6 +16,9 @@ const UpdateBook = () => {
   const [publishYearError, setPublishYearError] = useState("");
   const [priceError, setPriceError] = useState("");
   const [negativePriceError, setNegativePriceError] = useState("");
+
+  const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+  const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
   const handleIncrease = () => {
     setQuantity(quantity + 1);
@@ -29,7 +32,8 @@ const UpdateBook = () => {
 
 
   const onSubmit = async (data) => {
-    if (data.publishYear < 0) {
+    if (data.publishYear < 0)
+    {
       setPublishYearError("Năm xuất bản không âm!");
       return;
     }
@@ -51,10 +55,25 @@ const UpdateBook = () => {
       return;
     }
 
+    let imageURL = item.image;
 
+
+    if (data.image && data.image.length > 0) {
+        const imageFile = { image: data.image[0] };
+        const hostingImg = await axiosPublic.post(image_hosting_api, imageFile, {
+            headers: {
+                "content-type": "multipart/form-data",
+            },
+        });
+
+        if (hostingImg.data.success) {
+            imageURL = hostingImg.data.data.display_url; 
+        }
+    }
     const authorArray = data.author.split(",").map((item) => item.trim());
     const publisherArray = data.publisher.split(",").map((item) => item.trim());
     data.quantity = quantity;
+
     const bookItem = {
       name: data?.name,
       description: data.description,
@@ -64,6 +83,7 @@ const UpdateBook = () => {
       publishYear: data.publishYear,
       price: data.price,
       quantity: data.quantity,
+      image: imageURL
     };
 
 
@@ -249,11 +269,12 @@ const UpdateBook = () => {
           </div>
           <div className="form-control w-full my-6">
             <input
-              {...register("image", { required: true })}
+              {...register("image", { required: false })}
               type="file"
               className="file-input w-full max-w-xs"
             />
           </div>
+
           <button className="btn bg-mainBG text-white px-6 mt-8">
             Cập nhật <FaUpload></FaUpload>
           </button>
