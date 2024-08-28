@@ -53,84 +53,60 @@ const CommentSection = () => {
             <div className="comments">
                 {/* Render only the first three comments if not expanded */}
                 {listcomments.slice(0, isExpanded ? listcomments.length : MAX_LINES).map(comment => (
-                    <div key={comment._id} className="comment"> {/* Sử dụng _id làm key */}
+                    <div key={comment._id} className="comment">
                         <div className="avatar-details-container flex mb-2">
                             {comment.avatar && (
                                 <div className="avatar-container w-24 rounded-full ring ring-mainBG ring-offset-base-100 ring-offset-2 flex items-center justify-center">
                                     <img src={comment.avatar} alt="Avatar" />
                                 </div>
                             )}
-                            <div className="details ml-2 ">
+                            <div className="details ml-2">
                                 <div className="user-info flex items-center">
-                                    <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>{comment.username}</span>
+                                    <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                                        {comment.username.length > 10 ? `${comment.username.slice(0, 10)}...` : comment.username}
+                                    </span>
                                     <span className="ml-1 text-sm italic text-gray-500">
                                         {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
                                     </span>
                                 </div>
-                                <p className={`comment-text ${isDarkMode ? 'text-white' : 'text-black'}`}>{comment.comment}</p>
+                                <p className={`comment-text ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                                    {comment.comment}
+                                </p>
                                 {!replyInputVisible && (
                                     <button
                                         onClick={handleReplyClick}
                                         className="mt-2 flex items-center text-mainBG hover:text-gray-500"
                                     >
                                         <FaReply style={{ fontSize: '1.2rem' }} />
-                                        <span className="ml-2 text-sm font-semibold">Phản hồi  (3)</span>
+                                        <span className="ml-2 text-sm font-semibold">Phản hồi (3)</span>
                                     </button>
                                 )}
                                 {replyInputVisible && (
                                     <div>
                                         <textarea
                                             type="text"
-                                            placeholder={'Nhập phản hồi...'}
+                                            placeholder="Nhập phản hồi..."
                                             className={`mt-3 input-field ${isDarkMode ? 'dark' : ''}`}
                                             style={{ width: '100%', height: '50px', border: '2px solid', marginRight: '10px', padding: '10px' }}
                                         />
                                         <div className="flex justify-end">
-                                            <div className="flex items-center mr-4">
-                                            </div>
                                             <button className="bg-mainBG hover:bg-gray-300 text-white font-bold py-2 px-4 rounded">
                                                 Gửi
                                             </button>
                                         </div>
                                     </div>
                                 )}
-                                {/* person reply */}
-                                {/* <div key={comment._id} className="comment"> 
-                                    <div className="avatar-details-container flex mb-2">
-                                        {comment.avatar && (
-                                            <div className="avatar-container w-24 rounded-full ring ring-mainBG ring-offset-base-100 ring-offset-2 flex items-center justify-center">
-                                                <img src={comment.avatar} alt="Avatar" />
-                                            </div>
-                                        )}
-                                        <div className="details ml-2">
-                                            <div className="user-info flex items-center">
-                                                <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>{comment.username}</span>
-                                                <span className="ml-1 text-lg italic text-red font-bold">- Quản trị viên</span>
-                                                <span className="ml-1 text-sm italic text-gray-500">
-                                                    {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
-                                                </span>
-                                            </div>
-                                            <p className={`comment-text  ${isDarkMode ? 'text-white' : 'text-black'}`}>{comment.comment}</p>
-
-                                        </div>
-                                    </div>
-
-                                </div>    */}
                             </div>
                         </div>
-
                     </div>
-
                 ))}
 
                 <div className="flex justify-center">
-                    {/* Show the 'Show more' button if comments exceed MAX_LINES */}
                     {!isExpanded && commentCount > MAX_LINES && (
                         <button onClick={toggleExpansion} className="text-mainBG font-semibold mt-2 focus:outline-none">
                             Show more
                         </button>
                     )}
-                    {/* Show the 'Show less' button if expanded */}
                     {isExpanded && (
                         <button onClick={toggleExpansion} className="text-mainBG font-semibold mt-2 focus:outline-none">
                             Show less
@@ -139,6 +115,7 @@ const CommentSection = () => {
                 </div>
             </div>
         </div>
+
     );
 };
 
