@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { FaBook, FaShoppingBag, FaUsers } from "react-icons/fa";
 import {
   BarChart,
@@ -21,18 +23,37 @@ import {
   AreaChart,
 } from "recharts";
 
-const colors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "red", "pink"];
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
-
 const Dashboard = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [dateError, setDateError] = useState(null);
+
   const formatPrice = (price) => {
     if (!price) {
       return '';
     }
     else {
       return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+  };
+
+  const handleStartDateChange = (date) => {
+    if (endDate && date >= endDate) {
+      setDateError("Ngày bắt đầu không thể bằng hoặc sau ngày kết thúc.");
+    } else {
+      setDateError(null);
+      setStartDate(date);
+    }
+  };
+
+  const handleEndDateChange = (date) => {
+    if (startDate && date <= startDate) {
+      setDateError("Ngày kết thúc không thể bằng hoặc trước ngày bắt đầu.");
+    } else {
+      setDateError(null);
+      setEndDate(date);
     }
   };
 
@@ -45,64 +66,27 @@ const Dashboard = () => {
   });
 
   const { data: chartData = [] } = useQuery({
-    queryKey: ["order-stats"],
+    queryKey: ["order-stats", { startDate, endDate }],
     queryFn: async () => {
-      const res = await axiosSecure.get("/order-stats");
-      console.log(res.data);
+      const res = await axiosSecure.get("/order-stats", {
+        params: {
+          startDate,
+          endDate,
+        },
+      });
       return res.data;
     },
+    enabled: !!startDate && !!endDate && !dateError,
   });
-  // custom shape for the bar chart
-  const getPath = (x, y, width, height) => {
-    return `M${x},${y + height}C${x + width / 3},${y + height} ${x + width / 2
-      },${y + height / 3}
-    ${x + width / 2}, ${y}
-    C${x + width / 2},${y + height / 3} ${x + (2 * width) / 3},${y + height} ${x + width
-      }, ${y + height}
-    Z`;
-  };
-
-  const TriangleBar = (props) => {
-    const { fill, x, y, width, height } = props;
-
-    return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
-  };
-
-  // custom shape for the pie chart
-  const RADIAN = Math.PI / 180;
-  const renderCustomizedLabel = ({
-    cx,
-    cy,
-    midAngle,
-    innerRadius,
-    outerRadius,
-    percent,
-  }) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-    return (
-      <text
-        x={x}
-        y={y}
-        fill="white"
-        textAnchor={x > cx ? "start" : "end"}
-        dominantBaseline="central"
-      >
-        {`${(percent * 100).toFixed(0)}%`}
-      </text>
-    );
-  };
 
   const pieChartData = chartData.map((data) => {
     return { name: data.book, value: data.revenue };
   });
 
   return (
-    <div className="w-full md:w-[870px] mx-auto px-4 ">
+    <div className="w-full md:w-[870px] mx-auto px-4">
       <h2 className="text-2xl font-semibold my-4">
-        Xin chào, {user.displayName} !
+        Xin chào, {user.displayName}!
       </h2>
       {/* stats */}
       <div className="stats shadow flex flex-col md:flex-row">
@@ -198,9 +182,45 @@ const Dashboard = () => {
           </div>
         </div>
       </div> */}
+
       {/* revenue stats table */}
       <div className="mt-8 mb-8">
         <h3 className="text-xl font-semibold mb-4 text-center">Bảng thống kê doanh thu sách</h3>
+
+        {/* Date picker inputs */}
+        <div className="flex justify-center mb-4">
+          <div className="mr-4">
+            <label>Ngày bắt đầu: </label>
+            <DatePicker
+              selected={startDate}
+              onChange={handleStartDateChange}
+              selectsStart
+              startDate={startDate}
+              endDate={endDate}
+              dateFormat="dd/MM/yyyy"
+              className="p-2 border border-gray-300 rounded"
+              placeholderText="Chọn ngày bắt đầu"
+            />
+          </div>
+          <div>
+            <label>Ngày kết thúc: </label>
+            <DatePicker
+              selected={endDate}
+              onChange={handleEndDateChange}
+              selectsEnd
+              startDate={startDate}
+              endDate={endDate}
+              dateFormat="dd/MM/yyyy"
+              className="p-2 border border-gray-300 rounded"
+              placeholderText="Chọn ngày kết thúc"
+            />
+          </div>
+        </div>
+
+        {dateError && (
+          <div className="text-red font-bold text-center mb-4">{dateError}</div>
+        )}
+
         <table className="w-full border-collapse border border-gray-300">
           <thead>
             <tr className="bg-mainBG">
@@ -218,7 +238,6 @@ const Dashboard = () => {
                 <tr key={index} className={(index % 2 === 0) ? "bg-gray-100" : ""}>
                   <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
                   <td className="border border-gray-300 px-4 py-2">{data.book}</td>
-                  {/* <td className="border border-gray-300 px-4 py-2">{data.book.length > 20 ? `${data.book.substring(0, 20)}...` : data.book}</td> */}
                   <td className="border border-gray-300 px-4 py-2 text-center">{data.quantity}</td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{formatPrice(data.revenue)}₫</td>
                 </tr>
@@ -226,7 +245,6 @@ const Dashboard = () => {
           </tbody>
         </table>
       </div>
-
     </div>
   );
 };
