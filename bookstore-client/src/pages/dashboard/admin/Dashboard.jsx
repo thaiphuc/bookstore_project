@@ -40,8 +40,8 @@ const Dashboard = () => {
   };
 
   const handleStartDateChange = (date) => {
-    if (endDate && date >= endDate) {
-      setDateError("Ngày bắt đầu không thể bằng hoặc sau ngày kết thúc.");
+    if (endDate && date > endDate) {
+      setDateError("Ngày bắt đầu không thể sau ngày kết thúc.");
     } else {
       setDateError(null);
       setStartDate(date);
@@ -49,8 +49,8 @@ const Dashboard = () => {
   };
 
   const handleEndDateChange = (date) => {
-    if (startDate && date <= startDate) {
-      setDateError("Ngày kết thúc không thể bằng hoặc trước ngày bắt đầu.");
+    if (startDate && date < startDate) {
+      setDateError("Ngày kết thúc không thể trước ngày bắt đầu.");
     } else {
       setDateError(null);
       setEndDate(date);
@@ -78,6 +78,35 @@ const Dashboard = () => {
     },
     enabled: !!startDate && !!endDate && !dateError,
   });
+
+
+  const calculateDailyRevenue = (data) => {
+    const dailyRevenue = {};
+
+    data.forEach(item => {
+      const { date, revenue } = item;
+
+      if (dailyRevenue[date]) {
+        dailyRevenue[date] += revenue;
+      } else {
+        dailyRevenue[date] = revenue;
+      }
+    });
+
+    return Object.entries(dailyRevenue).map(([date, revenue]) => ({ date, revenue }));
+};
+
+  const dayRevenue = calculateDailyRevenue(chartData);
+
+  const formatDate = (dateString) => {
+
+    const [day, month, year] = dateString.split('/');
+
+    const formattedDay = day.padStart(2, '0');
+    const formattedMonth = month.padStart(2, '0');
+
+    return `${formattedDay}/${formattedMonth}/${year}`;
+  };
 
   const pieChartData = chartData.map((data) => {
     return { name: data.book, value: data.revenue };
@@ -185,7 +214,7 @@ const Dashboard = () => {
 
       {/* revenue stats table */}
       <div className="mt-8 mb-8">
-        <h3 className="text-xl font-semibold mb-4 text-center">Bảng thống kê doanh thu sách</h3>
+        <h3 className="text-xl font-semibold mb-4 text-center">Bảng thống kê doanh thu</h3>
 
         {/* Date picker inputs */}
         <div className="flex justify-center mb-4">
@@ -225,20 +254,20 @@ const Dashboard = () => {
           <thead>
             <tr className="bg-mainBG">
               <th className="border border-gray-300 px-4 py-2 text-white text-center">STT</th>
-              <th className="border border-gray-300 px-4 py-2 text-white text-center">Tên sách</th>
-              <th className="border border-gray-300 px-4 py-2 text-white text-center">Số lượng</th>
+              <th className="border border-gray-300 px-4 py-2 text-white text-center">Ngày</th>
+              <th className="border border-gray-300 px-4 py-2 text-white text-center">Chi tiết</th>
               <th className="border border-gray-300 px-4 py-2 text-white text-center">Doanh thu</th>
             </tr>
           </thead>
           <tbody>
-            {chartData
-              .slice() // create a copy of the original array
-              .sort((a, b) => b.revenue - a.revenue) // sort in descending order based on revenue
+            {dayRevenue
+              .slice() 
+              .sort((a, b) => new Date(a.date.split('/').reverse().join('/')) - new Date(b.date.split('/').reverse().join('/')))
               .map((data, index) => (
                 <tr key={index} className={(index % 2 === 0) ? "bg-gray-100" : ""}>
                   <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
-                  <td className="border border-gray-300 px-4 py-2">{data.book}</td>
-                  <td className="border border-gray-300 px-4 py-2 text-center">{data.quantity}</td>
+                  <td className="border border-gray-300 px-4 py-2 text-center">{formatDate(data.date)}</td>
+                  <td className="border border-gray-300 px-4 py-2 text-center">Chi tiết</td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{formatPrice(data.revenue)}₫</td>
                 </tr>
               ))}
