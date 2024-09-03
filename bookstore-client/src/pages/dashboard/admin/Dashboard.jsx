@@ -5,23 +5,6 @@ import useAuth from "../../../hooks/useAuth";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaBook, FaShoppingBag, FaUsers } from "react-icons/fa";
-import {
-  BarChart,
-  Bar,
-  Cell,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  PieChart,
-  Pie,
-  Legend,
-  ResponsiveContainer,
-  ComposedChart,
-  Tooltip,
-  Area,
-  Line,
-  AreaChart,
-} from "recharts";
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -29,14 +12,14 @@ const Dashboard = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [dateError, setDateError] = useState(null);
+  const [modalData, setModalData] = useState(null); // State for modal data
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
 
   const formatPrice = (price) => {
     if (!price) {
       return '';
     }
-    else {
-      return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    }
+    return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
   const handleStartDateChange = (date) => {
@@ -79,11 +62,10 @@ const Dashboard = () => {
     enabled: !!startDate && !!endDate && !dateError,
   });
 
-
   const calculateDailyRevenue = (data) => {
     const dailyRevenue = {};
 
-    data.forEach(item => {
+    data.forEach((item) => {
       const { date, revenue } = item;
 
       if (dailyRevenue[date]) {
@@ -94,29 +76,30 @@ const Dashboard = () => {
     });
 
     return Object.entries(dailyRevenue).map(([date, revenue]) => ({ date, revenue }));
-};
+  };
 
   const dayRevenue = calculateDailyRevenue(chartData);
 
   const formatDate = (dateString) => {
-
-    const [day, month, year] = dateString.split('/');
-
-    const formattedDay = day.padStart(2, '0');
-    const formattedMonth = month.padStart(2, '0');
-
+    const [day, month, year] = dateString.split("/");
+    const formattedDay = day.padStart(2, "0");
+    const formattedMonth = month.padStart(2, "0");
     return `${formattedDay}/${formattedMonth}/${year}`;
   };
 
-  const pieChartData = chartData.map((data) => {
-    return { name: data.book, value: data.revenue };
-  });
+  const handleDetailClick = (data) => {
+    setModalData(data); // Set the data to be shown in the modal
+    setIsModalOpen(true); // Open the modal
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false); // Close the modal
+  };
 
   return (
     <div className="w-full md:w-[870px] mx-auto px-4">
-      <h2 className="text-2xl font-semibold my-4">
-        Xin chào, {user.displayName}!
-      </h2>
+      <h2 className="text-2xl font-semibold my-4">Xin chào, {user.displayName}!</h2>
+
       {/* stats */}
       <div className="stats shadow flex flex-col md:flex-row">
         <div className="stat bg-cl1">
@@ -212,7 +195,7 @@ const Dashboard = () => {
         </div>
       </div> */}
 
-      {/* revenue stats table */}
+      {/* Revenue Stats Table */}
       <div className="mt-8 mb-8">
         <h3 className="text-xl font-semibold mb-4 text-center">Bảng thống kê doanh thu</h3>
 
@@ -247,7 +230,7 @@ const Dashboard = () => {
         </div>
 
         {dateError && (
-          <div className="text-red font-bold text-center mb-4">{dateError}</div>
+          <div className="text-red-500 font-bold text-center mb-4">{dateError}</div>
         )}
 
         <table className="w-full border-collapse border border-gray-300">
@@ -261,19 +244,63 @@ const Dashboard = () => {
           </thead>
           <tbody>
             {dayRevenue
-              .slice() 
-              .sort((a, b) => new Date(a.date.split('/').reverse().join('/')) - new Date(b.date.split('/').reverse().join('/')))
+              .slice()
+              .sort(
+                (a, b) =>
+                  new Date(a.date.split("/").reverse().join("/")) -
+                  new Date(b.date.split("/").reverse().join("/"))
+              )
               .map((data, index) => (
-                <tr key={index} className={(index % 2 === 0) ? "bg-gray-100" : ""}>
+                <tr key={index} className={index % 2 === 0 ? "bg-gray-100" : ""}>
                   <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{formatDate(data.date)}</td>
-                  <td className="border border-gray-300 px-4 py-2 text-center">Chi tiết</td>
+                  <td className="border border-gray-300 px-4 py-2 text-center">
+                    <button
+                      className="bg-blue-500 text-white px-4 py-2 rounded"
+                      onClick={() => handleDetailClick(data)}
+                    >
+                      Chi tiết
+                    </button>
+                  </td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{formatPrice(data.revenue)}₫</td>
                 </tr>
               ))}
           </tbody>
         </table>
       </div>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-lg max-w-md w-full relative">
+            {/* Close button */}
+            <button
+              className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
+              onClick={closeModal}
+            >
+              &times;
+            </button>
+
+            <h3 className="text-xl text-center font-semibold mb-4">Chi tiết doanh thu</h3>
+            <ol className="list-decimal pl-5">
+              <li>Book chiếc thuyền ngoài xa: Bán được 5 cuốn, tổng doanh thu là 500,000 ₫</li>
+              <li>Book toán cánh diều phần 2: Bán được 2 cuốn, tổng doanh thu là 200,000 ₫</li>
+              <li>Book sức mạnh tiềm thức: Bán được 10 cuốn, tổng doanh thu là 1,200,000 ₫</li>
+              {/* Additional details can be rendered here */}
+            </ol>
+            <div className="flex justify-center mt-4">
+              <button
+                className="bg-red text-white px-4 py-2 rounded"
+                onClick={closeModal}
+              >
+                Đóng
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+
     </div>
   );
 };
