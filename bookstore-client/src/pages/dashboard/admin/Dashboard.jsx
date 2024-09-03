@@ -271,8 +271,8 @@ const Dashboard = () => {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded shadow-lg max-w-md w-full relative">
+        <div className="fixed inset-0 flex items-center ml-80 bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-lg ml-40 max-w-xl w-full relative">
             {/* Close button */}
             <button
               className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
@@ -282,12 +282,36 @@ const Dashboard = () => {
             </button>
 
             <h3 className="text-xl text-center font-semibold mb-4">Chi tiết doanh thu</h3>
-            <ol className="list-decimal pl-5">
-              <li>Book chiếc thuyền ngoài xa: Bán được 5 cuốn, tổng doanh thu là 500,000 ₫</li>
-              <li>Book toán cánh diều phần 2: Bán được 2 cuốn, tổng doanh thu là 200,000 ₫</li>
-              <li>Book sức mạnh tiềm thức: Bán được 10 cuốn, tổng doanh thu là 1,200,000 ₫</li>
-              {/* Additional details can be rendered here */}
-            </ol>
+
+            {/* Table for book details */}
+            <table className="w-full border-collapse border border-gray-300">
+              <thead>
+                <tr>
+                  <th className="border border-gray-300 px-4 py-2 text-left">Sách</th>
+                  <th className="border border-gray-300 px-4 py-2 text-left">Số lượng</th>
+                  <th className="border border-gray-300 px-4 py-2 text-left">Doanh thu</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="border border-gray-300 px-4 py-2">Chiếc thuyền ngoài xa</td>
+                  <td className="border border-gray-300 px-4 py-2">5</td>
+                  <td className="border border-gray-300 px-4 py-2">500,000 ₫</td>
+                </tr>
+                <tr>
+                  <td className="border border-gray-300 px-4 py-2">Toán cánh diều phần 2</td>
+                  <td className="border border-gray-300 px-4 py-2">2</td>
+                  <td className="border border-gray-300 px-4 py-2">200,000 ₫</td>
+                </tr>
+                <tr>
+                  <td className="border border-gray-300 px-4 py-2">Sức mạnh tiềm thức</td>
+                  <td className="border border-gray-300 px-4 py-2">10</td>
+                  <td className="border border-gray-300 px-4 py-2">1,200,000 ₫</td>
+                </tr>
+                {/* Additional details can be rendered here */}
+              </tbody>
+            </table>
+
             <div className="flex justify-center mt-4">
               <button
                 className="bg-red text-white px-4 py-2 rounded"
@@ -299,6 +323,7 @@ const Dashboard = () => {
           </div>
         </div>
       )}
+
 
 
     </div>
