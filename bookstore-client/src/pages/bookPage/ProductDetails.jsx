@@ -345,6 +345,71 @@ const ProductDetails = () => {
     if (authorToDisplay.length > MAX_AUTHOR_LENGTH) {
         authorToDisplay = authorToDisplay.substring(0, MAX_AUTHOR_LENGTH) + '...';
     }
+    const VoucherSection = () => {
+        const { isDarkMode } = useTheme();
+        const vouchers = [
+            {
+                id: 1,
+                title: "Giảm 10% cho đơn hàng trên 200K",
+                description: "Áp dụng cho các sản phẩm đạt giá trị đơn hàng trong thời gian khuyến mãi.",
+                expiry: "Hết hạn vào 31/12/2024",
+                code: "UPTOSALE10",
+            },
+            {
+                id: 2,
+                title: "Freeship cho đơn hàng trên 300K",
+                description: "Miễn phí vận chuyển toàn quốc cho đơn hàng sách từ 300k.",
+                expiry: "Hết hạn vào 30/02/2025",
+                code: "FREESHIP300",
+            },
+            {
+                id: 3,
+                title: "Giảm 20% cho đơn hàng từ 500k",
+                description: "Miễn phí vận chuyển toàn quốc cho đơn hàng sách.",
+                expiry: "Hết hạn vào 30/1/2025",
+                code: "ORDGET500",
+            },
+        ];
+
+        const handleAddVoucher = (code) => {
+            // Copy the voucher code to the clipboard
+            navigator.clipboard.writeText(code).then(() => {
+                // Show success message
+                Swal.fire({
+                    title: "Voucher đã được sao chép thành công!",
+                    text: `Mã voucher ${code} đã được sao chép và áp dụng.`,
+                    icon: "success",
+                    confirmButtonText: "OK",
+                });
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        };
+
+        return (
+            <div className={`voucher-section py-4 ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                <h3 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-black'}`}>Voucher ưu đãi</h3>
+                <div className="grid grid-cols-3 gap-4"> {/* Updated to use two columns */}
+                    {vouchers.map(voucher => (
+                        <div key={voucher.id} className={`p-4 border rounded ${isDarkMode ? 'border-white' : 'border-gray-300'} bg-gray-100`}>
+                            <h4 className="text-black text-lg font-bold">{voucher.title}</h4>
+                            <p className="text-black text-sm">{voucher.description}</p>
+                            <p className="text-sm italic text-gray-500">{voucher.expiry}</p>
+                            <div className="mt-2 flex justify-center">
+                                <button
+                                    onClick={() => handleAddVoucher(voucher.code)}
+                                    className="bg-mainBG hover:bg-gray-300 text-white font-bold py-1 px-3 rounded">
+                                    Dùng mã {voucher.code}
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+        );
+    };
+
 
     return (
         <div className={`max-w-screen-2xl container mx-auto xl:px-24 bg-gradient-to-r from-0% from-[#FAFAFA] to-[#FCFCFC] to-100% ${isDarkMode ? 'dark' : ''}`}>
@@ -417,6 +482,8 @@ const ProductDetails = () => {
 
                 </div>
             </div>
+            {/* Phần voucher */}
+            <VoucherSection />
             <RelatedBook category={book.category} />
             {/* Phần đánh giá khách hàng */}
             <div className="mt-8 flex flex-col md:flex-row">

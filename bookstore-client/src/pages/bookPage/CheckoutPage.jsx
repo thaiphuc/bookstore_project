@@ -205,6 +205,10 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
                                 <td align="right">Miễn phí</td>
                             </tr>
                             <tr>
+                                <td>Voucher giảm giá</td>
+                                <td align="right">0₫</td>
+                            </tr>
+                            <tr>
                                 <td>Số lượng sản phẩm</td>
                                 <td align="right">{totalItems}</td>
                             </tr>
