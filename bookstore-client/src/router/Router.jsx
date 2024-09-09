@@ -22,8 +22,7 @@ import AboutUsPage from "../pages/bookPage/AboutUsPage";
 import ManageComment from "../pages/dashboard/admin/ManageComment";
 import UpdatePassword from "../pages/dashboard/user/UpdatePassword";
 import ServicePage from "../pages/bookPage/ServicePage";
-import CheckoutPage from "../pages/bookPage/CheckoutPage";
-
+import ManagePromotion from "../pages/dashboard/admin/ManagePromotions";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -116,6 +115,10 @@ const router = createBrowserRouter([
       {
         path: 'orders',
         element: <ManageOrders />
+      },
+      {
+        path: 'promotions',
+        element: <ManagePromotion />
       }
     ]
   }

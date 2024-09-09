@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { MdDashboard, MdOutlineDashboardCustomize } from "react-icons/md";
 import { FaEdit, FaHome, FaLocationArrow, FaPen, FaPlusCircle, FaRegUser, FaShoppingBag, FaUsers } from "react-icons/fa";
-import { FaCartShopping } from "react-icons/fa6";
+import { FaCartShopping, FaTicket } from "react-icons/fa6";
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { AuthContext } from "../contexts/AuthProvider";
@@ -136,13 +136,19 @@ const DashboardLayout = () => {
               </li>
 
               {/* users */}
-              <li className="mb-3">
+              <li >
                 <Link to="/dashboard/users">
                   <FaUsers />
                   Quản lý người dùng
                 </Link>
               </li>
-
+              {/* users */}
+              <li className="mb-3">
+                <Link to="/dashboard/promotions">
+                  <FaTicket />
+                  Quản lý mã giảm giá
+                </Link>
+              </li>
               {/* shared book */}
               <hr />
               {sharedBook}
