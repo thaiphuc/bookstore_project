@@ -160,21 +160,21 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
                 </div> 
 
                 <fieldset>
-                    <legend className=' text-black'>Phương thức thanh toán</legend>
+                    <legend className='text-black'>Phương thức thanh toán</legend>
 
                     <div className="form__radios text-black">
                         <div className="form__radio">
                             <label htmlFor="cod">
                                 <FaMoneyBillWave /> COD (Tiền mặt)
                             </label>
-                            <input 
-                                id="cod" 
-                                name='payment-method' 
-                                className="payment-method" 
-                                type="radio" 
-                                value="COD" 
+                            <input
+                                id="cod"
+                                name='payment-method'
+                                className="payment-method"
+                                type="radio"
+                                value="COD"
                                 checked={paymentMethod === 'COD'}
-                                onChange={handlePaymentMethodChange} 
+                                onChange={handlePaymentMethodChange}
                             />
                         </div>
 
@@ -182,16 +182,30 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
                             <label htmlFor="card">
                                 <FaCreditCard /> Credit/Debit card
                             </label>
-                            <input  
-                                id="card" 
-                                name='payment-method' 
-                                className="payment-method" 
-                                type="radio" 
+                            <input
+                                id="card"
+                                name='payment-method'
+                                className="payment-method"
+                                type="radio"
                                 value="card"
                                 checked={paymentMethod === 'card'}
                                 onChange={handlePaymentMethodChange}
                             />
-                        </div>     
+                        </div>
+                    </div>
+
+                    {/* Textarea for entering voucher code */}
+                    <div className="form__voucher mt-4">
+                        <label htmlFor="voucher" className="text-black">Nhập mã voucher (nếu có):</label>
+                        <input
+                            id="voucher"
+                            name="voucher"
+                            rows="2"
+                            className=" w-full border p-2 mt-2 rounded-lg "
+                            placeholder="Nhập mã voucher"
+                            // value={voucherCode}
+                            // onChange={handleVoucherCodeChange}
+                        ></input>
                     </div>
                 </fieldset>
 
