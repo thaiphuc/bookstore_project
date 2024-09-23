@@ -88,8 +88,12 @@ const Dashboard = () => {
   };
 
   const handleDetailClick = (data) => {
-    setModalData(data); // Set the data to be shown in the modal
-    setIsModalOpen(true); // Open the modal
+    const details = chartData.filter(item => item.date === data.date);
+    console.log(details);
+    if (details) {
+      setModalData(details); 
+      setIsModalOpen(true); 
+    }
   };
 
   const closeModal = () => {
@@ -270,10 +274,10 @@ const Dashboard = () => {
       </div>
 
       {/* Modal */}
-      {isModalOpen && (
+      {isModalOpen && modalData && (
         <div className="fixed inset-0 flex items-center ml-80 bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded shadow-lg ml-40 max-w-xl w-full relative">
-            {/* Close button */}
+            {/* Nút đóng modal */}
             <button
               className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
               onClick={closeModal}
@@ -283,7 +287,7 @@ const Dashboard = () => {
 
             <h3 className="text-xl text-center font-semibold mb-4">Chi tiết doanh thu</h3>
 
-            {/* Table for book details */}
+            {/* Bảng chi tiết sách */}
             <table className="w-full border-collapse border border-gray-300">
               <thead>
                 <tr>
@@ -293,22 +297,13 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className="border border-gray-300 px-4 py-2">Chiếc thuyền ngoài xa</td>
-                  <td className="border border-gray-300 px-4 py-2">5</td>
-                  <td className="border border-gray-300 px-4 py-2">500,000 ₫</td>
-                </tr>
-                <tr>
-                  <td className="border border-gray-300 px-4 py-2">Toán cánh diều phần 2</td>
-                  <td className="border border-gray-300 px-4 py-2">2</td>
-                  <td className="border border-gray-300 px-4 py-2">200,000 ₫</td>
-                </tr>
-                <tr>
-                  <td className="border border-gray-300 px-4 py-2">Sức mạnh tiềm thức</td>
-                  <td className="border border-gray-300 px-4 py-2">10</td>
-                  <td className="border border-gray-300 px-4 py-2">1,200,000 ₫</td>
-                </tr>
-                {/* Additional details can be rendered here */}
+                {modalData.map((item, index) => (
+                  <tr key={index}>
+                    <td className="border border-gray-300 px-4 py-2">{item.book}</td>
+                    <td className="border border-gray-300 px-4 py-2">{item.quantity}</td>
+                    <td className="border border-gray-300 px-4 py-2">{formatPrice(item.revenue)} ₫</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
 
@@ -323,9 +318,6 @@ const Dashboard = () => {
           </div>
         </div>
       )}
-
-
-
     </div>
   );
 };
