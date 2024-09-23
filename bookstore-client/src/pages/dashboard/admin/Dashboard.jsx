@@ -288,24 +288,26 @@ const Dashboard = () => {
             <h3 className="text-xl text-center font-semibold mb-4">Chi tiết doanh thu</h3>
 
             {/* Bảng chi tiết sách */}
-            <table className="w-full border-collapse border border-gray-300">
-              <thead>
-                <tr>
-                  <th className="border border-gray-300 px-4 py-2 text-left">Sách</th>
-                  <th className="border border-gray-300 px-4 py-2 text-left">Số lượng</th>
-                  <th className="border border-gray-300 px-4 py-2 text-left">Doanh thu</th>
-                </tr>
-              </thead>
-              <tbody>
-                {modalData.map((item, index) => (
-                  <tr key={index}>
-                    <td className="border border-gray-300 px-4 py-2">{item.book}</td>
-                    <td className="border border-gray-300 px-4 py-2">{item.quantity}</td>
-                    <td className="border border-gray-300 px-4 py-2">{formatPrice(item.revenue)} ₫</td>
+            <div className="max-h-48 overflow-y-auto"> {/* Limit height to 12rem (48px * 3 rows) */}
+              <table className="w-full border-collapse border border-gray-300">
+                <thead>
+                  <tr>
+                    <th className="border border-gray-300 px-4 py-2 text-left">Sách</th>
+                    <th className="border border-gray-300 px-4 py-2 text-left">Số lượng</th>
+                    <th className="border border-gray-300 px-4 py-2 text-left">Doanh thu</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {modalData.map((item, index) => (
+                    <tr key={index}>
+                      <td className="border border-gray-300 px-4 py-2">{item.book}</td>
+                      <td className="border border-gray-300 px-4 py-2">{item.quantity}</td>
+                      <td className="border border-gray-300 px-4 py-2">{formatPrice(item.revenue)} ₫</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
             <div className="flex justify-center mt-4">
               <button
@@ -318,6 +320,7 @@ const Dashboard = () => {
           </div>
         </div>
       )}
+
     </div>
   );
 };
