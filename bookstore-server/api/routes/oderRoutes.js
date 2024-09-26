@@ -11,6 +11,8 @@ router.post("/", verifyToken, orderController.postOrder);
 
 router.get("/", verifyToken, orderController.getAllOrders);
 
+router.get("/voucher/:code", verifyToken, orderController.getSingleVoucher);
+
 // router.get("/:id", verifyToken, orderController.getSingleOrder);
 
 router.delete("/:id", verifyToken, verifyAdmin, orderController.deleteOrder);

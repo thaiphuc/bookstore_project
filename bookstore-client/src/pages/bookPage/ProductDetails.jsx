@@ -72,7 +72,7 @@ const CommentSection = () => {
                                 <p className={`comment-text ${isDarkMode ? 'text-white' : 'text-black'}`}>
                                     {comment.comment}
                                 </p>
-                                {!replyInputVisible && (
+                                {/* {!replyInputVisible && (
                                     <button
                                         onClick={handleReplyClick}
                                         className="mt-2 flex items-center text-mainBG hover:text-gray-500"
@@ -95,7 +95,7 @@ const CommentSection = () => {
                                             </button>
                                         </div>
                                     </div>
-                                )}
+                                )} */}
                             </div>
                         </div>
                     </div>
@@ -350,24 +350,24 @@ const ProductDetails = () => {
         const vouchers = [
             {
                 id: 1,
-                title: "Giảm 10% cho đơn hàng trên 200K",
+                title: "Giảm 20k cho đơn hàng trên 200K",
                 description: "Áp dụng cho các sản phẩm đạt giá trị đơn hàng trong thời gian khuyến mãi.",
                 expiry: "Hết hạn vào 31/12/2024",
-                code: "UPTOSALE10",
+                code: "UPTOSALE200",
             },
             {
                 id: 2,
-                title: "Freeship cho đơn hàng trên 300K",
-                description: "Miễn phí vận chuyển toàn quốc cho đơn hàng sách từ 300k.",
-                expiry: "Hết hạn vào 30/02/2025",
-                code: "FREESHIP300",
+                title: "Giảm 55k cho đơn hàng từ 500k",
+                description: "Áp dụng cho các sản phẩm đạt giá trị đơn hàng trong thời gian khuyến mãi.",
+                expiry: "Hết hạn vào 25/02/2025",
+                code: "BOOKSALE500",
             },
             {
                 id: 3,
-                title: "Giảm 20% cho đơn hàng từ 500k",
-                description: "Miễn phí vận chuyển toàn quốc cho đơn hàng sách.",
+                title: "Giảm 120k cho đơn hàng từ 1M",
+                description: "Áp dụng cho các sản phẩm đạt giá trị đơn hàng trong thời gian khuyến mãi.",
                 expiry: "Hết hạn vào 30/1/2025",
-                code: "ORDGET500",
+                code: "ORDGET1M",
             },
         ];
 
