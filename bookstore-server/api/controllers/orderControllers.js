@@ -1,5 +1,6 @@
 const Order = require("../models/Orders");
 const Book = require('../models/Book');
+const Voucher = require('../models/Voucher');
 
 // post 
 const postOrder = async (req, res) => {
@@ -35,18 +36,20 @@ const getAllOrders = async (req, res) => {
 };
 
 
-// const getSingleOrder = async (req, res) => {
-//   try {
-//     const orderId = req.params.id;
-//     const order = await Order.findById(orderId);
-//     if (!order) {
-//       return res.status(404).json({ message: 'Đơn hàng không tồn tại!'});
-//     }
-//     res.json(order);
-//   } catch (error) {
-//     res.status(500).json({ message: 'Lỗi server' });
-//   }
-// };
+const getSingleVoucher = async (req, res) => {
+  try {
+    const voucherCode = req.params.code;
+    const voucher = await Voucher.findOne({ code: voucherCode });
+
+    if (!voucher) {
+      return res.status(404).json({ message: 'Voucher không tồn tại' });
+    }
+
+    res.json(voucher);
+  } catch (error) {
+    res.status(500).json({ message: 'Lỗi server', error });
+  }
+};
 
 const deleteOrder = async (req, res) => {
   const orderId = req.params.id;
@@ -120,11 +123,13 @@ const updateStatus = async (req, res) => {
 };
 
 
+
+
 module.exports = {
   postOrder,
   getAllOrders,
   deleteOrder,
   updateStatus,
-  // getSingleOrder,
+  getSingleVoucher,
   updateQuantityBook
 };

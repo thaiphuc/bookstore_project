@@ -5,12 +5,15 @@ import { useTheme } from "../../hooks/ThemeContext";
 import { FaMoneyBillWave, FaCreditCard } from "react-icons/fa";
 import Swal from "sweetalert2";
 import useCart from "../../hooks/useCart";
+import { FaCheck } from "react-icons/fa";
 
 const CheckoutPage = ({ info, totalItems, orderTotal }) => {
     const { isDarkMode } = useTheme();
     const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
     const [cart, refetch] = useCart();
+    const [orderCost, setOrderCost] = useState(orderTotal);
+    const [voucherDiscount, setVoucherDiscount] = useState(0);
 
     const [paymentMethod, setPaymentMethod] = useState('COD'); // Default payment method to COD
     const handlePaymentMethodChange = (event) => {
@@ -65,7 +68,7 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
                 items: products,
                 paymentStatus: "Đã thanh toán",
                 status: "Đã duyệt",
-                totalPrice: orderTotal
+                totalPrice: orderCost
             };
             try {
                 const orderRes = await axiosSecure.post('/orders', orderInfo);
@@ -94,6 +97,87 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
         
     }
 
+    const handleApplyVoucher = async () => {
+        const voucherCode = document.getElementById('voucher').value;
+    
+        if (!voucherCode.trim()) {
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: `Vui lòng nhập mã voucher`,
+                showConfirmButton: false,
+                timer: 1500
+            });
+            return;
+        }
+    
+        try {
+            // Gọi API getSingleVoucher với mã voucher
+            const response = await axiosSecure.get(`/orders/voucher/${voucherCode}`);
+            
+            if (response.status === 200) {
+
+                const voucher = response.data;
+                // Kiểm tra nếu mã voucher đang không hoạt động
+                if (!voucher.isActive) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: `Mã voucher không hoạt động`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    return;
+                }
+    
+                // Kiểm tra thời gian hiệu lực của voucher
+                const currentDate = new Date();
+                if (currentDate < new Date(voucher.validFrom) || currentDate > new Date(voucher.validUntil)) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: `Mã voucher đã hết hạn hoặc chưa có hiệu lực`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    return;
+                }
+    
+                // Kiểm tra giá trị đơn hàng tối thiểu
+                if (orderTotal < voucher.minOrderValue) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: `Giá trị đơn hàng tối thiểu để áp dụng mã này là ${voucher.minOrderValue}₫`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    return;
+                }
+    
+                // Nếu tất cả các điều kiện đều đúng, áp dụng mã giảm giá
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: `Áp dụng mã giảm giá thành công! Bạn được giảm ${voucher.discountAmount}₫`,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                setVoucherDiscount(voucher.discountAmount);
+                setOrderCost(orderTotal - voucher.discountAmount);
+            }
+        } catch (error) {
+            console.error('Error applying voucher:', error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: `Mã voucher không hợp lệ hoặc đã hết hạn.`,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+    };
+    
     const handleCODCheckout = async () => {
         if (!products || products.length === 0) {
             Swal.fire({
@@ -111,7 +195,7 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
                 items: products,
                 paymentStatus: "Chờ thanh toán",
                 status: "Chờ duyệt",
-                totalPrice: orderTotal
+                totalPrice: orderCost
             };
             try {
                 const orderRes = await axiosSecure.post('/orders', orderInfo);
@@ -197,15 +281,21 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
                     {/* Textarea for entering voucher code */}
                     <div className="form__voucher mt-4">
                         <label htmlFor="voucher" className="text-black">Nhập mã voucher (nếu có):</label>
-                        <input
-                            id="voucher"
-                            name="voucher"
-                            rows="2"
-                            className=" w-full border p-2 mt-2 rounded-lg "
-                            placeholder="Nhập mã voucher"
-                            // value={voucherCode}
-                            // onChange={handleVoucherCodeChange}
-                        ></input>
+                        <div className="flex">
+                            <input
+                                id="voucher"
+                                name="voucher"
+                                className="w-full border p-2 mt-2 rounded-lg"
+                                placeholder="Nhập mã voucher"
+                            />
+                            <button
+                                type="button"
+                                className="ml-2 p-2 bg-blue-500 text-white rounded-lg"
+                                onClick={handleApplyVoucher} // Gọi hàm để xử lý khi bấm nút
+                            >
+                                 <FaCheck />
+                            </button>
+                        </div>
                     </div>
                 </fieldset>
 
@@ -220,7 +310,7 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
                             </tr>
                             <tr>
                                 <td>Voucher giảm giá</td>
-                                <td align="right">0₫</td>
+                                <td align="right">{formatPrice(voucherDiscount)} ₫</td>
                             </tr>
                             <tr>
                                 <td>Số lượng sản phẩm</td>
@@ -234,7 +324,7 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
                         <tfoot>
                             <tr className='text-black text-lg'>
                                 <td >Thành tiền</td>
-                                <td align="right"> {formatPrice(orderTotal)} ₫</td>
+                                <td align="right"> {formatPrice(orderCost)} ₫</td>
                             </tr>
                         </tfoot>
                     </table>
