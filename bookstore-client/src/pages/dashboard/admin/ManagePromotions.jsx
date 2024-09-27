@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
@@ -13,6 +12,15 @@ const ManagePromotion = () => {
             const res = await axiosSecure.get('/promotions');
             return res.data;
         }
+    });
+
+    const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
+    const [newPromotion, setNewPromotion] = useState({
+        code: '',
+        expiryDate: '',
+        discount: '',
+        minOrderValue: '', // New field for Minimum Order Value
+        description: '' // New field for Description (optional)
     });
 
     const handleDeletePromotion = promotion => {
@@ -29,7 +37,6 @@ const ManagePromotion = () => {
             if (result.isConfirmed) {
                 axiosSecure.delete(`/promotions/${promotion._id}`)
                     .then(res => {
-                        console.log(res);
                         Swal.fire({
                             title: "Deleted!",
                             text: "Xóa mã giảm giá thành công!",
@@ -39,6 +46,34 @@ const ManagePromotion = () => {
                     });
             }
         });
+    };
+
+    const handleCreatePromotion = () => {
+        setIsModalOpen(true); // Open modal when the button is clicked
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setNewPromotion(prevState => ({ ...prevState, [name]: value }));
+    };
+
+    const handleSubmit = async () => {
+        try {
+            await axiosSecure.post('/promotions', newPromotion);
+            Swal.fire({
+                title: "Thành công!",
+                text: "Mã giảm giá mới đã được tạo!",
+                icon: "success"
+            });
+            setIsModalOpen(false); // Close modal after creation
+            refetch(); // Refetch promotions to include the new promotion
+        } catch (error) {
+            Swal.fire({
+                title: "Lỗi!",
+                text: "Tạo mã giảm giá thất bại!",
+                icon: "error"
+            });
+        }
     };
 
     return (
@@ -83,6 +118,92 @@ const ManagePromotion = () => {
                     </table>
                 </div>
             </div>
+
+            {/* Create Promotion Button */}
+            <div className="flex justify-start mt-4">
+                <button
+                    onClick={handleCreatePromotion}
+                    className="btn bg-mainBG text-white px-4 py-2 rounded-lg"
+                >
+                    Tạo mã giảm giá
+                </button>
+            </div>
+
+            {/* Modal */}
+            {isModalOpen && (
+                <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                        <h2 className="text-xl text-center font-semibold mb-4">Tạo mã giảm giá mới</h2>
+                        <div className="mb-4">
+                            <label className="block text-gray-700">Mã giảm:</label>
+                            <input
+                                type="text"
+                                name="code"
+                                value={newPromotion.code}
+                                onChange={handleInputChange}
+                                className="w-full border p-2 rounded-lg"
+                                placeholder="Nhập mã giảm giá"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-gray-700">Thời hạn:</label>
+                            <input
+                                type="date"
+                                name="expiryDate"
+                                value={newPromotion.expiryDate}
+                                onChange={handleInputChange}
+                                className="w-full border p-2 rounded-lg"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-gray-700">Tiền giảm:</label>
+                            <input
+                                type="number"
+                                name="discount"
+                                value={newPromotion.discount}
+                                onChange={handleInputChange}
+                                className="w-full border p-2 rounded-lg"
+                                placeholder="Nhập tiền giảm"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-gray-700">Giá trị tối thiểu đơn:</label>
+                            <input
+                                type="number"
+                                name="minOrderValue"
+                                value={newPromotion.minOrderValue}
+                                onChange={handleInputChange}
+                                className="w-full border p-2 rounded-lg"
+                                placeholder="Nhập giá trị tối thiểu đơn"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-gray-700">Mô tả (Không bắt buộc):</label>
+                            <textarea
+                                name="description"
+                                value={newPromotion.description}
+                                onChange={handleInputChange}
+                                className="w-full border p-2 rounded-lg"
+                                placeholder="Nhập mô tả nếu có"
+                            />
+                        </div>
+                        <div className="flex justify-end">
+                            <button
+                                onClick={() => setIsModalOpen(false)}
+                                className="btn bg-gray-400 text-white px-4 py-2 rounded-lg mr-2"
+                            >
+                                Hủy
+                            </button>
+                            <button
+                                onClick={handleSubmit}
+                                className="btn bg-mainBG text-white px-4 py-2 rounded-lg"
+                            >
+                                Tạo mã
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
