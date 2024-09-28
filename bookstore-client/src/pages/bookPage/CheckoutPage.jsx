@@ -248,7 +248,7 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
 
                     <div className="form__radios text-black">
                         <div className="form__radio">
-                            <label htmlFor="cod">
+                            <label  htmlFor="cod">
                                 <FaMoneyBillWave /> COD (Tiền mặt)
                             </label>
                             <input
@@ -290,7 +290,8 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
                             />
                             <button
                                 type="button"
-                                className="ml-2 p-2 bg-blue-500 text-white rounded-lg"
+                                className="ml-2 px-4 mt-2 bg-mainBG text-white rounded-lg"
+                                style={{ height: '40px' }}
                                 onClick={handleApplyVoucher} // Gọi hàm để xử lý khi bấm nút
                             >
                                  <FaCheck />
