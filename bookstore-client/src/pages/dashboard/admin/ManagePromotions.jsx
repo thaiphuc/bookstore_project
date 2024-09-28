@@ -13,12 +13,21 @@ const ManagePromotion = () => {
     const formatPrice = (price) => {
         return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     };
+
     const formatDate = (dateString) => {
-        const [day, month, year] = dateString.split("/");
-        const formattedDay = day.padStart(2, "0");
-        const formattedMonth = month.padStart(2, "0");
-        return `${formattedDay}/${formattedMonth}/${year}`;
-      };
+        if (!dateString) return 'N/A'; 
+      
+        const date = new Date(dateString);
+        if (isNaN(date)) return 'N/A'; 
+      
+
+        const day = String(date.getDate()).padStart(2, '0'); 
+        const month = String(date.getMonth() + 1).padStart(2, '0'); 
+        const year = date.getFullYear();
+      
+        return `${day}/${month}/${year}`; 
+    };
+      
 
     useEffect(() => {
         const fetchVouchers = async () => {
