@@ -51,6 +51,16 @@ const getSingleVoucher = async (req, res) => {
   }
 };
 
+
+const getAllVouchers = async (req, res) => {
+  try {
+    const vouchers = await Voucher.find({});
+    res.status(200).json(vouchers);
+  } catch (error) {
+    res.status(500).json({ message: 'Lỗi khi lấy danh sách voucher', error });
+  }
+};
+
 const deleteOrder = async (req, res) => {
   const orderId = req.params.id;
   try {
@@ -131,5 +141,6 @@ module.exports = {
   deleteOrder,
   updateStatus,
   getSingleVoucher,
-  updateQuantityBook
+  updateQuantityBook,
+  getAllVouchers
 };

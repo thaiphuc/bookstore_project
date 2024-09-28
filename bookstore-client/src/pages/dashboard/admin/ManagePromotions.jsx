@@ -1,19 +1,40 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
+
 const ManagePromotion = () => {
+    const [promotions, setPromotions] = useState([]);
     const axiosSecure = useAxiosSecure();
-    const { data: promotions = [], refetch } = useQuery({
-        queryKey: ['promotions'],
-        queryFn: async () => {
-            const res = await axiosSecure.get('/promotions');
-            return res.data;
+
+    const formatPrice = (price) => {
+        return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    };
+    const formatDate = (dateString) => {
+        const [day, month, year] = dateString.split("/");
+        const formattedDay = day.padStart(2, "0");
+        const formattedMonth = month.padStart(2, "0");
+        return `${formattedDay}/${formattedMonth}/${year}`;
+      };
+
+    useEffect(() => {
+        const fetchVouchers = async () => {
+        try {
+            const response = await axiosSecure.get("/orders/voucher");
+            if (response.status === 200) {
+                setPromotions(response.data); 
+            }
+        } catch (error) {
+            console.error("Lỗi khi lấy danh sách voucher:", error);
         }
-    });
+        };
+
+        fetchVouchers();
+    }, []);
+    
 
     const handleDeletePromotion = promotion => {
         Swal.fire({
@@ -67,8 +88,8 @@ const ManagePromotion = () => {
                                 <tr key={promotion._id}>
                                     <th>{index + 1}</th>
                                     <td>{promotion.code}</td>
-                                    <td>{promotion.discount}%</td>
-                                    <td>{promotion.expiryDate}</td>
+                                    <td>{formatPrice(promotion.discountAmount)} đ</td>
+                                    <td>{formatDate(promotion.validUntil)}</td>
                                     <td>
                                         <button
                                             onClick={() => handleDeletePromotion(promotion)}
