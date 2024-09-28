@@ -29,7 +29,7 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
       
     const formatPrice = (price) => {
         return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-      };
+    };
 
     const handleCheckout = async() => {
         event.preventDefault();
