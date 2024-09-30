@@ -41,14 +41,13 @@ const ManagePromotion = () => {
         };
 
         fetchVouchers();
-    }, [axiosSecure]); // Thêm axiosSecure vào dependency
+    }, [axiosSecure]); 
 
-    // Trạng thái cho modal tạo mới
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [newPromotion, setNewPromotion] = useState({
         code: '',
-        expiryDate: '',
-        discount: '',
+        validUntil: '',
+        discountAmount: '',
         minOrderValue: '',
         description: ''
     });
@@ -69,7 +68,7 @@ const ManagePromotion = () => {
             cancelButtonText: "Hủy"
         }).then((result) => {
             if (result.isConfirmed) {
-                axiosSecure.delete(`/promotions/${promotion._id}`)
+                axiosSecure.delete(`/orders/voucher/${promotion.code}`)
                     .then(res => {
                         Swal.fire({
                             title: "Deleted!",
@@ -102,21 +101,24 @@ const ManagePromotion = () => {
 
     const handleSubmit = async () => {
         try {
-            await axiosSecure.post('/promotions', newPromotion);
-            Swal.fire({
-                title: "Thành công!",
-                text: "Mã giảm giá mới đã được tạo!",
-                icon: "success"
-            });
-            setIsModalOpen(false);
-            setNewPromotion({
-                code: '',
-                expiryDate: '',
-                discount: '',
-                minOrderValue: '',
-                description: ''
-            });
-            fetchVouchers();
+            const response = await axiosSecure.post('/orders/voucher', newPromotion);
+            
+            if (response.status === 200) {
+                Swal.fire({
+                    title: "Thành công!",
+                    text: "Mã giảm giá mới đã được tạo!",
+                    icon: "success"
+                });
+                setIsModalOpen(false);
+                setNewPromotion({
+                    code: '',
+                    validUntil: '',
+                    discountAmount: '',
+                    minOrderValue: '',
+                    description: ''
+                });
+                fetchVouchers(); 
+            }
         } catch (error) {
             Swal.fire({
                 title: "Lỗi!",
@@ -127,23 +129,20 @@ const ManagePromotion = () => {
         }
     };
 
-    // Hàm mở modal chỉnh sửa
     const handleEditPromotion = promotion => {
         setPromotionToEdit(promotion);
         setIsEditModalOpen(true);
     };
 
-    // Xử lý thay đổi input trong modal chỉnh sửa
     const handleEditInputChange = (e) => {
         const { name, value } = e.target;
         setPromotionToEdit(prevState => ({ ...prevState, [name]: value }));
     };
 
-    // Xử lý submit chỉnh sửa
     const handleEditSubmit = async () => {
         try {
             const { _id, ...updatedData } = promotionToEdit;
-            await axiosSecure.put(`/promotions/${_id}`, updatedData);
+            await axiosSecure.put(`/orders/voucher/${_id}`, updatedData);
             Swal.fire({
                 title: "Thành công!",
                 text: "Mã giảm giá đã được cập nhật!",
@@ -162,7 +161,6 @@ const ManagePromotion = () => {
         }
     };
 
-    // Hàm tải lại danh sách voucher
     const fetchVouchers = async () => {
         try {
             const response = await axiosSecure.get("/orders/voucher");
@@ -256,8 +254,8 @@ const ManagePromotion = () => {
                             <label className="block text-gray-700">Thời hạn:</label>
                             <input
                                 type="date"
-                                name="expiryDate"
-                                value={newPromotion.expiryDate}
+                                name="validUntil"
+                                value={newPromotion.validUntil}
                                 onChange={handleInputChange}
                                 className="w-full border p-2 rounded-lg"
                             />
@@ -266,8 +264,8 @@ const ManagePromotion = () => {
                             <label className="block text-gray-700">Tiền giảm:</label>
                             <input
                                 type="number"
-                                name="discount"
-                                value={newPromotion.discount}
+                                name="discountAmount"
+                                value={newPromotion.discountAmount}
                                 onChange={handleInputChange}
                                 className="w-full border p-2 rounded-lg"
                                 placeholder="Nhập tiền giảm"
@@ -332,8 +330,8 @@ const ManagePromotion = () => {
                             <label className="block text-gray-700">Thời hạn:</label>
                             <input
                                 type="date"
-                                name="expiryDate"
-                                value={promotionToEdit.expiryDate ? promotionToEdit.expiryDate.split('T')[0] : ''}
+                                name="validUntil"
+                                value={promotionToEdit.validUntil ? promotionToEdit.validUntil.split('T')[0] : ''}
                                 onChange={handleEditInputChange}
                                 className="w-full border p-2 rounded-lg"
                             />
@@ -342,8 +340,8 @@ const ManagePromotion = () => {
                             <label className="block text-gray-700">Tiền giảm:</label>
                             <input
                                 type="number"
-                                name="discount"
-                                value={promotionToEdit.discount}
+                                name="discountAmount"
+                                value={promotionToEdit.discountAmount}
                                 onChange={handleEditInputChange}
                                 className="w-full border p-2 rounded-lg"
                                 placeholder="Nhập tiền giảm"

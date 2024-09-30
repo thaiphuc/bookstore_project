@@ -25,7 +25,8 @@ const voucherSchema = new Schema({
         type: Date 
     },  // Thời gian hết hiệu lực
     usageLimit: { 
-        type: Number 
+        type: Number, 
+        default: 1 
     },  // Số lần sử dụng tối đa
     usedCount: { 
         type: Number, 
