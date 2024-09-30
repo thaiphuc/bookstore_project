@@ -14,6 +14,17 @@ const postOrder = async (req, res) => {
   }
 };
 
+const postVoucher = async (req, res) => {
+  const newPromotion = req.body;
+  try {
+
+    const result = await Voucher.create(newPromotion);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const getAllOrders = async (req, res) => {
   const userEmail = req.query.email;
 
@@ -67,6 +78,21 @@ const deleteOrder = async (req, res) => {
     const deletedOrder = await Order.findByIdAndDelete(orderId);
 
     if (!deletedOrder) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    res.status(200).json({ message: "Order Deleted Successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const deleteVoucher = async (req, res) => {
+  const voucherCode = req.params.code;
+  try {
+    const deleteVoucher = await Voucher.findOneAndDelete(voucherCode);
+
+    if (!deleteVoucher) {
       return res.status(404).json({ message: "Order not found" });
     }
 
@@ -132,15 +158,35 @@ const updateStatus = async (req, res) => {
   }
 };
 
+const updateVoucher = async (req, res) => {
+  const voucherId = req.params.id; 
+  const updatedData = req.body; 
+
+  try {
+    const updatedVoucher = await Voucher.findByIdAndUpdate(voucherId, updatedData, { new: true });
+
+    if (!updatedVoucher) {
+      return res.status(404).json({ message: 'Không tìm thấy mã giảm giá!' });
+    }
+    res.status(200).json(updatedVoucher);
+  } catch (error) {
+
+    res.status(500).json({ message: error.message });
+  }
+};
+
 
 
 
 module.exports = {
   postOrder,
+  postVoucher,
   getAllOrders,
   deleteOrder,
+  deleteVoucher,
   updateStatus,
   getSingleVoucher,
   updateQuantityBook,
-  getAllVouchers
+  getAllVouchers,
+  updateVoucher
 };
