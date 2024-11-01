@@ -9,7 +9,10 @@ const stripe = require("stripe")(process.env.PAYMENT_SECRET_KEY);
 const jwt = require("jsonwebtoken");
 
 // middleware
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173', // Địa chỉ frontend của bạn
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Phương thức được phép
+}));
 app.use(express.json());
 
 mongoose
@@ -24,7 +27,6 @@ mongoose
 // jwt related api
 app.post("/jwt", async (req, res) => {
   const user = req.body;
-  // console.log(user)
   const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: "1h",
   });
@@ -39,6 +41,7 @@ const adminStats = require("./api/routes/adminStats");
 const orderStats = require("./api/routes/orderStats");
 const commentRoutes = require("./api/routes/commentRoutes");
 const orderRoutes = require("./api/routes/oderRoutes");
+const paymentRoutes = require("./api/routes/paymentRoutes");
 
 app.use("/book", bookRoutes);
 app.use("/carts", cartsRoutes);
@@ -46,28 +49,13 @@ app.use("/users", usersRoutes);
 app.use("/admin-stats", adminStats);
 app.use("/order-stats", orderStats);
 app.use("/cmt", commentRoutes);
-app.use("/orders", orderRoutes)
+app.use("/orders", orderRoutes);
+app.use("/payment", paymentRoutes);
 
 
 // payment methods routes
 const verifyToken = require("./api/middlewares/verifyToken");
 
-// app.post("/create-payment-intent", verifyToken, async (req, res) => {
-//   const { price } = req.body;
-//   const amount = price * 100;
-//   // console.log(amount);
-
-//   // Create a PaymentIntent
-//   const paymentIntent = await stripe.paymentIntents.create({
-//     amount: amount,
-//     currency: "usd",
-//     payment_method_types: ["card"],
-//   });
-
-//   res.send({
-//     clientSecret: paymentIntent.client_secret,
-//   });
-// });
 
 app.get("/", (req, res) => {
   res.send("BookStore Server is Running!");

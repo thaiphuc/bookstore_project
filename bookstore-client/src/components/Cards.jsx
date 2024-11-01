@@ -130,7 +130,6 @@ const Cards = ({ item }) => {
   
         axios.post('http://localhost:5000/carts', cartItem)
           .then((response) => {
-            console.log(response);
             if (response) {
               refetch();
               Swal.fire({
