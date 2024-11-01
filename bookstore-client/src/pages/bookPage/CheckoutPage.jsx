@@ -8,14 +8,19 @@ import useCart from "../../hooks/useCart";
 import { FaCheck } from "react-icons/fa";
 
 const CheckoutPage = ({ info, totalItems, orderTotal }) => {
+
     const { isDarkMode } = useTheme();
     const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
     const [cart, refetch] = useCart();
-    const [orderCost, setOrderCost] = useState(orderTotal);
+    const [orderCost, setOrderCost] = useState(0);
     const [voucherDiscount, setVoucherDiscount] = useState(0);
+    const [paymentMethod, setPaymentMethod] = useState('COD');
 
-    const [paymentMethod, setPaymentMethod] = useState('COD'); // Default payment method to COD
+    useEffect(() => {
+        setOrderCost(orderTotal);
+    }, [orderTotal]);
+
     const handlePaymentMethodChange = (event) => {
         setPaymentMethod(event.target.value);
     };
@@ -26,7 +31,21 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
         price: item.price*item.quantity,
         image: item.image
       }));
-      
+
+    useEffect(() => {
+        const restoredOrderCost = sessionStorage.getItem("orderCost");
+        if (restoredOrderCost) {
+            setOrderCost(parseFloat(restoredOrderCost));
+            console.log("Khôi phục orderCost từ sessionStorage:", restoredOrderCost);
+        }
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has("vnp_ResponseCode")) {
+            if (info && info.email) {
+                handlePaymentStatus(restoredOrderCost);
+            }
+        }
+    }, [info]);
+
     const formatPrice = (price) => {
         return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     };
@@ -36,6 +55,7 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
         if (paymentMethod === 'COD') {
             handleCODCheckout();
         } else if (paymentMethod === 'card') {
+            saveOrderState();
             handleCardCheckout();
         }
     };
@@ -62,17 +82,52 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
             }); 
         }
         else{
-            const orderInfo = {
-                userEmail: info.email,
-                userName: info.name,
-                items: products,
-                paymentStatus: "Đã thanh toán",
-                status: "Đã duyệt",
-                totalPrice: orderCost
-            };
             try {
-                const orderRes = await axiosSecure.post('/orders', orderInfo);
-                if (orderRes.status === 200) {
+                sessionStorage.setItem("orderCost", orderCost);
+                sessionStorage.setItem("voucherDiscount", voucherDiscount);
+                const response = await axiosSecure.post('/payment/create_payment_url', {
+                    amount: orderCost, 
+                    bankCode: 'NCB', 
+                    language: 'vn'
+                });
+                if (response.data && response.data.url) {
+                    window.location.href = response.data.url;
+                } else {
+                    console.error('Không tìm thấy URL thanh toán trong phản hồi:', response);
+                }
+            } catch (error) {
+                console.error('Có lỗi xảy ra khi tạo thanh toán:', error);
+                alert('Không thể thực hiện thanh toán. Vui lòng thử lại.');
+            }
+            
+        }
+        
+    }
+    const handlePaymentStatus = async (restoredOrderCost) => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const vnp_Params = {};
+        
+        // Lấy tất cả các tham số VNPAY từ URL
+        for (const [key, value] of urlParams.entries()) {
+            vnp_Params[key] = value;
+        }
+    
+        try {
+            // Gửi các tham số vnp_Params về backend để xử lý
+            const response = await axiosSecure.post('/payment/vnpay_return', vnp_Params);
+            
+            if (response.data && response.data.status === 'success') {
+                const orderData = {
+                    userEmail: info.email,
+                    userName: info.name,
+                    items: products,
+                    paymentStatus: "Đã thanh toán",
+                    status: "Đã duyệt",
+                    totalPrice: restoredOrderCost,
+                };
+                console.log("Dữ liệu đơn hàng:", orderData);
+                const orderResponse = await axiosSecure.post('/orders', orderData);
+                if (orderResponse.status === 200) {
                     Swal.fire({
                         position: "center",
                         icon: "success",
@@ -80,22 +135,25 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    await clearCart();  
-                    navigate("/order");  
+                    clearCart();
+                    sessionStorage.removeItem("orderCost");
+                    sessionStorage.removeItem("voucherDiscount");
+                    navigate("/order"); 
                 }
-            } catch (error) {
-                console.error('Error placing order:', error);
+            } else {
                 Swal.fire({
                     position: "center",
                     icon: "error",
-                    title: `Đã xảy ra lỗi khi đặt hàng. Xin thử lại sau.`,
+                    title: `Thanh toán thất bại hoặc có lỗi xảy ra.`,
                     showConfirmButton: false,
                     timer: 1500
                 });
             }
+        } catch (error) {
+            console.error("Có lỗi xảy ra:", error);
         }
-        
-    }
+    };
+    
 
     const handleApplyVoucher = async () => {
         const voucherCode = document.getElementById('voucher').value;
@@ -223,6 +281,7 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
         }
         
     };
+
     return (
         <div className="checkout">
     
