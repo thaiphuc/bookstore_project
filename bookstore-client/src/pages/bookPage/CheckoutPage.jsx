@@ -55,7 +55,6 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
         if (paymentMethod === 'COD') {
             handleCODCheckout();
         } else if (paymentMethod === 'card') {
-            saveOrderState();
             handleCardCheckout();
         }
     };
