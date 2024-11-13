@@ -9,35 +9,41 @@ const Order = require('../models/Orders');
 const verifyToken = require('../middlewares/verifyToken');
 const verifyAdmin = require('../middlewares/verifyAdmin');
 
-// router.get('/', async (req, res) => {
-//   try {
-//     const result = await Order.aggregate([
-//       {
-//         $unwind: '$items' 
-//       },
-//       {
-//         $group: {
-//           _id: '$items.name', 
-//           quantity: { $sum: '$items.quantity' }, 
-//           revenue: { $sum: '$items.price' }
-//         }
-//       },
-//       {
-//         $project: {
-//           _id: 0,
-//           book: '$_id',
-//           quantity: '$quantity',
-//           revenue: '$revenue'
-//         }
-//       }
-//     ]);
+router.get('/top-books', async (req, res) => {
+  try {
+    const result = await Order.aggregate([
+      {
+        $unwind: '$items' 
+      },
+      {
+        $group: {
+          _id: '$items.name', 
+          quantity: { $sum: '$items.quantity' }
+        }
+      },
+      {
+        $sort: {
+          quantity: -1  // Sắp xếp giảm dần theo số lượng bán
+        }
+      },
+      {
+        $limit: 3  // Giới hạn kết quả trả về chỉ 3 sách
+      },
+      {
+        $project: {
+          _id: 0,
+          book: '$_id',
+          quantity: '$quantity'
+        }
+      }
+    ]);
 
-//     res.json(result);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('Internal Server Error');
-//   }
-// });
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 router.get('/', async (req, res) => {
   const { startDate, endDate } = req.query;

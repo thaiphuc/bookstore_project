@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaBook, FaShoppingBag, FaUsers } from "react-icons/fa";
+import { Bar } from 'react-chartjs-2';
+import 'chart.js/auto';
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -14,6 +16,7 @@ const Dashboard = () => {
   const [dateError, setDateError] = useState(null);
   const [modalData, setModalData] = useState(null); // State for modal data
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
+  const [books, setBooks] = useState([]);
 
   const formatPrice = (price) => {
     if (!price) {
@@ -38,6 +41,69 @@ const Dashboard = () => {
       setDateError(null);
       setEndDate(date);
     }
+  };
+
+
+
+  useEffect(() => {
+    const fetchTopSellingBooks = async () => {
+      try {
+        const response = await axiosSecure.get('/order-stats/top-books');
+        const data =  response.data;
+        const sortedBooks = [...data].sort((a, b) => b.quantity - a.quantity);
+        setBooks([sortedBooks[1], sortedBooks[0], sortedBooks[2]]);
+      } catch (error) {
+        console.error('Error fetching top selling books:', error);
+      }
+    };
+
+    fetchTopSellingBooks();
+  }, []);
+
+  const datachart = {
+    labels: ['2', '1', '3'],
+    datasets: [
+      {
+        label: 'Quantity Sold',
+        data: books.map(book => book.quantity),
+        backgroundColor: ['blue', 'orange', 'green'],
+      },
+    ],
+  };
+
+  const options = {
+    plugins: {
+      legend: {
+        display: true,
+        labels: {
+          generateLabels: () =>
+            books.map((book, index) => ({
+              text: book.book,
+              fillStyle: ['blue', 'orange', 'green'][index],
+            })),
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: context => `${context.dataset.label}: ${context.raw}`,
+        },
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Quantity Sold',
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: 'Top',
+        },
+      },
+    },
   };
 
   const { data: stats = {} } = useQuery({
@@ -142,6 +208,10 @@ const Dashboard = () => {
         </div>
       </div>
 
+      <div style={{ width: '800px', height: '600px' }}>
+        <h3>Top 3 Bestselling Books</h3>
+        <Bar data={datachart} options={options} />
+     </div>
 
       {/* bar & pie chart */}
       {/* <div className="mt-16 flex flex-col sm:flex-row"> */}
