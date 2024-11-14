@@ -64,7 +64,7 @@ const Dashboard = () => {
     labels: ['2', '1', '3'],
     datasets: [
       {
-        label: 'Quantity Sold',
+        label: 'Số lượng',
         data: books.map(book => book.quantity),
         backgroundColor: ['blue', 'orange', 'green'],
       },
@@ -76,6 +76,10 @@ const Dashboard = () => {
       legend: {
         display: true,
         labels: {
+          font: {
+            size: 14, 
+            weight: 'bold', 
+          },
           generateLabels: () =>
             books.map((book, index) => ({
               text: book.book,
@@ -94,17 +98,40 @@ const Dashboard = () => {
         beginAtZero: true,
         title: {
           display: true,
-          text: 'Quantity Sold',
+          text: 'Số lượng đã bán',
+          font: {
+            size: 16, 
+            weight: 'bold', 
+          },
+          padding: { right: 10 },
+        },
+        ticks: {
+          font: {
+            size: 14, 
+            weight: 'bold', 
+          },
         },
       },
       x: {
         title: {
           display: true,
-          text: 'Top',
+          text: 'Xếp hạng',
+          font: {
+            size: 16, 
+            weight: 'bold', 
+          },
+          padding: { top: 10 },
+        },
+        ticks: {
+          font: {
+            size: 14, 
+            weight: 'bold', 
+          },
         },
       },
     },
   };
+
 
   const { data: stats = {} } = useQuery({
     queryKey: ["admin-stats"],
@@ -208,8 +235,8 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div style={{ width: '800px', height: '600px' }}>
-        <h3>Top 3 Bestselling Books</h3>
+      <div style={{ width: '800px', height: '450px' }}>
+        <h3 className="font-bold text-center text-xl p-4">Top 3 sách bán chạy nhất </h3>
         <Bar data={datachart} options={options} />
      </div>
 
@@ -347,7 +374,6 @@ const Dashboard = () => {
       {isModalOpen && modalData && (
         <div className="fixed inset-0 flex items-center ml-80 bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded shadow-lg ml-40 max-w-xl w-full relative">
-            {/* Nút đóng modal */}
             <button
               className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
               onClick={closeModal}
