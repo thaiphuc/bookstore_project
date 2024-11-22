@@ -32,6 +32,7 @@ app.post("/jwt", async (req, res) => {
   });
   res.send({ token });
 });
+;
 
 // import routes
 const bookRoutes = require("./api/routes/bookRoutes");
