@@ -23,11 +23,12 @@ const DialogflowMessenger = () => {
         if (messenger) {
             messenger.setAttribute("style", `
                 position: fixed;
-                bottom: 20px; /* Cách đáy 20px */
-                right: 20px; /* Cách phải 20px */
-                width: 300px; /* Chiều rộng khung chat */
-                height: 500px; /* Chiều cao khung chat */
-                z-index: 9999; /* Đặt trên các thành phần khác */
+                top:20px;
+                bottom: 10px; 
+                right: 20px; 
+                width: 200px; /* Chiều rộng khung chat */
+                height: 400px; /* Chiều cao khung chat */
+                z-index: 999999 !important;
             `);
 
             // Thiết lập các biến giao diện cho Messenger
