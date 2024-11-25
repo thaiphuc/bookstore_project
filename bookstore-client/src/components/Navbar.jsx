@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import logo from "/logo.png";
 import { FaRegUser } from "react-icons/fa";
 import Modal from "./Modal";
@@ -9,6 +9,7 @@ import useCart from "../hooks/useCart";
 import useBook from "../hooks/useBook";
 import { useTheme } from "../hooks/ThemeContext";
 import { FaHeart } from "react-icons/fa";
+import { FaBell } from "react-icons/fa";
 
 const Navbar = () => {
   const [isSticky, setSticky] = useState(false);
@@ -21,6 +22,97 @@ const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState(""); 
   const [searchResults, setSearchResults] = useState([]); 
   
+  const NotificationButton = () => {
+    const [isPopupVisible, setIsPopupVisible] = useState(false);
+    const [notifications, setNotifications] = useState([
+      { time: "1 phút trước", message: "Bạn đã đặt hàng thành công", status: "Chưa đọc", read: false },
+      { time: "1 giờ trước", message: "Bạn đã hủy đơn hàng thành công", status: "Chưa đọc", read: false },
+      { time: "7 ngày trước", message: "Bạn đã thanh toán đơn hàng thành công", status: "Chưa đọc", read: false },
+      { time: "1 phút trước", message: "Bạn đã đặt hàng thành công", status: "Chưa đọc", read: false },
+      { time: "1 giờ trước", message: "Bạn đã hủy đơn hàng thành công", status: "Chưa đọc", read: false },
+      { time: "7 ngày trước", message: "Bạn đã thanh toán đơn hàng thành công", status: "Chưa đọc", read: false },
+    ]);
+
+    const popupRef = useRef(null); // Tham chiếu đến popup để kiểm tra khi click bên ngoài
+    const buttonRef = useRef(null); // Tham chiếu đến nút thông báo để kiểm tra khi click vào nó
+
+    // Hàm xử lý khi nhấn vào icon notification
+    const handleNotificationClick = () => {
+      setIsPopupVisible(!isPopupVisible);
+    };
+
+    const handleClickOutside = (event) => {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(event.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setIsPopupVisible(false);
+      }
+    };
+
+    const handleNotificationRead = (index) => {
+      const updatedNotifications = [...notifications];
+      updatedNotifications[index].read = true; // Đánh dấu thông báo là đã đọc
+      setNotifications(updatedNotifications);
+    };
+
+    // Hàm tính số lượng thông báo chưa đọc
+    const unreadCount = notifications.filter(notification => !notification.read).length;
+
+    useEffect(() => {
+      document.addEventListener("click", handleClickOutside);
+
+      return () => {
+        document.removeEventListener("click", handleClickOutside);
+      };
+    }, []);
+
+    return (
+      <div className="relative">
+        {/* Notification button */}
+        <button
+          ref={buttonRef}
+          className="btn btn-ghost btn-circle lg:flex items-center justify-center mr-3"
+          onClick={handleNotificationClick}
+        >
+          <div className="indicator">
+            <FaBell className="h-5 w-5" />
+            {unreadCount > 0 && (
+              <span className="badge badge-sm indicator-item bg-red text-white">
+                {unreadCount}
+              </span>
+            )}
+          </div>
+        </button>
+
+        {/* Popup notifications */}
+        {isPopupVisible && (
+          <div
+            ref={popupRef}
+            className="absolute top-10 right-0 bg-white shadow-lg border rounded-lg"
+            style={{ width: "450px" }}
+          >
+            <div
+              className="max-h-40 overflow-y-auto"
+            >
+              {notifications.map((notification, index) => (
+                <div
+                  key={index}
+                  className={`flex items-center text-sm p-3 ${notification.read ? 'bg-white' : 'bg-gray-100'} text-gray-700`}
+                  onClick={() => handleNotificationRead(index)} // Khi click, đánh dấu đã đọc
+                >
+                  <p>{notification.message}</p>
+                  <p className="ml-auto text-gray-500">{notification.time}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
 
 
   const toggleBook = () => {
@@ -74,22 +166,10 @@ const Navbar = () => {
           Trang chủ
         </a>
       </li>
-      <li tabIndex={0}>
-        <details>
-          <summary className={`text-${isDarkMode ? "dark" : ""}`}>
-            Sản phẩm
-          </summary>
-          <ul className={`p-2 ${isDarkMode ? "dark" : ""}`}>
-            <li>
-              <a href="/book" className={`text-${isDarkMode ? "dark" : ""}`}>
-                Tất cả
-              </a>
-            </li>
-            {/* <li>
-              <a className={`text-${isDarkMode ? 'dark' : ''}`}>Category</a>
-            </li> */}
-          </ul>
-        </details>
+      <li>
+        <a href="/book" className={`text-${isDarkMode ? "dark" : ""}`}>
+          Sản phẩm
+        </a>
       </li>
       <li tabIndex={0}>
         <details>
@@ -238,7 +318,7 @@ const Navbar = () => {
           <Link to="/cart-page">
             <label
               tabIndex={0}
-              className="btn btn-ghost btn-circle  lg:flex items-center justify-center mr-3"
+              className="btn btn-ghost btn-circle  lg:flex items-center justify-center mr-2"
             >
               <div className="indicator">
                 <svg
@@ -261,6 +341,17 @@ const Navbar = () => {
               </div>
             </label>
           </Link>
+          {/* notification bell */}
+          {/* <button className="btn btn-ghost btn-circle lg:flex items-center justify-center mr-3">
+            <div className="indicator">
+              <FaBell className="h-5 w-5" />
+              <span className="badge badge-sm indicator-item bg-red text-white">
+                3
+              </span> 
+            </div>
+          </button> */}
+          <NotificationButton />
+
           {/* login button */}
           {user ? (
             <Profile user={user} />
