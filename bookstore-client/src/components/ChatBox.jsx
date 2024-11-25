@@ -25,10 +25,8 @@ const DialogflowMessenger = () => {
                 position: fixed;
                 top:20px;
                 bottom: 10px; 
-                right: 20px; 
-                width: 200px; /* Chiều rộng khung chat */
-                height: 400px; /* Chiều cao khung chat */
-                z-index: 999999 !important;
+                right: 20px;
+               
             `);
 
             // Thiết lập các biến giao diện cho Messenger
