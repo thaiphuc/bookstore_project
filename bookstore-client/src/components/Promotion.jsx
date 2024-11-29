@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const PromotionCountdown = () => {
     const calculateTimeLeft = () => {
-        const endDate = new Date("2024-12-20T00:00:00");
+        const endDate = new Date("2025-01-31T00:00:00");
         const now = new Date();
         const difference = endDate - now;
 
@@ -35,7 +35,7 @@ const PromotionCountdown = () => {
 
     return (
         <div className="flex flex-col items-center justify-center">
-            <h2 className="text-center text-3xl font-bold mb-4">GIẢM NGAY 30% KHI BẠN GỬI EMAIL CHO CHÚNG TÔI </h2>
+            <h2 className="text-center text-3xl font-bold mb-4">GIẢM NGAY 30% CHO LẦN ĐẦU TIÊN MUA HÀNG KHI NHẬP MÃ DƯỚI ĐÂY </h2>
             <div className=" grid grid-flow-col gap-5 mt-4 text-center auto-cols-max">
                 <div className="flex flex-col p-2 bg-neutral rounded-box text-neutral-content w-32">
                     <span className="countdown font-mono text-5xl">{timeLeft.days}</span>
@@ -55,16 +55,8 @@ const PromotionCountdown = () => {
                 </div>
             </div>
             <form className="mt-10">
-                <h6 className="footer-title text-center">Nhập email của bạn bên dưới đã nhận giảm giá !!!</h6>
-                <fieldset className="form-control w-80 mx-auto">
-                    <label className="label">
-                        <span className="">Nhập địa chỉ email</span>
-                    </label>
-                    <div className="join flex items-center justify-center">
-                        <input type="text" placeholder="username@site.com" className="input input-bordered join-item" />
-                        <button className="btn btn-sub join-item">Gửi</button>
-                    </div>
-                </fieldset>
+                <h6 className="footer-title text-center">Sao chéo mã bên dưới đã nhận giảm giá cho lần đầu tiên !!!</h6>
+             <p className="text-center text-xl">NEWCUS2024</p>
             </form>
         </div>
     );
