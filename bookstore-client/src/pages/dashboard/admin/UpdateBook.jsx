@@ -141,7 +141,7 @@ const UpdateBook = () => {
                 </option>
                 <option value="Non-fiction">Non-fiction</option>
                 <option value="Kinh tế">Kinh tế</option>
-                <option value="Ngữ văn">Ngữ văn</option>
+                <option value="Văn học">Văn học</option>
                 <option value="Chính trị">Chính trị</option>
                 <option value="Ngoại ngữ">Ngoại ngữ</option>
                 <option value="Phát triển bản thân">Phát triển bản thân</option>

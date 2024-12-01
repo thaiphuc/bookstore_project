@@ -51,7 +51,7 @@ const Dashboard = () => {
         const response = await axiosSecure.get('/order-stats/top-books');
         const data =  response.data;
         const sortedBooks = [...data].sort((a, b) => b.quantity - a.quantity);
-        setBooks([sortedBooks[1], sortedBooks[0], sortedBooks[2]]);
+        setBooks([sortedBooks[0], sortedBooks[1], sortedBooks[2]]);
       } catch (error) {
         console.error('Error fetching top selling books:', error);
       }
@@ -61,7 +61,7 @@ const Dashboard = () => {
   }, []);
 
   const datachart = {
-    labels: ['2', '1', '3'],
+    labels: ['1', '2', '3'],
     datasets: [
       {
         label: 'Số lượng',
