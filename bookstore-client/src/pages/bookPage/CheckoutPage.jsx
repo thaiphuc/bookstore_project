@@ -18,9 +18,16 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
     const [paymentMethod, setPaymentMethod] = useState('COD');
 
     useEffect(() => {
+        sessionStorage.setItem("cartData", JSON.stringify(cart));
+    }, [cart]);
+    useEffect(() => {
         setOrderCost(orderTotal);
     }, [orderTotal]);
 
+    let email = '';
+    if (info && info.email) {
+        email = info.email; 
+    }
     const handlePaymentMethodChange = (event) => {
         setPaymentMethod(event.target.value);
     };
@@ -31,17 +38,27 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
         price: item.price*item.quantity,
         image: item.image
       }));
-
+    
     useEffect(() => {
         const restoredOrderCost = sessionStorage.getItem("orderCost");
         if (restoredOrderCost) {
             setOrderCost(parseFloat(restoredOrderCost));
-            console.log("Khôi phục orderCost từ sessionStorage:", restoredOrderCost);
         }
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has("vnp_ResponseCode")) {
             if (info && info.email) {
-                handlePaymentStatus(restoredOrderCost);
+                refetch().then(() => {
+                    const savedCart = JSON.parse(sessionStorage.getItem("cartData")) || cart;
+                    const updatedCart = savedCart.map(item => ({
+                        id: item.bookItemId,
+                        name: item.name,
+                        quantity: item.quantity,
+                        price: item.price * item.quantity,
+                        image: item.image
+                    }));
+                    console.log(updatedCart);
+                    handlePaymentStatus(restoredOrderCost, updatedCart);
+                });
             }
         }
     }, [info]);
@@ -58,6 +75,29 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
             handleCardCheckout();
         }
     };
+
+
+    const notifyOrder = async (email) => {
+        try {
+            const response = await axiosSecure.post('/noti/success',{ userEmail: email});
+            if (response.status === 201) {
+
+            }
+          } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const notifyShip  = async (email) => {
+        try {
+            const response = await axiosSecure.post('/noti/aprove',{ userEmail: email});
+            if (response.status === 201) {
+
+            }
+          } catch (error) {
+            console.error(error);
+        }
+    }
 
     const clearCart = async () => {
         try {
@@ -102,10 +142,20 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
         }
         
     }
-    const handlePaymentStatus = async (restoredOrderCost) => {
+
+    const updateBookQuantity = async (orderId) => {
+        try {
+            await axiosSecure.patch(`orders/quantity/${orderId}`);
+        }
+        catch {
+          console.error("Failed to update quantity");
+        }
+    }
+
+    const handlePaymentStatus = async (restoredOrderCost, updatedCart) => {
         const urlParams = new URLSearchParams(window.location.search);
         const vnp_Params = {};
-        
+        await refetch(); 
         // Lấy tất cả các tham số VNPAY từ URL
         for (const [key, value] of urlParams.entries()) {
             vnp_Params[key] = value;
@@ -114,12 +164,18 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
         try {
             // Gửi các tham số vnp_Params về backend để xử lý
             const response = await axiosSecure.post('/payment/vnpay_return', vnp_Params);
-            
             if (response.data && response.data.status === 'success') {
+                const items = updatedCart.length > 0 ? updatedCart : JSON.parse(sessionStorage.getItem("cartData")).map(item => ({
+                    id: item.bookItemId,
+                    name: item.name,
+                    quantity: item.quantity,
+                    price: item.price * item.quantity,
+                    image: item.image,
+                }));
                 const orderData = {
                     userEmail: info.email,
                     userName: info.name,
-                    items: products,
+                    items,
                     paymentStatus: "Đã thanh toán",
                     status: "Đã duyệt",
                     totalPrice: restoredOrderCost,
@@ -127,6 +183,9 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
                 console.log("Dữ liệu đơn hàng:", orderData);
                 const orderResponse = await axiosSecure.post('/orders', orderData);
                 if (orderResponse.status === 200) {
+                    const orderId = orderResponse.data._id; 
+                    updateBookQuantity(orderId);
+
                     Swal.fire({
                         position: "center",
                         icon: "success",
@@ -135,6 +194,8 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
                         timer: 1500
                     });
                     clearCart();
+                    notifyOrder(email);
+                    notifyShip(email);
                     sessionStorage.removeItem("orderCost");
                     sessionStorage.removeItem("voucherDiscount");
                     navigate("/order"); 
@@ -265,6 +326,7 @@ const CheckoutPage = ({ info, totalItems, orderTotal }) => {
                         timer: 1500
                     });
                     await clearCart();  
+                    notifyOrder(email);
                     navigate("/order");  
                 }
             } catch (error) {

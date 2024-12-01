@@ -3,6 +3,7 @@ import logo from "/logo.png";
 import { FaRegUser } from "react-icons/fa";
 import Modal from "./Modal";
 import { AuthContext } from "../contexts/AuthProvider";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 import Profile from "./Profile";
 import { Link } from "react-router-dom";
 import useCart from "../hooks/useCart";
@@ -10,6 +11,8 @@ import useBook from "../hooks/useBook";
 import { useTheme } from "../hooks/ThemeContext";
 import { FaHeart } from "react-icons/fa";
 import { FaBell } from "react-icons/fa";
+import { formatDistanceToNow } from 'date-fns';
+import { vi } from 'date-fns/locale';
 
 const Navbar = () => {
   const [isSticky, setSticky] = useState(false);
@@ -23,20 +26,29 @@ const Navbar = () => {
   const [searchResults, setSearchResults] = useState([]); 
   
   const NotificationButton = () => {
+
     const [isPopupVisible, setIsPopupVisible] = useState(false);
-    const [notifications, setNotifications] = useState([
-      { time: "1 phút trước", message: "Bạn đã đặt hàng thành công", status: "Chưa đọc", read: false },
-      { time: "1 giờ trước", message: "Bạn đã hủy đơn hàng thành công", status: "Chưa đọc", read: false },
-      { time: "7 ngày trước", message: "Bạn đã thanh toán đơn hàng thành công", status: "Chưa đọc", read: false },
-      { time: "1 phút trước", message: "Bạn đã đặt hàng thành công", status: "Chưa đọc", read: false },
-      { time: "1 giờ trước", message: "Bạn đã hủy đơn hàng thành công", status: "Chưa đọc", read: false },
-      { time: "7 ngày trước", message: "Bạn đã thanh toán đơn hàng thành công", status: "Chưa đọc", read: false },
-    ]);
+    const [notifications, setNotifications] = useState([]);
+    const axiosSecure = useAxiosSecure();
 
     const popupRef = useRef(null); // Tham chiếu đến popup để kiểm tra khi click bên ngoài
     const buttonRef = useRef(null); // Tham chiếu đến nút thông báo để kiểm tra khi click vào nó
-
-    // Hàm xử lý khi nhấn vào icon notification
+    const fetchNotifications = async () => {
+      try {
+        const response = await axiosSecure.get("noti", { params: { userEmail: user.email } });
+        if (response.status === 200) {
+          setNotifications(response.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    useEffect(() => {
+      if (user) {
+        fetchNotifications();
+      }
+    }, [user]);
+    
     const handleNotificationClick = () => {
       setIsPopupVisible(!isPopupVisible);
     };
@@ -52,14 +64,19 @@ const Navbar = () => {
       }
     };
 
-    const handleNotificationRead = (index) => {
-      const updatedNotifications = [...notifications];
-      updatedNotifications[index].read = true; // Đánh dấu thông báo là đã đọc
-      setNotifications(updatedNotifications);
+    const handleNotificationRead = async (notification) => {
+      try {
+        const response = await axiosSecure.patch("/noti/read", { notificationId: notification._id });
+        if (response.status === 200) {
+          fetchNotifications();
+        }
+      } catch (error) {
+        console.error("Error updating notification", error.response || error);
+      }
     };
 
     // Hàm tính số lượng thông báo chưa đọc
-    const unreadCount = notifications.filter(notification => !notification.read).length;
+    const unreadCount = notifications.filter(notification => !notification.isRead).length;
 
     useEffect(() => {
       document.addEventListener("click", handleClickOutside);
@@ -100,11 +117,11 @@ const Navbar = () => {
               {notifications.map((notification, index) => (
                 <div
                   key={index}
-                  className={`flex items-center text-sm p-3 ${notification.read ? 'bg-white' : 'bg-gray-100'} text-gray-700`}
-                  onClick={() => handleNotificationRead(index)} // Khi click, đánh dấu đã đọc
+                  className={`flex items-center text-sm p-3 ${notification.isRead ? 'bg-white' : 'bg-gray-200'} text-gray-700`}
+                  onClick={() => handleNotificationRead(notification)}
                 >
-                  <p>{notification.message}</p>
-                  <p className="ml-auto text-gray-500">{notification.time}</p>
+                  <p>{notification.content}</p>
+                  <p className="ml-auto text-gray-500">{formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true, locale: vi})}</p>
                 </div>
               ))}
             </div>

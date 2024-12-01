@@ -39,7 +39,28 @@ const ManageOrders = () => {
     setOrderProducts([]);
   };
 
+  const notifyShip  = async (email) => {
+    try {
+        console.log(email);
+        const response = await axiosSecure.post('/noti/aprove',{ userEmail: email});
+        if (response.status === 201) {
 
+        }
+      } catch (error) {
+        console.error(error);
+      }
+  }
+  const notifyCancel  = async (email) => {
+    try {
+        console.log(email);
+        const response = await axiosSecure.post('/noti/cancel',{ userEmail: email});
+        if (response.status === 201) {
+
+        }
+      } catch (error) {
+        console.error(error);
+      }
+  }
   
   const handelPayment = async (orderId) => {
     Swal.fire({
@@ -62,7 +83,7 @@ const ManageOrders = () => {
       const response = await axiosSecure.patch(`orders/${orderId}`, paymentStatus);
       if (response.status === 200){
         Swal.fire({
-          title: "Cập nhật trạng thái thanh toán",
+          title: "Cập nhật trạng thái thanh toán.",
           text: "Cập nhật thành công.",
           icon: "success",
         });
@@ -79,7 +100,7 @@ const ManageOrders = () => {
   }
   const handelApprove = async (order) => {
     Swal.fire({
-      title: 'Bạn xác nhận cập nhật trạng thái thanh toán?',
+      title: 'Bạn xác nhận cập nhật trạng thái đơn hàng?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -102,12 +123,14 @@ const ManageOrders = () => {
           }
           else {
             approveOrder(order._id); 
-             refetchBook();
+            notifyShip(order.userEmail);
+            refetchBook();
           }
         }
       }
     });
   };
+  
   const updateBookQuantity = async (orderId) => {
     try {
         await axiosSecure.patch(`orders/quantity/${orderId}`);
@@ -143,7 +166,7 @@ const ManageOrders = () => {
 
 
   
-  const handelCancel = async (orderId) => {
+  const handelCancel = async (order) => {
     Swal.fire({
       title: 'Bạn xác nhận cập nhật trạng thái thanh toán?',
       icon: 'warning',
@@ -154,20 +177,21 @@ const ManageOrders = () => {
       cancelButtonText: 'Không'
     }).then((result) => {
       if (result.isConfirmed) {
-        cancelOrder(orderId);
+        cancelOrder(order);
       }
     });
   };
-  const cancelOrder = async (orderId) => {
+  const cancelOrder = async (order) => {
     const status = { status: "Đã hủy" };
     try{
-      const response = await axiosSecure.patch(`orders/${orderId}`, status);
+      const response = await axiosSecure.patch(`orders/${order._id}`, status);
       if (response.status === 200){
         Swal.fire({
           title: "Cập nhật trạng thái đơn hàng",
           text: "Đã hủy đơn hàng.",
           icon: "success",
         });
+        notifyCancel(order.userEmail);
         fetchData();
       }
     }
@@ -271,7 +295,7 @@ const ManageOrders = () => {
                         </span>
                         <span
                           className="cursor-pointer icon" // Thêm lớp 'icon' vào đây
-                          onClick={() => handelCancel(item._id)}
+                          onClick={() => handelCancel(item)}
                         >
                           <MdCancel style={{ color: 'red' }} />
                         </span>

@@ -131,10 +131,10 @@ const Book = () => {
               Kinh Tế
             </button>
             <button
-              onClick={() => filterItems("Ngữ văn")}
-              className={selectedCategory === "Ngữ văn" ? "active" : ""}
+              onClick={() => filterItems("Văn học")}
+              className={selectedCategory === "Văn học" ? "active" : ""}
             >
-              Ngữ văn
+              Văn học
             </button>
             <button
               onClick={() => filterItems("Chính trị")}

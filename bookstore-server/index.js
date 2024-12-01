@@ -10,8 +10,8 @@ const jwt = require("jsonwebtoken");
 
 // middleware
 app.use(cors({
-  origin: 'http://localhost:5173', // Địa chỉ frontend của bạn
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Phương thức được phép
+  origin: 'http://localhost:5173', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], 
 }));
 app.use(express.json());
 
@@ -33,7 +33,6 @@ app.post("/jwt", async (req, res) => {
   res.send({ token });
 });
 ;
-
 // import routes
 const bookRoutes = require("./api/routes/bookRoutes");
 const cartsRoutes = require("./api/routes/cartRoutes");
@@ -43,6 +42,7 @@ const orderStats = require("./api/routes/orderStats");
 const commentRoutes = require("./api/routes/commentRoutes");
 const orderRoutes = require("./api/routes/oderRoutes");
 const paymentRoutes = require("./api/routes/paymentRoutes");
+const notificationRoutes = require("./api/routes/notificationRoutes")
 
 app.use("/book", bookRoutes);
 app.use("/carts", cartsRoutes);
@@ -52,6 +52,7 @@ app.use("/order-stats", orderStats);
 app.use("/cmt", commentRoutes);
 app.use("/orders", orderRoutes);
 app.use("/payment", paymentRoutes);
+app.use("/noti",notificationRoutes);
 
 
 // payment methods routes

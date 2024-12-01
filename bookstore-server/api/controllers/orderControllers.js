@@ -29,22 +29,22 @@ const getAllOrders = async (req, res) => {
   const userEmail = req.query.email;
 
   try {
-      // Nếu không có email được cung cấp, lấy tất cả các đơn hàng
-      if (!userEmail) {
-          const allOrders = await Order.find({});
-          return res.json(allOrders);
-      }
 
-      // Ngược lại, tìm các đơn hàng theo email được cung cấp
-      const orders = await Order.find({ userEmail: userEmail });
-      if (orders.length === 0) {
-          return res.status(404).send({ message: "No orders found for this email" });
-      }
-      res.json(orders);
+    if (!userEmail) {
+      const allOrders = await Order.find({}).sort({ createdAt: -1 }); // Sắp xếp giảm dần
+      return res.json(allOrders);
+    }
+
+    const orders = await Order.find({ userEmail: userEmail }).sort({ createdAt: -1 }); // Sắp xếp giảm dần
+    if (orders.length === 0) {
+      return res.status(404).send({ message: "No orders found for this email" });
+    }
+    res.json(orders);
   } catch (error) {
-      res.status(500).send({ message: `Error getting orders: ${error.message}` });
+    res.status(500).send({ message: `Error getting orders: ${error.message}` });
   }
 };
+
 
 
 const getSingleVoucher = async (req, res) => {
