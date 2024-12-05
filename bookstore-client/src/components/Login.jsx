@@ -4,11 +4,16 @@ import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../contexts/AuthProvider";
 import useAxiosPublic from "../hooks/useAxiosPublic";
+import app from '../firebase/firebase.config';
+import {getAuth, getRedirectResult } from 'firebase/auth';
+import { useEffect } from 'react';
+
 
 const Login = () => {
   const axiosPublic = useAxiosPublic();
   const [errorMessage, seterrorMessage] = useState("");
   const { signUpWithGmail, login } = useContext(AuthContext);
+  const auth = getAuth(app);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -52,7 +57,6 @@ const Login = () => {
 
   };
 
-  // login with google
   const handleRegister = () => {
     signUpWithGmail().then(result => {
       console.log(result.user);
@@ -69,6 +73,9 @@ const Login = () => {
       navigate('/');
     })
   };
+
+
+
   return (
     <div className="max-w-md bg-white shadow w-full mx-auto flex items-center justify-center my-20">
       <div className="mb-5">

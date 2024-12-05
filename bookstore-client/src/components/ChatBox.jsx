@@ -39,6 +39,7 @@ const DialogflowMessenger = () => {
     return (
         <df-messenger
             intent="WELCOME"
+            chat-icon="/public/chat-icon.png"
         ></df-messenger>
     );
 };
