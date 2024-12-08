@@ -26,13 +26,13 @@ const UserProfile = () => {
     try {
       const userRes = await axiosSecure.patch(`users/${id}`, info);
 
-      if (userRes.status === 200) {
+      if (userRes.status === 200) { 
         // show success popup
         reset(); 
         Swal.fire({
           position: "center",
           icon: "success",
-          title: `User is updated successfully!`, // Cập nhật tiêu đề phù hợp
+          title: `Cập nhật thông tin thành công!`, // Cập nhật tiêu đề phù hợp
           showConfirmButton: false,
           timer: 1500,
         });

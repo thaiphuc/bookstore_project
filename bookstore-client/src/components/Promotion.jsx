@@ -55,7 +55,7 @@ const PromotionCountdown = () => {
                 </div>
             </div>
             <form className="mt-10">
-                <h6 className="footer-title text-center">Sao chéo mã bên dưới đã nhận giảm giá cho lần đầu tiên !!!</h6>
+                <h6 className="footer-title text-center">Sao chép mã bên dưới đã nhận giảm giá cho lần đầu tiên !!!</h6>
              <p className="text-center text-xl">NEWCUS2024</p>
             </form>
         </div>

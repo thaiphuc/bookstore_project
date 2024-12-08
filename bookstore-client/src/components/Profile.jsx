@@ -50,12 +50,12 @@ const Profile = ({ user }) => {
                 Thông tin cá nhân
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link to={`/update-password/${user.email}`}>
                 <FontAwesomeIcon icon={faLock} className="mr-2" />
                 Thay đổi mật khẩu
               </Link>
-            </li>
+            </li> */}
             <li>
               <a href="/order">
                 <FontAwesomeIcon icon={faClipboardList} className="mr-2" />

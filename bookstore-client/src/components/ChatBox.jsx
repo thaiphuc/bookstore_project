@@ -26,11 +26,11 @@ const DialogflowMessenger = () => {
                 top:20px;
                 bottom: 10px; 
                 right: 20px;
-               
+                z-index: 11111 !important; 
             `);
 
             // Thiết lập các biến giao diện cho Messenger
-            messenger.setAttribute("chat-title", "Chatbot");
+            messenger.setAttribute("chat-title", "PNQ BookStore");
             messenger.setAttribute("agent-id", "2b85084a-3e3a-43e6-a157-4eddd621d675");
             messenger.setAttribute("language-code", "vi");
         }

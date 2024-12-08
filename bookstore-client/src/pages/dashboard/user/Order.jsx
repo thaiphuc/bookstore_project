@@ -5,6 +5,7 @@ import { AuthContext } from "../../../contexts/AuthProvider";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from 'sweetalert2';
 import { useTheme } from "../../../hooks/ThemeContext";
+import { reload } from 'firebase/auth';
 
 const Order = () => {
   const { isDarkMode } = useTheme();
@@ -25,6 +26,19 @@ const Order = () => {
   useEffect(() => {
     fetchData();
   },);
+
+  const notifyCancel  = async (email) => {
+    try {
+        console.log(email);
+        const response = await axiosSecure.post('/noti/cancel',{ userEmail: email});
+        if (response.status === 201) {
+
+        }
+      } catch (error) {
+        console.error(error);
+      }
+  }
+  
   const cancelOrder = async (order) => {
     Swal.fire({
       title: 'Bạn có muốn hủy đơn hàng không?',
@@ -52,6 +66,8 @@ const Order = () => {
         }
         if (order.status === "Chờ duyệt") {
           updateStatus(order._id);
+          notifyCancel(user.email);
+          window.location.reload();
         }
       }
     });

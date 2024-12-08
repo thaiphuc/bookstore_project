@@ -12,6 +12,7 @@ import { FaHeart, FaShoppingCart } from 'react-icons/fa';
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { formatDistanceToNow } from 'date-fns';
 import { FaComment, FaReply } from 'react-icons/fa6';
+import Avatar from "../../../public/images/avatar.jpg"
 
 const CommentSection = () => {
     const [listcomments, setComment] = useState([]);
@@ -55,11 +56,15 @@ const CommentSection = () => {
                 {listcomments.slice(0, isExpanded ? listcomments.length : MAX_LINES).map(comment => (
                     <div key={comment._id} className="comment">
                         <div className="avatar-details-container flex mb-2">
-                            {comment.avatar && (
-                                <div className="avatar-container w-24 rounded-full ring ring-mainBG ring-offset-base-100 ring-offset-2 flex items-center justify-center">
-                                    <img src={comment.avatar} alt="Avatar" />
-                                </div>
-                            )}
+                        {comment.avatar ? (
+                            <div className="avatar-container w-24 rounded-full ring ring-mainBG ring-offset-base-100 ring-offset-2 flex items-center justify-center">
+                                <img src={comment.avatar} alt="User Avatar" className="rounded-full" />
+                            </div>
+                        ) : (
+                            <div className="avatar-container w-24 rounded-full ring ring-mainBG ring-offset-base-100 ring-offset-2 flex items-center justify-center">
+                                <img src={Avatar} alt="Default Avatar" className="rounded-full" />
+                            </div>
+                        )}
                             <div className="details ml-2">
                                 <div className="user-info flex items-center">
                                     <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>
@@ -434,9 +439,7 @@ const ProductDetails = () => {
                 <div className="md:w-1/2 p-3 ">
                     <div className="py-6">
                         <h3 className={`mb-2 text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>{book.name}</h3>
-                        <p className={`mb-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}>
-                            <span className="font-bold">Lượt thích:</span> 12,3k người
-                        </p>
+                     
                         <p className={`mb-2 text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}>
                             <span className="font-bold">Giá sản phẩm:</span> {book.price.toLocaleString('vi-VN')} <span className="text-xl font-bold text-red">₫</span>
                         </p>

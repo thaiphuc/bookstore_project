@@ -7,7 +7,7 @@ const categoryItems = [
     { id: 3, title: "Ngoại ngữ", despriction: "(24 Sách)", image: "/images/home/category/img3.png" },
     { id: 4, title: "Sách giáo khoa", despriction: "(21 Sách)", image: "/images/home/category/img4.png" },
     { id: 5, title: "Kinh tế", despriction: "(22 Sách)", image: "/images/home/category/img5.png" },
-    { id: 6, title: "Tất cả", despriction: "(120 Sách)", image: "/images/home/category/img6.png" }
+    { id: 6, title: "Văn học", despriction: "(120 Sách)", image: "/images/home/category/img6.png" }
 
 ]
 
@@ -28,7 +28,6 @@ const Catagories = () => {
                             <div className='w-full mx-auto flex items-center justify-center'><img src={item.image} alt="" className='bg-[#72e4d5] p-5 rounded-full w-28 h-28' /></div>
                             <div className='mt-5 space-y-1'>
                                 <h5 className='text-[#1E1E1E] font-semibold'>{item.title}</h5>
-                                <p className='text-secondary text-sm'>{item.despriction}</p>
                             </div>
                         </div>
                     ))
