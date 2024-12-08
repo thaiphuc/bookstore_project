@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo} from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
@@ -14,9 +14,8 @@ const Dashboard = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [dateError, setDateError] = useState(null);
-  const [modalData, setModalData] = useState(null); // State for modal data
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
-  const [books, setBooks] = useState([]);
+  const [modalData, setModalData] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false); 
 
   const formatPrice = (price) => {
     if (!price) {
@@ -43,96 +42,6 @@ const Dashboard = () => {
     }
   };
 
-
-
-  useEffect(() => {
-    const fetchTopSellingBooks = async () => {
-      try {
-        const response = await axiosSecure.get('/order-stats/top-books');
-        const data =  response.data;
-        const sortedBooks = [...data].sort((a, b) => b.quantity - a.quantity);
-        setBooks([sortedBooks[0], sortedBooks[1], sortedBooks[2]]);
-      } catch (error) {
-        console.error('Error fetching top selling books:', error);
-      }
-    };
-
-    fetchTopSellingBooks();
-  }, []);
-
-  const datachart = {
-    labels: ['1', '2', '3'],
-    datasets: [
-      {
-        label: 'Số lượng',
-        data: books.map(book => book.quantity),
-        backgroundColor: ['blue', 'orange', 'green'],
-      },
-    ],
-  };
-
-  const options = {
-    plugins: {
-      legend: {
-        display: true,
-        labels: {
-          font: {
-            size: 14, 
-            weight: 'bold', 
-          },
-          generateLabels: () =>
-            books.map((book, index) => ({
-              text: book.book,
-              fillStyle: ['blue', 'orange', 'green'][index],
-            })),
-        },
-      },
-      tooltip: {
-        callbacks: {
-          label: context => `${context.dataset.label}: ${context.raw}`,
-        },
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        title: {
-          display: true,
-          text: 'Số lượng đã bán',
-          font: {
-            size: 16, 
-            weight: 'bold', 
-          },
-          padding: { right: 10 },
-        },
-        ticks: {
-          font: {
-            size: 14, 
-            weight: 'bold', 
-          },
-        },
-      },
-      x: {
-        title: {
-          display: true,
-          text: 'Xếp hạng',
-          font: {
-            size: 16, 
-            weight: 'bold', 
-          },
-          padding: { top: 10 },
-        },
-        ticks: {
-          font: {
-            size: 14, 
-            weight: 'bold', 
-          },
-        },
-      },
-    },
-  };
-
-
   const { data: stats = {} } = useQuery({
     queryKey: ["admin-stats"],
     queryFn: async () => {
@@ -155,6 +64,91 @@ const Dashboard = () => {
     enabled: !!startDate && !!endDate && !dateError,
   });
 
+  const books = useMemo(() => {
+    const bookSales = chartData.reduce((acc, curr) => {
+      acc[curr.book] = (acc[curr.book] || 0) + curr.quantity;
+      return acc;
+    }, {});
+
+    return Object.entries(bookSales)
+      .sort((a, b) => b[1] - a[1]) 
+      .slice(0, 3) 
+      .map(([book, quantity]) => ({ book, quantity }));
+  }, [chartData]);
+
+
+  const datachart = {
+    labels: books.map((book, index) => `${index + 1}`),
+    datasets: [
+      {
+        label: "Số lượng",
+        data: books.map((book) => book.quantity), 
+        backgroundColor: ["blue", "orange", "green"], 
+      },
+    ],
+  };
+
+
+  const options = {
+    plugins: {
+      legend: {
+        display: true,
+        labels: {
+          font: {
+            size: 14,
+            weight: "bold",
+          },
+          generateLabels: () =>
+            books.map((book, index) => ({
+              text: book.book, 
+              fillStyle: ["blue", "orange", "green"][index],
+            })),
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: (context) => `${context.dataset.label}: ${context.raw}`,
+        },
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: "Số lượng đã bán",
+          font: {
+            size: 16,
+            weight: "bold",
+          },
+          padding: { right: 10 },
+        },
+        ticks: {
+          font: {
+            size: 14,
+            weight: "bold",
+          },
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: "Xếp hạng",
+          font: {
+            size: 16,
+            weight: "bold",
+          },
+          padding: { top: 10 },
+        },
+        ticks: {
+          font: {
+            size: 14,
+            weight: "bold",
+          },
+        },
+      },
+    },
+  };
   const calculateDailyRevenue = (data) => {
     const dailyRevenue = {};
 

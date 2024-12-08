@@ -35,8 +35,8 @@ const AddBook = () => {
     }
     const value = data.publishYear.toString().replace(/[^0-9]/g, "");
     const year = parseInt(value);
-    if (isNaN(year) || value.length !== 4 || year < 0 || year > 2024) {
-      setPublishYearError("Năm phải là giá trị có 4 số, năm xuất bản không được lớn hơn năm hiện tại.");
+    if (isNaN(year) || value.length !== 4 || year < 0 || year > 2024 || year < 1500) {
+      setPublishYearError("Năm xuất bản không hợp lệ.");
       return;
     } else {
       setPublishYearError("");
