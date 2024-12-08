@@ -23,6 +23,7 @@ import ManageComment from "../pages/dashboard/admin/ManageComment";
 import UpdatePassword from "../pages/dashboard/user/UpdatePassword";
 import ServicePage from "../pages/bookPage/ServicePage";
 import ManagePromotion from "../pages/dashboard/admin/ManagePromotions";
+import RewardsPage from "../pages/dashboard/user/Rewards";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
       {
         path: "/service-page",
         element: <ServicePage/>,
+      },
+      {
+        path: "/reward-page",
+        element: <RewardsPage />,
       },
     ]
   },
