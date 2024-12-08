@@ -24,6 +24,7 @@ import UpdatePassword from "../pages/dashboard/user/UpdatePassword";
 import ServicePage from "../pages/bookPage/ServicePage";
 import ManagePromotion from "../pages/dashboard/admin/ManagePromotions";
 import RewardsPage from "../pages/dashboard/user/Rewards";
+import GamePage from "../pages/dashboard/user/Game";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
       {
         path: "/reward-page",
         element: <RewardsPage />,
+      },
+      {
+        path: "/game-page",
+        element: <GamePage />,
       },
     ]
   },
