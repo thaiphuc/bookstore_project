@@ -212,7 +212,7 @@ const Navbar = () => {
             </li>
             <li>
               <a
-                href="/order"
+                href="/reward-page"
                 className={`text-${isDarkMode ? "white" : "black"}`}
               >
                 Đổi thưởng
