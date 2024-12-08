@@ -1,80 +1,56 @@
-import React, { useContext, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa";
+import React, { useContext, useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../contexts/AuthProvider";
-import useAxiosPublic from "../hooks/useAxiosPublic";
-import app from '../firebase/firebase.config';
-import {getAuth, getRedirectResult } from 'firebase/auth';
-import { useEffect } from 'react';
-
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import app from "../firebase/firebase.config";
 
 const Login = () => {
-  const axiosPublic = useAxiosPublic();
-  const [errorMessage, seterrorMessage] = useState("");
-  const { signUpWithGmail, login } = useContext(AuthContext);
-  const auth = getAuth(app);
-
+  const { login, signUpWithGmail } = useContext(AuthContext);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-
   const from = location.state?.from?.pathname || "/";
-
-  //react hook form
   const {
     register,
-    handleSubmit, reset,
+    handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
+
+
   const onSubmit = (data) => {
-    const email = data.email;
-    const password = data.password;
+    const { email, password } = data;
+  
     login(email, password)
       .then((result) => {
-        // Signed in
-        const user = result.user;
-
-        const userInfo = {
-          email: result.user?.email,
-          name: result.user?.displayName
-        }
-        axiosPublic.post('/users', userInfo)
-          .then(res => {
-            console.log(res.data);
-            navigate('/');
-          })
-        // console.log(user);
+        console.log("User logged in:", result.user);
         alert("Đăng nhập thành công!");
-        navigate('/');
-        // ...
+        reset();
+        navigate(from || "/");
       })
       .catch((error) => {
-        const errorMessage = error.message;
-        seterrorMessage("Vui lòng đăng nhập email & mật khẩu hợp lệ!");
+        console.error("Error during login:", error.message);
+        setErrorMessage("Vui lòng nhập email và mật khẩu hợp lệ!");
       });
-    reset()
-
   };
+  
 
-  const handleRegister = () => {
-    signUpWithGmail().then(result => {
-      console.log(result.user);
-      const userInfo = {
-        email: result.user?.email,
-        name: result.user?.displayName
-      }
-      axiosPublic.post('/users', userInfo)
-        .then(res => {
-          console.log(res.data);
-          alert("Đăng nhập thành công!");
 
-        })
-      navigate('/');
-    })
+  const handleGoogleLogin = () => {
+    signUpWithGmail()
+      .then((result) => {
+        console.log("Google login successful:", result.user);
+        alert("Đăng nhập bằng Google thành công!");
+        navigate("/"); 
+      })
+      .catch((error) => {
+        console.error("Google login error:", error.message);
+        setErrorMessage("Đăng nhập bằng Google thất bại!");
+      });
   };
-
-
 
   return (
     <div className="max-w-md bg-white shadow w-full mx-auto flex items-center justify-center my-20">
@@ -86,7 +62,7 @@ const Login = () => {
         >
           <h3 className="font-bold text-lg">Vui lòng đăng nhập!</h3>
 
-          {/* email */}
+          {/* Email */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">Email</span>
@@ -95,11 +71,14 @@ const Login = () => {
               type="email"
               placeholder="Email"
               className="input input-bordered"
-              {...register("Email")}
+              {...register("email", { required: "Vui lòng nhập email" })}
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            )}
           </div>
 
-          {/* password */}
+          {/* Password */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">Mật khẩu</span>
@@ -108,30 +87,26 @@ const Login = () => {
               type="password"
               placeholder="Nhập mật khẩu"
               className="input input-bordered"
-              {...register("password", { required: true })}
+              {...register("password", {
+                required: "Vui lòng nhập mật khẩu",
+              })}
             />
-            <label className="label">
-              <a href="#" className="label-text-alt link link-hover mt-2">
-                Quên mật khẩu?
-              </a>
-            </label>
+            {errors.password && (
+              <p className="text-red-500 text-sm">{errors.password.message}</p>
+            )}
           </div>
 
-          {/* show errors */}
-          {errorMessage ? (
-            <p className="text-red text-xs italic">
-              Vui lòng đăng nhập email & mật khẩu hợp lệ!
-            </p>
-          ) : (
-            ""
+          {/* Hiển thị lỗi */}
+          {errorMessage && (
+            <p className="text-red-500 text-xs italic">{errorMessage}</p>
           )}
 
-          {/* submit btn */}
+          {/* Submit Button */}
           <div className="form-control mt-4">
             <input
               type="submit"
               className="btn bg-mainBG text-white"
-              value="Login"
+              value="Đăng nhập"
             />
           </div>
 
@@ -142,17 +117,19 @@ const Login = () => {
             </Link>
           </p>
         </form>
+
+        {/* Login với Google */}
         <div className="text-center space-x-3">
-          <button onClick={handleRegister} className="btn btn-circle hover:bg-mainBG hover:text-white">
+          <button
+            onClick={handleGoogleLogin}
+            className="btn btn-circle hover:bg-mainBG hover:text-white"
+          >
             <FaGoogle />
-          </button>
-          <button className="btn btn-circle hover:bg-mainBG hover:text-white">
-            <FaFacebookF />
           </button>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

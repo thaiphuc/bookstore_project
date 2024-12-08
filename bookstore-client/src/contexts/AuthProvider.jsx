@@ -42,32 +42,29 @@ const AuthProvider = ({children}) => {
           })
     }
 
-    useEffect( () =>{
-        const unsubscribe = onAuthStateChanged(auth, currentUser =>{
-            // console.log(currentUser);
-            setUser(currentUser);
-            if (currentUser){
-                 // get token and store client
-                 const userInfo = { email: currentUser.email };
-                 axiosPublic.post('/jwt', userInfo)
-                     .then(response => {
-                        // console.log(response.data.token)
-                         if (response.data.token) {
-                            
-                             localStorage.setItem("access_token", response.data.token);
-                         }
-                     })
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+            if (currentUser) {
+                setUser(currentUser);
+                const userInfo = { email: currentUser.email };
+                try {
+                    const response = await axiosPublic.post('/jwt', userInfo);
+                    if (response.data.token) {
+                        localStorage.setItem("access_token", response.data.token);
+                    }
+                } catch (error) {
+                    console.error("Error generating token:", error.message);
+                }
             } else {
-               
+                setUser(null);
                 localStorage.removeItem('access_token');
             }
             setLoading(false);
         });
-
-        return () =>{
-            return unsubscribe();
-        }
-    }, [axiosPublic])
+    
+        return () => unsubscribe();
+    }, [axiosPublic]);
+    
 
     const authInfo = {
         user, 

@@ -3,6 +3,7 @@ import Cards from "../../components/Cards";
 import { FaFilter } from "react-icons/fa";
 import { useTheme } from "../../hooks/ThemeContext";
 import { Link } from "react-router-dom";
+import { useLocation, useNavigate  } from "react-router-dom";
 
 const Book = () => {
   const { isDarkMode } = useTheme();
@@ -11,30 +12,42 @@ const Book = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortOption, setSortOption] = useState("default");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(6); // Number of items to display per page
+  const [itemsPerPage] = useState(6); 
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const category = params.get("category") || "all";
+  console.log("Category:", category);
+  const navigate = useNavigate();
+
+  const handleCategoryClick = (category) => {
+    navigate(`/book?category=${category}`); // Cập nhật URL
+  };
 
   useEffect(() => {
-    // Fetch data from the backend
     const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:5000/book");
         const data = await response.json();
         setBook(data);
-        setFilteredItems(data); // Initially, display all items
+  
+        if (category && category !== "all") {
+          filterItems(category, data);
+        } else {
+          setFilteredItems(data);
+          setSelectedCategory("all");
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
+  
     fetchData();
-  }, []);
+  }, [category]);
 
-  // console.log(book)
-
-  const filterItems = (category) => {
-    const filtered = book.filter((item) =>
-      category === "all" || item.category.includes(category));
-
+  const filterItems = (category, data = book) => {
+    const filtered = data.filter((item) =>
+      category === "all" || item.category.includes(category)
+    );
     setFilteredItems(filtered);
     setSelectedCategory(category);
     setCurrentPage(1);
@@ -113,49 +126,49 @@ const Book = () => {
           {/* all category buttons */}
           <div className="flex flex-row justify-start md:items-center md:gap-8 gap-4  flex-wrap">
             <button
-              onClick={showAll}
+              onClick={() => handleCategoryClick("all")}
               className={selectedCategory === "all" ? "active" : ""}
             >
               Tất cả
             </button>
             <button
-              onClick={() => filterItems("Non-fiction")}
+              onClick={() => handleCategoryClick("Non-fiction")}
               className={selectedCategory === "Non-fiction" ? "active" : ""}
             >
               Non-fiction
             </button>
             <button
-              onClick={() => filterItems("Kinh tế")}
+              onClick={() => handleCategoryClick("Kinh tế")}
               className={selectedCategory === "Kinh tế" ? "active" : ""}
             >
               Kinh Tế
             </button>
             <button
-              onClick={() => filterItems("Văn học")}
+              onClick={() => handleCategoryClick("Văn học")}
               className={selectedCategory === "Văn học" ? "active" : ""}
             >
               Văn học
             </button>
             <button
-              onClick={() => filterItems("Chính trị")}
+              onClick={() => handleCategoryClick("Chính trị")}
               className={selectedCategory === "Chính trị" ? "active" : ""}
             >
               Chính trị
             </button>
             <button
-              onClick={() => filterItems("Ngoại ngữ")}
+              onClick={() => handleCategoryClick("Ngoại ngữ")}
               className={selectedCategory === "Ngoại ngữ" ? "active" : ""}
             >
               Ngoại ngữ
             </button>
             <button
-              onClick={() => filterItems("Phát triển bản thân")}
+              onClick={() => handleCategoryClick("Phát triển bản thân")}
               className={selectedCategory === "Phát triển bản thân" ? "active" : ""}
             >
               Phát triển bản thân
             </button>
             <button
-              onClick={() => filterItems("Sách giáo khoa")}
+              onClick={() => handleCategoryClick("Sách giáo khoa")}
               className={selectedCategory === "Sách giáo khoa" ? "active" : ""}
             >
               Sách giáo khoa
