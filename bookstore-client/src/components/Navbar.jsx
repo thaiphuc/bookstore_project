@@ -21,10 +21,10 @@ const Navbar = () => {
   const [book, , refetchBooks] = useBook();
   const { isDarkMode } = useTheme();
   const [isBookOpen, setIsBookOpen] = useState(false);
-  const [totalItems, setTotalItems] = useState(0); 
-  const [searchTerm, setSearchTerm] = useState(""); 
-  const [searchResults, setSearchResults] = useState([]); 
-  
+  const [totalItems, setTotalItems] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
   const NotificationButton = () => {
 
     const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -48,7 +48,7 @@ const Navbar = () => {
         fetchNotifications();
       }
     }, [user]);
-    
+
     const handleNotificationClick = () => {
       setIsPopupVisible(!isPopupVisible);
     };
@@ -121,7 +121,7 @@ const Navbar = () => {
                   onClick={() => handleNotificationRead(notification)}
                 >
                   <p>{notification.content}</p>
-                  <p className="ml-auto text-gray-500">{formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true, locale: vi})}</p>
+                  <p className="ml-auto text-gray-500">{formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true, locale: vi })}</p>
                 </div>
               ))}
             </div>
@@ -207,7 +207,15 @@ const Navbar = () => {
                 href="/order"
                 className={`text-${isDarkMode ? "white" : "black"}`}
               >
-                Đơn hàng
+                Trò chơi
+              </a>
+            </li>
+            <li>
+              <a
+                href="/order"
+                className={`text-${isDarkMode ? "white" : "black"}`}
+              >
+                Đổi thưởng
               </a>
             </li>
           </ul>
