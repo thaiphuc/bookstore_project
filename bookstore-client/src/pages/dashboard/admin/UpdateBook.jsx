@@ -8,7 +8,7 @@ import { FaUpload } from "react-icons/fa";
 
 const UpdateBook = () => {
   const item = useLoaderData();
-  const { register, handleSubmit, reset} = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
@@ -32,15 +32,14 @@ const UpdateBook = () => {
 
 
   const onSubmit = async (data) => {
-    if (data.publishYear < 0)
-    {
+    if (data.publishYear < 0) {
       setPublishYearError("Năm xuất bản không âm!");
       return;
     }
     const value = data.publishYear.toString().replace(/[^0-9]/g, "");
     const year = parseInt(value);
-    if (isNaN(year) || value.length !== 4) {
-      setPublishYearError("Năm phải là số có 4 chữ số");
+    if (isNaN(year) || value.length !== 4 || year < 0 || year > 2024 || year < 1500) {
+      setPublishYearError("Năm xuất bản không hợp lệ.");
       return;
     } else {
       setPublishYearError("");
@@ -59,16 +58,16 @@ const UpdateBook = () => {
 
 
     if (data.image && data.image.length > 0) {
-        const imageFile = { image: data.image[0] };
-        const hostingImg = await axiosPublic.post(image_hosting_api, imageFile, {
-            headers: {
-                "content-type": "multipart/form-data",
-            },
-        });
+      const imageFile = { image: data.image[0] };
+      const hostingImg = await axiosPublic.post(image_hosting_api, imageFile, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      });
 
-        if (hostingImg.data.success) {
-            imageURL = hostingImg.data.data.display_url; 
-        }
+      if (hostingImg.data.success) {
+        imageURL = hostingImg.data.data.display_url;
+      }
     }
     const authorArray = data.author.split(",").map((item) => item.trim());
     const publisherArray = data.publisher.split(",").map((item) => item.trim());
