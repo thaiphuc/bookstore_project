@@ -204,7 +204,7 @@ const Navbar = () => {
             </li>
             <li>
               <a
-                href="/order"
+                href="/game-page"
                 className={`text-${isDarkMode ? "white" : "black"}`}
               >
                 Trò chơi
