@@ -49,7 +49,7 @@ const ManageComment = () => {
                     // Remove deleted comment from state
                     setComments(comments.filter(comment => comment._id !== commentId));
                     Swal.fire({
-                        title: "Deleted!",
+                        title: "Đã xóa bình luận!",
                         text: "Đã xóa bình luận thành công!",
                         icon: "success",
                     });
