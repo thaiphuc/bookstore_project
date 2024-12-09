@@ -307,7 +307,7 @@ const Game = () => {
           >
             Chơi lại
           </button>
-          <button
+          {/* <button
             onClick={() => navigate("/reward-page")}
             style={{
               marginLeft:"10px",
@@ -321,7 +321,7 @@ const Game = () => {
             }}
           >
             Đổi thưởng
-          </button>
+          </button> */}
           </div>
         </div>
       )}
