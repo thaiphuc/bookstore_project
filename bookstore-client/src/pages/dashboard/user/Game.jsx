@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { AuthContext } from "../../../contexts/AuthProvider";
@@ -23,6 +24,7 @@ const Game = () => {
   const [gameOver, setGameOver] = useState(false);
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [scoredObstacles, setScoredObstacles] = useState([]);
+  const navigate = useNavigate();
 
   const fetchPoints = async () => {
     try {
@@ -267,7 +269,7 @@ const Game = () => {
             boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
         }}
         >
-        Flap
+        Bay
         </button>
   
 
@@ -290,7 +292,8 @@ const Game = () => {
             borderRadius: "10px",
           }}
         >
-          <h1 style={{ marginBottom: "20px" }}>Game Over</h1>
+          <h1 style={{ marginBottom: "20px" }}>Kết thúc!</h1>
+          <div>
           <button
             onClick={resetGame}
             style={{
@@ -303,8 +306,24 @@ const Game = () => {
               border: "none",
             }}
           >
-            Restart
+            Chơi lại
           </button>
+          <button
+            onClick={() => navigate("/reward-page")}
+            style={{
+              marginLeft:"10px",
+              padding: "10px 20px",
+              fontSize: "18px",
+              cursor: "pointer",
+              borderRadius: "5px",
+              backgroundColor: "green",
+              color: "white",
+              border: "none",
+            }}
+          >
+            Đổi thưởng
+          </button>
+          </div>
         </div>
       )}
     </div>
