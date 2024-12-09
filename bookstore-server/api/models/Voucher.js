@@ -13,29 +13,29 @@ const voucherSchema = new Schema({
     },
     discountAmount: { 
         type: Number 
-    },  // Giá trị giảm giá theo số tiền
+    }, 
     minOrderValue: { 
         type: Number 
-    },  // Giá trị đơn hàng tối thiểu để áp dụng voucher
+    },  
     validFrom: { 
         type: Date, 
         default: Date.now 
-    },  // Thời gian bắt đầu hiệu lực
+    },  
     validUntil: { 
         type: Date 
-    },  // Thời gian hết hiệu lực
+    }, 
     usageLimit: { 
         type: Number, 
         default: 1 
-    },  // Số lần sử dụng tối đa
+    },  
     usedCount: { 
         type: Number, 
         default: 0 
-    },  // Số lần đã sử dụng
+    }, 
     isActive: { 
         type: Boolean, 
         default: true 
-    },  // Trạng thái kích hoạt của voucher
+    },  
     createdAt: { 
         type: Date, 
         default: Date.now 

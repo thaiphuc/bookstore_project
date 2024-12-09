@@ -364,14 +364,14 @@ const ProductDetails = () => {
                 id: 2,
                 title: "Giảm 55k cho đơn hàng từ 500k",
                 description: "Áp dụng cho các sản phẩm đạt giá trị đơn hàng trong thời gian khuyến mãi.",
-                expiry: "Hết hạn vào 25/02/2025",
+                expiry: "Hết hạn vào 30/12/2024",
                 code: "BOOKSALE500",
             },
             {
                 id: 3,
                 title: "Giảm 120k cho đơn hàng từ 1M",
                 description: "Áp dụng cho các sản phẩm đạt giá trị đơn hàng trong thời gian khuyến mãi.",
-                expiry: "Hết hạn vào 30/1/2025",
+                expiry: "Hết hạn vào 30/11/2024",
                 code: "ORDGET1M",
             },
         ];

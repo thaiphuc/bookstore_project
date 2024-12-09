@@ -49,14 +49,14 @@ const ManageComment = () => {
                     // Remove deleted comment from state
                     setComments(comments.filter(comment => comment._id !== commentId));
                     Swal.fire({
-                        title: "Deleted!",
+                        title: "Xóa!",
                         text: "Đã xóa bình luận thành công!",
                         icon: "success",
                     });
                 } catch (error) {
                     console.error('Error deleting comment:', error);
                     Swal.fire({
-                        title: "Error",
+                        title: "Lỗi",
                         text: "Không thể xóa! Hãy thử lại.",
                         icon: "error",
                     });
