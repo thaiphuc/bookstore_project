@@ -482,3 +482,24 @@ div.navbar.xl:px-24 {
   display: flex;
   align-items: center;
 }
+.christmas-frame {
+    position: relative;
+    border: 3px solid red; 
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    padding: 20px;
+    text-align: center;
+     background: linear-gradient(to bottom, #ffffff, #d0e8ff);
+}
+
+/* Ngôi sao hoặc họa tiết vòng hoa */
+.christmas-frame .stars {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(to right, gold, yellow);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
