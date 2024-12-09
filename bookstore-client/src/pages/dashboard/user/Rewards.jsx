@@ -58,19 +58,24 @@ const RewardsPage = () => {
                     <h2 className="md:text-5xl text-4xl font-bold md:leading-snug leading-snug">
                         Chi tiết <span className="text-mainBG">Phần thưởng !!</span>
                     </h2>
+                    <div className="mt-8">
+                        <img src="christmasbanner.jpg" alt="Banner" className="w-full h-auto max-h-60 rounded-lg shadow-lg" />
+                    </div>
+
                     <div className="mr-10">
-                        <p className="text-left font-medium text-lg">
+                        <p className="text-left mt-5 font-medium text-lg">
                             Điểm của bạn: <span className="text-mainBG font-bold">{points}</span>
                         </p>
                     </div>
+
                 </div>
 
-                {/* Vouchers in a single column */}
-                <div className="flex flex-col items-center space-y-6 px-5">
+                {/* Vouchers in a horizontal row */}
+                <div className="flex flex-wrap justify-center gap-6 px-5">
                     {vouchers.map((voucher, index) => (
                         <div
                             key={index}
-                            className="w-full max-w-md border rounded-lg shadow-lg p-6 text-center space-y-4 bg-white dark:bg-gray-800 christmas-frame"
+                            className="w-full max-w-xs border rounded-lg shadow-lg p-6 text-center space-y-4 bg-white dark:bg-gray-800 christmas-frame"
                         >
                             <p className="text-lg font-semibold">{voucher.text}</p>
                             {unlockedVoucher[index] ? (
