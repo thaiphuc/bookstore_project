@@ -1,46 +1,121 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from "react";
 import Swal from 'sweetalert2';
 import { useTheme } from '../../../hooks/ThemeContext';
 import Snowfall from 'react-snowfall';
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { AuthContext } from "../../../contexts/AuthProvider";
 
 const RewardsPage = () => {
     const { isDarkMode } = useTheme();
+    const { user } = useContext(AuthContext);
+    const axiosSecure = useAxiosSecure();
+    const [promotions, setPromotions] = useState([]);
+  
+    const [points, setPoints] = useState(0); 
+    const [unlockedVoucher, setUnlockedVoucher] = useState([false, false, false, false, false, false]);
 
-    // State quản lý điểm
-    const [points, setPoints] = useState(50); // Giả sử bạn có 50 điểm ban đầu
-    const [unlockedVoucher, setUnlockedVoucher] = useState([false, false, false, false, false]);
+    const fetchPoints = async () => {
+        try {
+            const response = await axiosSecure.get("/game", {
+                params: { userEmail: user.email },
+            });
+            setPoints(response.data.point);
 
-    // Danh sách nội dung voucher và số điểm cần để mở khóa
-    const vouchers = [
-        { text: "Giảm 5.000đ cho đơn 0đ", requiredPoints: 10 },
-        { text: "Giảm 10.000đ cho đơn 0đ", requiredPoints: 20 },
-        { text: "Giảm 15.000đ cho đơn 0đ", requiredPoints: 30 },
-        { text: "Giảm 20.000đ cho đơn 0đ", requiredPoints: 40 },
-        { text: "Giảm 25.000đ cho đơn 0đ", requiredPoints: 50 }
-    ];
+            const unlockedCodes = response.data.voucher || [];
+            const updatedUnlockedVoucher = promotions.map((voucher) =>
+                unlockedCodes.includes(voucher.code)
+            );
+            setUnlockedVoucher(updatedUnlockedVoucher);
 
-    // Hàm xử lý khi nhấn nút đổi điểm
-    const handleUnlock = (index) => {
-        const requiredPoints = vouchers[index].requiredPoints; // Lấy số điểm cần thiết cho voucher
+        } catch (error) {
+            console.error("Error fetching points:", error);
+        }
+    };
 
+    useEffect(() => {
+        if (promotions.length > 0) {
+            fetchPoints();
+        }
+    }, [promotions]);
+
+    useEffect(() => {
+        const fetchVouchers = async () => {
+            try {
+                const response = await axiosSecure.get("/orders/voucher");
+                if (response.status === 200) {
+                    const filteredVouchers = response.data
+                        .filter(voucher => voucher.usageLimit === 1)
+                        .sort((a, b) => a.usedCount - b.usedCount);
+                    setPromotions(filteredVouchers);
+                    console.log(promotions);
+                }
+            } catch (error) {
+                console.error("Lỗi khi lấy danh sách voucher:", error);
+            }
+        };
+
+        fetchVouchers();
+    }, [axiosSecure]); 
+
+    const savePoints = async (points) => {
+        try {
+          await axiosSecure.post("/game/save", {
+            userEmail: user.email,
+            point: points,
+          });
+        } catch (error) {
+          console.error("Error saving points:", error);
+        }
+    };
+
+    const updateVoucher = async (vouchers) => {
+        try {
+          await axiosSecure.post("/game/voucher", {
+            userEmail: user.email,
+            voucher: vouchers,
+          });
+        } catch (error) {
+          console.error("Error saving voucher:", error);
+        }
+    };
+
+
+    const formatPrice = (price) => {
+        return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    };
+
+    const handleUnlock = async (index) => {
+        const requiredPoints = promotions[index].usedCount;
+    
         if (points >= requiredPoints) {
-            // Nếu đủ điểm, mở khóa voucher
+            const newPoint = points - requiredPoints;
+    
+
             const newUnlockedVoucher = [...unlockedVoucher];
             newUnlockedVoucher[index] = true;
             setUnlockedVoucher(newUnlockedVoucher);
-
-            // Trừ điểm
-            setPoints(points - requiredPoints);
-
-            // Hiển thị thông báo thành công
-            Swal.fire({
-                icon: 'success',
-                title: 'Mở khóa thành công!',
-                text: `Bạn đã mở khóa voucher: ${vouchers[index].text}`,
-                confirmButtonText: 'OK',
-            });
+    
+            try {
+                await savePoints(newPoint);
+                await updateVoucher(promotions[index].code);
+                fetchPoints();
+    
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Mở khóa thành công!',
+                    text: `Bạn đã mở khóa voucher: ${promotions[index].code}`,
+                    confirmButtonText: 'OK',
+                });
+            } catch (error) {
+                console.error("Error during unlocking voucher:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: 'Không thể mở khóa voucher, vui lòng thử lại.',
+                    confirmButtonText: 'OK',
+                });
+            }
         } else {
-            // Nếu không đủ điểm, hiển thị thông báo lỗi
             Swal.fire({
                 icon: 'error',
                 title: 'Không đủ điểm',
@@ -49,6 +124,7 @@ const RewardsPage = () => {
             });
         }
     };
+    
 
     return (
         <div>
@@ -59,33 +135,42 @@ const RewardsPage = () => {
                         Chi tiết <span className="text-mainBG">Phần thưởng !!</span>
                     </h2>
                     <div className="mt-8">
-                        <img src="christmasbanner.jpg" alt="Banner" className="w-full h-auto max-h-60 rounded-lg shadow-lg" />
+                        <img src="christmasbanner.jpg" alt="Banner" className="w-full h-auto max-h-80 rounded-lg shadow-lg" />
                     </div>
 
                     <div className="mr-10">
-                        <p className="text-left mt-5 font-medium text-lg">
-                            Điểm của bạn: <span className="text-mainBG font-bold">{points}</span>
+                        <p className="text-left mt-5 font-bold text-2xl">
+                            Điểm của bạn: <span className="text-mainBG">{points}</span>
                         </p>
                     </div>
-
                 </div>
 
-                {/* Vouchers in a horizontal row */}
                 <div className="flex flex-wrap justify-center gap-6 px-5">
-                    {vouchers.map((voucher, index) => (
+                    {promotions.map((voucher, index) => (
                         <div
                             key={index}
                             className="w-full max-w-xs border rounded-lg shadow-lg p-6 text-center space-y-4 bg-white dark:bg-gray-800 christmas-frame"
                         >
-                            <p className="text-lg font-semibold">{voucher.text}</p>
+                            <p className="text-lg font-semibold">
+                                {voucher.description}
+                            </p>
+                            <p className="text-lg font-semibold"> Giảm {formatPrice(voucher.discountAmount)}đ cho đơn từ {formatPrice(voucher.minOrderValue)}đ</p>
+                            <p className="text-sm text-gray-500">
+                                Thời gian hết hạn:{" "}
+                                {new Date(voucher.validUntil).toLocaleDateString("vi-VN", {
+                                    day: "2-digit",
+                                    month: "2-digit",
+                                    year: "numeric",
+                                })}
+                            </p>
                             {unlockedVoucher[index] ? (
-                                <p className="text-green-500 font-bold">Mã: VOUCHER-{index + 1}</p>
+                                 <p className="text-green-500 font-bold">MÃ GIẢM: {voucher.code}</p>
                             ) : (
                                 <button
                                     onClick={() => handleUnlock(index)}
                                     className="px-4 py-2 bg-mainBG text-white font-medium rounded-lg hover:bg-mainBG-dark"
                                 >
-                                    Đổi {voucher.requiredPoints} điểm để mở khóa
+                                    Dùng {voucher.usedCount} điểm để mở khóa
                                 </button>
                             )}
                         </div>
