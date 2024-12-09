@@ -5,7 +5,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { format } from 'date-fns';
 
 const ManageComment = () => {
-    const [comments, setComments] = useState([]); // State to store comments
+    const [comments, setComments] = useState([]);
     const axiosSecure = useAxiosSecure();
 
     useEffect(() => {
@@ -44,12 +44,10 @@ const ManageComment = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    // Send delete request to API
                     await axiosSecure.delete(`/cmt/${commentId}`);
-                    // Remove deleted comment from state
                     setComments(comments.filter(comment => comment._id !== commentId));
                     Swal.fire({
-                        title: "Xóa!",
+                        title: "Xóa Bình luận!",
                         text: "Đã xóa bình luận thành công!",
                         icon: "success",
                     });
@@ -62,7 +60,6 @@ const ManageComment = () => {
                     });
                 }
             } else {
-                // Đóng hộp thoại xác nhận mà không thực hiện bất kỳ hành động nào
                 Swal.close();
             }
         });

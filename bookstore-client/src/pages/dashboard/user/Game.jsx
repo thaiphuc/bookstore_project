@@ -19,7 +19,6 @@ const Game = () => {
   const [birdPosition, setBirdPosition] = useState(50);
   const [flap, setFlap] = useState(false);
   const [obstacles, setObstacles] = useState([]);
-  const [score, setScore] = useState(0);
   const [userPoints, setUserPoints] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [isGameStarted, setIsGameStarted] = useState(false);

@@ -377,9 +377,7 @@ const ProductDetails = () => {
         ];
 
         const handleAddVoucher = (code) => {
-            // Copy the voucher code to the clipboard
             navigator.clipboard.writeText(code).then(() => {
-                // Show success message
                 Swal.fire({
                     title: "Voucher đã được sao chép thành công!",
                     text: `Mã voucher ${code} đã được sao chép và áp dụng.`,
