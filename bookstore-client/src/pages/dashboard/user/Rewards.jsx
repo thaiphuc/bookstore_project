@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import { useTheme } from '../../../hooks/ThemeContext';
+import Snowfall from 'react-snowfall';
 
 const RewardsPage = () => {
     const { isDarkMode } = useTheme();
@@ -51,6 +52,7 @@ const RewardsPage = () => {
 
     return (
         <div>
+            <Snowfall />
             <div className={`${isDarkMode ? "dark" : ""}`}>
                 <div className="text-center py-28 px-8 space-y-7 ml-5 mr-5">
                     <h2 className="md:text-5xl text-4xl font-bold md:leading-snug leading-snug">
@@ -68,7 +70,7 @@ const RewardsPage = () => {
                     {vouchers.map((voucher, index) => (
                         <div
                             key={index}
-                            className="w-full max-w-md border rounded-lg shadow-lg p-6 text-center space-y-4 bg-white dark:bg-gray-800"
+                            className="w-full max-w-md border rounded-lg shadow-lg p-6 text-center space-y-4 bg-white dark:bg-gray-800 christmas-frame"
                         >
                             <p className="text-lg font-semibold">{voucher.text}</p>
                             {unlockedVoucher[index] ? (
